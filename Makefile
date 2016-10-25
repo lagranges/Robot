@@ -24,10 +24,10 @@
 all: testInvader testLecture
 
 testInvader:
-	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestInvader.java
+	javac -d bin -classpath bin/gui.jar -sourcepath src/robot src/robot/TestInvader.java
 
 testLecture:
-	javac -d bin -sourcepath src src/TestLecteurDonnees.java
+	javac -d bin -sourcepath src src/robot/TestLecteurDonnees.java
 
 # Execution:
 # on peut taper directement la ligne de commande :

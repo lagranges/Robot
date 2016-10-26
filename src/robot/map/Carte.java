@@ -22,11 +22,22 @@ public class Carte {
 	}
     }
 
+    public int getNbLigne() {
+	return nbLignes;
+    }
 
-    private boolean isInMapBound(Position pos) {
+    public int getNbColonne() {
+	return nbColonnes;
+    }
+
+    public int getTailleCases() {
+	return tailleCases;
+    }
+
+    public boolean isInMapBound(Position pos) {
 	return isInMapBound(pos.getLigne(),pos.getColonne());
     }
-    
+
     private boolean isInMapBound(int lig, int col) {
 	return !(lig < 0 || col < 0 || lig >= nbLignes || col >= nbColonnes);
     }
@@ -36,15 +47,21 @@ public class Carte {
     }
 
     public Case getCaseAt(int lig, int col) {
-	if(!isInMapBound(lig,col) ){
+	if(!isInMapBound(lig,col)) {
 	    throw new IllegalArgumentException("Illegal request of Case outside of map's bounds");
 	}
 	return map[lig][col];
     }
 
     public boolean voisinExiste(Case source, Direction dir) {
-	return isInMapBound(Position.move(source.getPosition(),dir));
+	return isInMapBound(source.getPosition().deplace(dir));
     }
 
+    public Case getVoisin(Case source, Direction dir) {
+	if(!voisinExiste(source,dir)) {
+	    throw new IllegalArgumentException("Illegal request of Case outside of map's bounds");
+	}
+	return getCaseAt(source.getPosition().deplace(dir));
+    }
 
 }

@@ -3,13 +3,20 @@ package robot.map;
 import robot.*;
 
 /**
- * La classe Case represente un élément atomique d'une carte.
- * Une Case est composer d'une Position et d'un type NatureTerrain.
+ * La classe Case représente un élément atomique d'une carte.
+ * Une Case est composée d'une Position et d'un type NatureTerrain.
  *
  */
 public class Case {
 
+    /**
+     * La position de la case sur la carte
+     */
     private final Position pos;
+
+    /**
+     * La nature du terrain représenter par la case
+     */
     private final NatureTerrain type;
 
     /**
@@ -33,7 +40,7 @@ public class Case {
      * @param nature le type de la case {@link NatureTerrain}
      * @see          robot.Position
      * @see          NatureTerrain
-     * @see          Class#Constructor(Position, NatureTerrain)
+     * @see          #Case(Position, NatureTerrain)
      */
     public Case(int l, int c, NatureTerrain nature) {
 	this(new Position(l,c),nature);

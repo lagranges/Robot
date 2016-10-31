@@ -1,5 +1,6 @@
 package robot.entities;
 
+import java.awt.Color;
 import robot.map.*;
 import gui.GUISimulator;
 
@@ -10,7 +11,7 @@ import gui.GUISimulator;
  * @see robot.map.carte
  */
 
-public abstract Robot extends Entity{	
+abstract class Robot extends Entity{	
       
 	  
     /**
@@ -47,13 +48,13 @@ public abstract Robot extends Entity{
      * @param lesvitesse
      * 
      */
-	public Robot(Case cas,Color couleur, int volumeEau, int volumeMax, int vitesseDeplacementDefault,int vitesseRemplissage, int vitesseDeversement){
+	public Robot(Case cas, Color couleur, int volumeEau, int volumeMax, double vitesseDeplacementDefault,double vitesseRemplissage, double vitesseDeversement){
 		super(cas,couleur);
 		this.volumeEau = volumeEau;
 		this.volumeMax = volumeMax;
-		this.vitesseDelacementDefault = vitesseDelacementDefault;
+		this.vitesseDeplacementDefault = vitesseDeplacementDefault;
 		this.vitesseRemplissage = vitesseRemplissage;
-		this.vitesseDevervement = vitesseDeversement;
+		this.vitesseDeversement = vitesseDeversement;
 	}
 	
 
@@ -62,7 +63,7 @@ public abstract Robot extends Entity{
      *
      * @param la nombre de litres qu'il se faut deverser
      */
-	public void deverserEau(vol : int){
+	public void deverserEau(int vol){
 		volumeEau -= vol;
 	}
 
@@ -72,8 +73,8 @@ public abstract Robot extends Entity{
      *
      * @param la nombre de litres qu'il se faut deverser
      */
-	public int tempsDeversement(vol : int){
-		return (int) (vol/vitesseDeversement0);
+	public int tempsDeversement(int vol){
+		return (int) (vol/vitesseDeversement);
 	}
 
     /**
@@ -88,7 +89,7 @@ public abstract Robot extends Entity{
      *
      */
 	public int tempsRemplissage(){
-		return (int) (volumeMax-volumeEau)/vitesseRemplissage;
+		return (int) ((volumeMax-volumeEau)/vitesseRemplissage);
 	}
 
 
@@ -97,15 +98,12 @@ public abstract Robot extends Entity{
      * Retourne le temps nécessaire pour se deplacer entre deux cases
      * n'est pas encore définir
      */
-	abstract int tempsDeplacement(Case c1,Case c2){
-		return 0;
-	}
-
+	abstract int tempsDeplacement(Case c1,Case c2);
     /**
      * Le nombre de litre d
      * La valeur retournée reflète une condition à l'état initial.
      *
      * @return le nombre de litres d'eau necéssaires.
      */
-	abstract double getVitesse(NatureTerrain); 
+	abstract double getVitesse(NatureTerrain natureTerrain); 
 }

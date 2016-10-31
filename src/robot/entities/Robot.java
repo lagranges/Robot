@@ -15,12 +15,12 @@ abstract class Robot extends Entity{
       
 	  
     /**
-     * Le nombre de litres d'eau que le robot est en train de contient 
+     * Le nombre de litres d'eau dont le robot est en train de contient 
      */
 	private int volumeEau;
 	
     /**
-     * Le nombre de litres d'eau que le robot peut contenir 
+     * Le nombre de litres d'eau dont le robot peut contenir 
      */
 	private int volumeMax;
     
@@ -35,7 +35,7 @@ abstract class Robot extends Entity{
 	private double vitesseRemplissage;
     
     /**
-     * La vitesse de dérversement , unitaire : litre/s
+     * La vitesse de déversement , unitaire : litre/s
      */
 	private double vitesseDeversement;
 	
@@ -57,6 +57,49 @@ abstract class Robot extends Entity{
 		this.vitesseDeversement = vitesseDeversement;
 	}
 	
+
+    /**
+     * Retourne : la volume de l'eau dans le Robot
+     */
+	public int getVolumeEau(){
+		return this.volumeEau;
+	}
+
+    /**
+     * Modifier la volume de l'eau dans le robot
+     */
+	public void setVolumeEau(int volumeEau){
+		this.volumeEau=volumeEau;
+	}
+
+    /**
+     * Retourne : la volume maxcimale dont le robot peut contenir
+     */
+	public int getVolumeMax(){
+		return this.volumeMax;
+	}
+
+    /**
+     * Retourne : la vitesse de déplacement par défault du robot
+     */
+	public double getVitesseDeplacementDefault(){
+		return this.vistesseDeplacementDefault;
+	}
+
+    /**
+     * Retourne : la vitesse de remlissage du robot
+     */
+	public double getVitesseRemplissage(){
+		return this.vitesseRemplissage;
+	}
+
+    /**
+     * Retourne : la volume de déversement du robot
+     */
+	public double getVitesseDeversement(){
+		return this.vitesseDeversement;
+	}
+
 
     /**
      * Le robot deverser sur un incendie
@@ -93,17 +136,27 @@ abstract class Robot extends Entity{
 	}
 
 
+    /**
+     * Retourne True si le robot peut se déplacer sur la nature Terrain
+     * sinon retourne False
+     * @param natureTerrain
+     * @see NatureTerrain 
+     */
+	abstract boolean peutDeplacerSur(NatureTerrain natureTerrain);
+
+	/**
+	  * Retourne la vitesse du robot sur les Terrains différents
+	  *
+	  * @param natureTerrain : la type de natureTerrain
+	  * @see NatureTerrain
+	  */
+	abstract double getVitesse(NatureTerrain natureTerrain); 
+
 
     /**
-     * Retourne le temps nécessaire pour se deplacer entre deux cases
-     * n'est pas encore définir
+     * Retourne le temps nécessaire pour se deplacer de sa possition
+     * à la case , n'est pas encore définir
+     * @param cas : Case
      */
-	abstract int tempsDeplacement(Case c1,Case c2);
-    /**
-     * Le nombre de litre d
-     * La valeur retournée reflète une condition à l'état initial.
-     *
-     * @return le nombre de litres d'eau necéssaires.
-     */
-	abstract double getVitesse(NatureTerrain natureTerrain); 
+	abstract int tempsDeplacement(Case cas);
 }

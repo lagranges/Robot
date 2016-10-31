@@ -15,8 +15,8 @@ public abstract Entity {
      */
 	public static final TAILLE = 10;
 	
-     private Case cas;
-     private Color col;
+     protected Case cas;
+     protected Color col;
 
     
     

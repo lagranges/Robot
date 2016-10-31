@@ -1,6 +1,6 @@
 package robot.entities;
 
-import java.awt;
+import java.awt.Color;
 import robot.map.*;
 import gui.GUISimulator;
 
@@ -27,15 +27,15 @@ public class Drone extends Robot{
 
 	
 	public Drone(Case cas){
-		super(cas, couleurDrone, volumeMaxDrone, volumeMaxDrone, vitesseDeplacementDrone, vitesseRemplissageDrone, vitesseDeversement);
+		super(cas, couleurDrone, volumeMaxDrone, volumeMaxDrone, vitesseDeplacementDrone, vitesseRemplissageDrone, vitesseDeversementDrone);
 	}
 	
 	@Override
-	public getVitesse(NaturTerrain){
+	public double getVitesse(NatureTerrain natureTerrain){
 	}	
 
 	@Override
-	public draw(GUISimulator gui){
+	public void draw(GUISimulator gui){
 		
 	}
 }

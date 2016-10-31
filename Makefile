@@ -21,13 +21,25 @@
 #   -classpath : repertoire dans lequel sont cherches les .class deja compiles
 #   -sourcepath : repertoire dans lequel sont cherches les .java (dependances)
 
+ENCODING=-encoding UTF-8
+JAVADOC_ENCODING=$(ENCODING) -charset UTF-8 -docencoding UTF-8
+SOURCEPATH=-sourcepath src/
+GUI_CLASSPATH=-classpath bin/gui.jar
+JAVAC_DESTINAION_FOLDER=-d bin
+
+JAVAC=javac $(ENCODING) $(JAVAC_DESINATION_FOLDER) $(SOURCEPATH)
+JAVADOC=javadoc $(JAVADOC_ENCODING) -d doc-tmp/ $(SOURCEPATH)
+
 all: testInvader testLecture
 
 testInvader:
-	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestInvader.java
+	$(JAVAC) $(GUI_CLASSPATH) src/robot/TestInvader.java
 
 testLecture:
-	javac -d bin -sourcepath src src/TestLecteurDonnees.java
+	$(JAVAC) src/robot/TestLecteurDonnees.java
+
+javadoc:
+	$(JAVADOC) $(GUI_CLASSPATH) src/robot/*.java src/robot/entities/*.java src/robot/io/*.java src/robot/map/*.java
 
 # Execution:
 # on peut taper directement la ligne de commande :

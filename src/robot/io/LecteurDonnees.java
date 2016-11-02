@@ -1,11 +1,8 @@
 package robot.io;
 
-
 import java.io.*;
 import java.util.*;
 import java.util.zip.DataFormatException;
-
-
 
 /**
  * Lecteur de cartes au format spectifié dans le sujet.
@@ -29,6 +26,19 @@ import java.util.zip.DataFormatException;
  */
 public class LecteurDonnees {
 
+    /**
+     * Lit et creer un objet contenant toutes les données lues
+     * Ceci est méthode de classe; utilisation:
+     * DonneesSimulation DS = LecteurDonnees.creeDonnees(String fichierDonnees)
+     * @param fichierDonnees nom du fichier à lire
+     */
+    public static DonneesSimulation creeDonnees(String fichierDonnees) throws FileNotFoundException, DataFormatException{
+	System.out.println("\n == Creating DonneesSimulation from " + fichierDonnees);
+	LecteurDonnees lecteur = new LecteurDonnees(fichierDonnees);
+	DonneesSimulation simulationData;
+	simulationData = new DonneesSimulation();
+	return simulationData;
+    }
 
     /**
      * Lit et affiche le contenu d'un fichier de donnees (cases,
@@ -47,9 +57,6 @@ public class LecteurDonnees {
         scanner.close();
         System.out.println("\n == Lecture terminee");
     }
-
-
-
 
     // Tout le reste de la classe est prive!
 

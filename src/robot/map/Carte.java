@@ -1,6 +1,5 @@
 package robot.map;
 
-
 import robot.*;
 
 public class Carte {

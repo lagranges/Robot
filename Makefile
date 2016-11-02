@@ -54,3 +54,7 @@ exeLecture:
 
 clean:
 	rm -rf bin/*.class
+	rm -rf src/robot/*.class
+	rm -rf src/robot/entities/*.class
+	rm -rf src/robot/map/*.class
+	rm -rf src/robot/io/*.class

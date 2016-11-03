@@ -1,13 +1,13 @@
 package robot.map;
 
 import robot.*;
-
+import gui.GUISimulator;
 /**
  * La classe Case représente un élément atomique d'une carte.
  * Une Case est composée d'une Position et d'un type NatureTerrain.
  *
  */
-public class Case {
+public class Case implements Drawable {
 
     /**
      * La position de la case sur la carte
@@ -65,5 +65,9 @@ public class Case {
     public NatureTerrain getNatureType() {
 	return type;
     }
-
+    
+    @Override
+    public void draw(GUISimulator gui){
+        
+    }
 }

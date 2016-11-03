@@ -47,12 +47,6 @@ public abstract class Entity implements Drawable{
 	}
 	
 	
-    /**
-     * Définit la case de l'entité
-     */
-	public void setPosition(Case cas){
-		this.cas = cas;
-	}
 
 
 }

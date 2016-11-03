@@ -66,6 +66,12 @@ public abstract class Robot extends Entity {
 	}
 
     /**
+     * Définit la case du robot
+     */
+	public void setPosition(Case cas){
+		this.cas = cas;
+	}
+    /**
      * Modifier la volume de l'eau dans le robot
      */
 	public void setVolumeEau(int volumeEau){

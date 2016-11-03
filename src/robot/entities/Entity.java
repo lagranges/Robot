@@ -1,22 +1,24 @@
 package robot.entities;
 
+import robot.*;
 import robot.map.*;
 import gui.GUISimulator;
+import java.awt.Color;
 /**
  * Un  entité représente un élément présent sur une case, dans une carte.
  *
  * @see robot.map.case
  * @see robot.map.carte
  */
-public abstract Entity {
+public abstract class Entity implements Drawable{
 
     /**
      * La taille d'une case
      */
-	public static final TAILLE = 10;
+	public static final int  TAILLE = 10;
 	
-     protected Case cas;
-     protected Color col;
+    protected Case cas;
+    protected Color col;
 
     
     
@@ -53,8 +55,4 @@ public abstract Entity {
 	}
 
 
-    /**
-     * Draw un image represté l'entité sur une case
-     */
-	abstract void draw(GUISimulator gui);
 }

@@ -11,7 +11,7 @@ import gui.GUISimulator;
  * @see robot.map.carte
  */
 
-abstract class Robot extends Entity{	
+public abstract class Robot extends Entity {	
       
 	  
     /**
@@ -83,7 +83,7 @@ abstract class Robot extends Entity{
      * Retourne : la vitesse de déplacement par défault du robot
      */
 	public double getVitesseDeplacementDefault(){
-		return this.vistesseDeplacementDefault;
+		return this.vitesseDeplacementDefault;
 	}
 
     /**
@@ -159,4 +159,5 @@ abstract class Robot extends Entity{
      * @param cas : Case
      */
 	abstract int tempsDeplacement(Case cas);
+
 }

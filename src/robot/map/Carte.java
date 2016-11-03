@@ -24,8 +24,12 @@ public class Carte {
     /*
      * set nature case(Hariz)
      */
-    public void setNatureCase(int lig, int col, NatureTerrain nature){
-	this.map[lig][col] = new Case(lig,col,nature);
+    public void setCase(Position p, Case c){
+	if(isInMapBound(p)){
+	    this.map[p.getLigne()][p.getColonne()] = c;
+	} else {
+	    throw new IllegalArgumentException("Can't set a Case outside of map's bounds");
+	}
     }
 
     public int getNbLigne() {

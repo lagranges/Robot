@@ -1,8 +1,9 @@
 package robot.map;
 
 import robot.*;
+import gui.GUISimulator;
 
-public class Carte {
+public class Carte implements Drawables {
 
     private final int tailleCases;
     private final int nbLignes;
@@ -73,5 +74,6 @@ public class Carte {
 	}
 	return getCaseAt(source.getPosition().deplace(dir));
     }
-
+    
+    public void draw(GUISimulator gui){}
 }

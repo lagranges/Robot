@@ -82,7 +82,7 @@ public class Position {
     public int hashCode() {
 	int hash = 2;
 	hash = hash * 21 + ligne;
-	hash = hash * 21 + colonne;//column;
+	hash = hash * 21 + colonne;
 	return hash;
     }
 

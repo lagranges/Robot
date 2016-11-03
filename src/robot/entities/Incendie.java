@@ -1,6 +1,8 @@
 package robot.entities;
 
+import java.awt.Color;
 import robot.map.*;
+import gui.GUISimulator;
 
 /**
  * Un incendie est défini par sa position (sur une case d'un carte),
@@ -9,12 +11,13 @@ import robot.map.*;
  * @see robot.map.Carte
  * @see robot.map.Case
  */
-public class Incendie implements Entity {
+public class Incendie extends Entity {
+
 
     /**
-     * La position de l'incendie sur la carte.
+     * Le coleur de l'Incendie , rouge par default
      */
-    private final Case position;
+	public static final Color incendieCouleur = new Color(255,0,0);
 
     /**
      * Le nombre de litres d'eau nécessaires à l'extinction de l'incendie.
@@ -23,28 +26,18 @@ public class Incendie implements Entity {
 
     /**
      * Crée un nouvelle incendie, avec pour position la case <code>pos</code>
-     * et nécessitant <code>nbLitres</code> litres d'eau pour son extinction.
+     * au coleur de <code>col</code> et nécessitant <code>nbLitres</code> litres 
+     * d'eau pour son extinction.
      *
      * @param pos      la position de l'incendie.
      * @param nbLitres le nombre de litres d'eau nécessaires à son extinction.
      * @see            robot.map.Case
      */
     public Incendie(Case pos, int nbLitres) {
-	position = pos;
-	nbLitresEauPourExtinction = nbLitres;
+		super(pos,incendieCouleur);
+		nbLitresEauPourExtinction = nbLitres;
     }
 
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Implémentation de la méthode  {@link robot.entities.Entity#getPosition()}
-     *
-     * @return La position de l'incendie.
-     */
-    @Override
-    public Case getPosition() {
-	return position;
-    }
 
     /**
      * Le nombre de litre d'eau nécessaire à l'éxtinction de l'incendie.
@@ -53,7 +46,42 @@ public class Incendie implements Entity {
      * @return le nombre de litres d'eau necéssaires.
      */
     public int getNbLitresEauPourExtinction() {
-	return nbLitresEauPourExtinction;
+		return nbLitresEauPourExtinction;
     }
+
+	@Override
+    public void draw(GUISimulator gui){
+
+	int x = this.cas.getPosition().getColonne();
+	int y = this.cas.getPosition().getLigne();
+	gui.addGraphicalElement(new Rectangle(x+4,y,incendieCouleur, incendieCouleur,2));
+
+	gui.addGraphicalElement(new Rectangle(x+3,y+1,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+5,y+1,incendieCouleur, incendieCouleur,2));
+
+	gui.addGraphicalElement(new Rectangle(x+2,y+2,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+4,y+2,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+6,y+2,incendieCouleur, incendieCouleur,2));
+	
+	gui.addGraphicalElement(new Rectangle(x+1,y+4,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+3,y+4,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+5,y+4,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+7,y+4,incendieCouleur, incendieCouleur,2));
+
+	gui.addGraphicalElement(new Rectangle(x,y+6,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+2,y+6,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+4,y+6,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+6,y+6,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+8,y+6,incendieCouleur, incendieCouleur,2));
+
+	gui.addGraphicalElement(new Rectangle(x+1,y+8,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+3,y+8,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+5,y+8,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+7,y+8,incendieCouleur, incendieCouleur,2));
+
+	gui.addGraphicalElement(new Rectangle(x+2,y+9,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+4,y+9,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+6,y+9,incendieCouleur, incendieCouleur,2));
+} 
 
 }

@@ -1,5 +1,17 @@
 package robot.io;
 
+/**
+ * @see robot.map.Carte
+ * @see robot.map.Case
+ */
+import robot.map.*;
+
+/**
+ * @see robot.entities.Entity
+ * @see robot.entities.Incendie
+ */
+import robot.entities.*;
+
 import java.io.*;
 import java.util.*;
 import java.util.zip.DataFormatException;
@@ -33,10 +45,12 @@ public class LecteurDonnees {
      * @param fichierDonnees nom du fichier à lire
      */
     public static DonneesSimulation creeDonnees(String fichierDonnees) throws FileNotFoundException, DataFormatException{
+	Carte tempMap = new Carte(0,0,0);; // temporary
+	Incendie tempFire[] = new Incendie[6];
 	System.out.println("\n == Creating DonneesSimulation from " + fichierDonnees);
 	LecteurDonnees lecteur = new LecteurDonnees(fichierDonnees);
 	DonneesSimulation simulationData;
-	simulationData = new DonneesSimulation();
+	simulationData = new DonneesSimulation(tempMap,tempFire);
 	return simulationData;
     }
 
@@ -97,9 +111,6 @@ public class LecteurDonnees {
         }
         // une ExceptionFormat levee depuis lireCase est remontee telle quelle
     }
-
-
-
 
     /**
      * Lit et affiche les donnees d'une case.
@@ -175,7 +186,6 @@ public class LecteurDonnees {
         }
     }
 
-
     /**
      * Lit et affiche les donnees des robots.
      */
@@ -193,7 +203,6 @@ public class LecteurDonnees {
                     + "Attendu: nbRobots");
         }
     }
-
 
     /**
      * Lit et affiche les donnees du i-eme robot.
@@ -233,9 +242,6 @@ public class LecteurDonnees {
         }
     }
 
-
-
-
     /** Ignore toute (fin de) ligne commencant par '#' */
     private void ignorerCommentaires() {
         while(scanner.hasNext("#.*")) {
@@ -250,6 +256,86 @@ public class LecteurDonnees {
     private void verifieLigneTerminee() throws DataFormatException {
         if (scanner.findInLine("(\\d+)") != null) {
             throw new DataFormatException("format invalide, donnees en trop.");
+        }
+    }
+
+    /**
+     * Lit et sauvegarde les donnees de la carte.
+     * @throws ExceptionFormatDonnees
+     */
+    private Carte creeCarte() throws DataFormatException {
+	ignorerCommentaires();
+        try {
+            int nbLignes = scanner.nextInt();
+            int nbColonnes = scanner.nextInt();
+            int tailleCases = scanner.nextInt();	// en m
+	    Carte map = new Carte(tailleCases,nbLignes,nbColonnes);
+
+            for (int lig = 0; lig < nbLignes; lig++) {
+                for (int col = 0; col < nbColonnes; col++) {
+                    creeCase(lig, col, map);
+                }
+	    }
+	    return map;
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("Format invalide. "
+                    + "Attendu: nbLignes nbColonnes tailleCases");
+        }
+    }
+
+    /**
+     * Lit et sauvegarde les donnees d'une case.
+     */
+    private void creeCase(int lig, int col, Carte map) throws DataFormatException {
+        ignorerCommentaires();
+        String chaineNature = new String();
+        try {
+            chaineNature = scanner.next();
+	    NatureTerrain nature = NatureTerrain.valueOf(chaineNature);
+            verifieLigneTerminee();
+	    map.setNatureCase(lig,col,nature);
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("format de case invalide. " + "Attendu: nature altitude [valeur_specifique]");
+        }
+    }
+
+    /**
+     * Lit et sauvegarde les donnees des incendies.
+     */
+    private Incendie[] creeIncendies(DonneesSimulation simulationData) throws DataFormatException {
+        ignorerCommentaires();
+	Incendie fire[];
+        try {
+            int nbIncendies = scanner.nextInt();
+	    fire = new Incendie[nbIncendies];
+            for (int i = 0; i < nbIncendies; i++) {
+                creeIncendie(i);
+            }
+	    return fire;
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("Format invalide. "
+                    + "Attendu: nbIncendies");
+        }
+    }
+
+    /**
+     * Lit et sauvegarde les donnees du i-eme incendie.
+     * @param i
+     */
+    private void creeIncendie(int i) throws DataFormatException {
+        ignorerCommentaires();
+        try {
+            int lig = scanner.nextInt();
+            int col = scanner.nextInt();
+            int intensite = scanner.nextInt();
+            if (intensite <= 0) {
+                throw new DataFormatException("incendie " + i
+                        + "nb litres pour eteindre doit etre > 0");
+            }
+            verifieLigneTerminee();
+        } catch (NoSuchElementException e) {
+            throw new DataFormatException("format d'incendie invalide. "
+                    + "Attendu: ligne colonne intensite");
         }
     }
 }

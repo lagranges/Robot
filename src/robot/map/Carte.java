@@ -22,6 +22,13 @@ public class Carte implements Drawables {
 	}
     }
 
+    /*
+     * set nature case(Hariz)
+     */
+    public void setNatureCase(int lig, int col, NatureTerrain nature){
+	this.map[lig][col] = new Case(lig,col,nature);
+    }
+
     public int getNbLigne() {
 	return nbLignes;
     }

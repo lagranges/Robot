@@ -2,7 +2,7 @@ package robot.entities;
 
 import java.awt.Color;
 import robot.map.*;
-import gui.GUISimulator;
+import gui.*;
 
 /**
  * Un incendie est défini par sa position (sur une case d'un carte),
@@ -48,10 +48,10 @@ public class Incendie extends Entity {
     public int getNbLitresEauPourExtinction() {
 		return nbLitresEauPourExtinction;
     }
-
+    
 	@Override
     public void draw(GUISimulator gui){
-
+	    /*
 	int x = this.cas.getPosition().getColonne();
 	int y = this.cas.getPosition().getLigne();
 	gui.addGraphicalElement(new Rectangle(x+4,y,incendieCouleur, incendieCouleur,2));
@@ -81,7 +81,7 @@ public class Incendie extends Entity {
 
 	gui.addGraphicalElement(new Rectangle(x+2,y+9,incendieCouleur, incendieCouleur,2));
 	gui.addGraphicalElement(new Rectangle(x+4,y+9,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+6,y+9,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x+6,y+9,incendieCouleur, incendieCouleur,2));*/
 } 
-
+    
 }

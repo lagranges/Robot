@@ -3,7 +3,7 @@ package robot.map;
 import robot.*;
 import gui.GUISimulator;
 
-public class Carte implements Drawables {
+public class Carte implements Drawable {
 
     private final int tailleCases;
     private final int nbLignes;
@@ -22,8 +22,10 @@ public class Carte implements Drawables {
 	}
     }
 
-    /*
-     * set nature case(Hariz)
+    /**
+     * set nature case(
+     * @param Position p
+     * @param Case c
      */
     public void setCase(Position p, Case c){
 	if(isInMapBound(p)){

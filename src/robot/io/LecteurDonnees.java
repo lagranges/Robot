@@ -1,20 +1,7 @@
 package robot.io;
 
-/*
- * see robot.map.Carte
- * see robot.map.Case
- */
 import robot.map.*;
-
-/*
- * see robot.entities.Entity
- * see robot.entities.Incendie
- */
 import robot.entities.*;
-
-/*
- * see robot.Position
- */
 import robot.*;
 
 import java.io.*;
@@ -50,12 +37,11 @@ public class LecteurDonnees {
      * @param fichierDonnees nom du fichier à lire
      */
     public static DonneesSimulation creeDonnees(String fichierDonnees) throws FileNotFoundException, DataFormatException{
-	Carte tempMap = new Carte(0,0,0); // temporary
-	Incendie tempFire[] = new Incendie[6];
 	System.out.println("\n == Creating DonneesSimulation from " + fichierDonnees);
 	LecteurDonnees lecteur = new LecteurDonnees(fichierDonnees);
+	Carte map = creeCarte();
 	DonneesSimulation simulationData;
-	simulationData = new DonneesSimulation(tempMap,tempFire);
+	simulationData = new DonneesSimulation(map,creeIncendies(map),creeRobots(map));
 	return simulationData;
     }
 
@@ -248,7 +234,7 @@ public class LecteurDonnees {
     }
 
     /** Ignore toute (fin de) ligne commencant par '#' */
-    private void ignorerCommentaires() {
+    private static void ignorerCommentaires() {
         while(scanner.hasNext("#.*")) {
             scanner.nextLine();
         }
@@ -258,7 +244,7 @@ public class LecteurDonnees {
      * Verifie qu'il n'y a plus rien a lire sur cette ligne (int ou float).
      * @throws ExceptionFormatDonnees
      */
-    private void verifieLigneTerminee() throws DataFormatException {
+    private static void verifieLigneTerminee() throws DataFormatException {
         if (scanner.findInLine("(\\d+)") != null) {
             throw new DataFormatException("format invalide, donnees en trop.");
         }
@@ -268,7 +254,7 @@ public class LecteurDonnees {
      * Lit et sauvegarde les donnees de la carte.
      * @throws ExceptionFormatDonnees
      */
-    private Carte creeCarte() throws DataFormatException {
+    private static Carte creeCarte() throws DataFormatException {
 	ignorerCommentaires();
         try {
             int nbLignes = scanner.nextInt();
@@ -292,7 +278,7 @@ public class LecteurDonnees {
     /**
      * Lit et sauvegarde les donnees d'une case.
      */
-    private NatureTerrain getNature() throws DataFormatException {
+    private static NatureTerrain getNature() throws DataFormatException {
         ignorerCommentaires();
       	String chaineNature;
         try {
@@ -308,14 +294,26 @@ public class LecteurDonnees {
     /**
      * Lit et sauvegarde les donnees des incendies.
      */
-    private Incendie[] creeIncendies(DonneesSimulation simulationData) throws DataFormatException {
+    private static Incendie[] creeIncendies(Carte map) throws DataFormatException {
         ignorerCommentaires();
 	Incendie fire[];
         try {
             int nbIncendies = scanner.nextInt();
 	    fire = new Incendie[nbIncendies];
             for (int i = 0; i < nbIncendies; i++) {
-                creeIncendie(i,fire);
+		ignorerCommentaires();
+		int lig = scanner.nextInt();
+		int col = scanner.nextInt();
+		Position pos = new Position(lig,col);
+		int intensite = scanner.nextInt();
+
+		if (intensite <= 0) {
+		    throw new DataFormatException("incendie " + i
+						  + "nb litres pour eteindre doit etre > 0");
+		}
+
+		fire[i] = new Incendie(map.getCaseAt(lig,col),intensite);
+		verifieLigneTerminee();
             }
 	    return fire;
         } catch (NoSuchElementException e) {
@@ -325,25 +323,41 @@ public class LecteurDonnees {
     }
 
     /**
-     * Lit et sauvegarde les donnees du i-eme incendie.
-     * @param i
+     * Lit et sauvegarde les donnees des robots
      */
-    private void creeIncendie(int i,Incendie[] fire) throws DataFormatException {
+    private static Robot[] creeRobots(Carte map) throws DataFormatException {
         ignorerCommentaires();
+	Robot bot[];
         try {
-            int lig = scanner.nextInt();
-            int col = scanner.nextInt();
-	    Position pos = new Position(lig,col);
-            int intensite = scanner.nextInt();
-            if (intensite <= 0) {
-                throw new DataFormatException("incendie " + i
-                        + "nb litres pour eteindre doit etre > 0");
+            int nbRobots = scanner.nextInt();
+	    bot = new Robot[nbRobots];
+            for (int i = 0; i < nbRobots; i++) {
+		ignorerCommentaires();
+		int lig = scanner.nextInt();
+		int col = scanner.nextInt();
+		String type = scanner.next();
+		
+		String s = scanner.findInLine("(\\d+)"); 	// 1 or more digit(s)
+		if(type.equals("DRONE")){
+		    bot[i] = new Drone(map.getCaseAt(lig,col));
+		}else if (type.equals("ROUES")){
+		    bot[i] = new Roue(map.getCaseAt(lig,col));
+		}else if (type.equals("PATTES")){
+		    bot[i] = new Patte(map.getCaseAt(lig,col));
+		}else if (type.equals("CHENILLES")){
+		    bot[i] = new Chenille(map.getCaseAt(lig,col));
+		}
+
+		if (s != null) {
+		    bot[i].setVitesseDeplacement(Integer.parseInt(s));
+		}
+		verifieLigneTerminee();  
             }
-	    
-            verifieLigneTerminee();
+	    return bot;
         } catch (NoSuchElementException e) {
-            throw new DataFormatException("format d'incendie invalide. "
-                    + "Attendu: ligne colonne intensite");
+            throw new DataFormatException("Format invalide. "
+                    + "Attendu: nbRobots");
         }
     }
+
 }

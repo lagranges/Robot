@@ -79,6 +79,13 @@ public abstract class Robot extends Entity {
 	}
 
     /**
+     * Modifier la vitesse de déplacement du robot
+     */
+	public void setVitesseDeplacement(int vitesse){
+	    this.vitesseDeplacementDefault = (vitesse*1000)/60;
+	}
+
+    /**
      * Retourne : la volume maxcimale dont le robot peut contenir
      */
 	public int getVolumeMax(){

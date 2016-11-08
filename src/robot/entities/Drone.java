@@ -50,49 +50,35 @@ public class Drone extends Robot{
     public int tempsDeplacement(Case c1){return 0;}	
 
     @Override
-    public void draw(GUISimulator gui, int ratio, int smallest){	    
-	int x = this.cas.getPosition().getColonne();
-	int y = this.cas.getPosition().getLigne();
-	gui.addGraphicalElement(new Rectangle(x+1,y,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+8,y,couleurDrone, couleurDrone,1));
+    public void draw(GUISimulator gui, int ratio, int pixel){	    
+	int x = this.cas.getPosition().getColonne() * ratio;
+	int y = this.cas.getPosition().getLigne() * ratio;
+	int size = ratio/pixel;
+	Color magenta = new Color(139,0,139);
 
-	gui.addGraphicalElement(new Rectangle(x,y+1,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+1,y+1,couleurDrone, couleurDrone,2));
-	gui.addGraphicalElement(new Rectangle(x+3,y+1,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+4,y+1,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+5,y+1,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+6,y+1,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+7,y+1,couleurDrone, couleurDrone,2));
-	gui.addGraphicalElement(new Rectangle(x+9,y+1,couleurDrone, couleurDrone,1));
+	gui.addGraphicalElement(new Rectangle(x + size*8, y + size*1, magenta.darker(), magenta.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*7, y + size*1, magenta.darker(), magenta.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*1, y + size*1, magenta.darker(), magenta.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*1, magenta.darker(), magenta.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*5, magenta, magenta, size));
+	gui.addGraphicalElement(new Rectangle(x + size*7, y + size*2, magenta, magenta, size));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*2, magenta, magenta, size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*3, magenta, magenta, size));
+	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*3, magenta, magenta, size));
+	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*4, magenta, magenta, size));
+	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*5, magenta, magenta, size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*4, magenta, magenta, size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*5, magenta, magenta, size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*4, magenta.darker(), magenta.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*5, magenta.darker(), magenta.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*6, magenta, magenta, size));
+	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*6, magenta, magenta, size));
+	gui.addGraphicalElement(new Rectangle(x + size*7, y + size*7, magenta, magenta, size));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*7, magenta, magenta, size));
+	gui.addGraphicalElement(new Rectangle(x + size*8, y + size*8, magenta.darker(), magenta.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*7, y + size*8, magenta.darker(), magenta.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*8, magenta.darker(), magenta.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*1, y + size*8, magenta.darker(), magenta.darker(), size));
 
-	gui.addGraphicalElement(new Rectangle(x+1,y+3,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+3,y+3,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+6,y+3,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+8,y+3,couleurDrone, couleurDrone,1));
-
-	gui.addGraphicalElement(new Rectangle(x+1,y+4,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+4,y+4,couleurDrone, couleurDrone,2));
-	gui.addGraphicalElement(new Rectangle(x+8,y+4,couleurDrone, couleurDrone,1));
-
-	gui.addGraphicalElement(new Rectangle(x+1,y+5,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+8,y+5,couleurDrone, couleurDrone,1));
-
-	gui.addGraphicalElement(new Rectangle(x+1,y+6,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+3,y+6,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+6,y+6,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+8,y+6,couleurDrone, couleurDrone,1));
-
-	gui.addGraphicalElement(new Rectangle(x+1,y+7,couleurDrone, couleurDrone,2));
-	gui.addGraphicalElement(new Rectangle(x+7,y+7,couleurDrone, couleurDrone,2));
-
-	gui.addGraphicalElement(new Rectangle(x,y+8,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+3,y+8,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+4,y+8,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+5,y+8,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+6,y+8,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+9,y+8,couleurDrone, couleurDrone,1));
-
-	gui.addGraphicalElement(new Rectangle(x+1,y+9,couleurDrone, couleurDrone,1));
-	gui.addGraphicalElement(new Rectangle(x+8,y+9,couleurDrone, couleurDrone,1));
     }
 }

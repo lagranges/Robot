@@ -50,10 +50,10 @@ public class Incendie extends Entity {
     }
     
     @Override
-    public void draw(GUISimulator gui, int ratio, int smallest){
+    public void draw(GUISimulator gui, int ratio, int pixel){
 	int x = this.cas.getPosition().getColonne() * ratio;
 	int y = this.cas.getPosition().getLigne() * ratio;
-	int size = ratio/smallest;
+	int size = ratio/pixel;
 
 	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*1, Color.red.darker(), Color.red.darker(), size));
 	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*2, Color.red.darker(), Color.red.darker(), size));

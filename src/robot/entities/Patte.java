@@ -66,49 +66,37 @@ public class Patte extends Robot{
     public int tempsDeplacement(Case c1){return 0;}	
 
     @Override
-    public void draw(GUISimulator gui, int ratio, int smallest){
-	int x = this.cas.getPosition().getColonne();
-	int y = this.cas.getPosition().getLigne();
-	gui.addGraphicalElement(new Rectangle(x+1,y,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+8,y,couleurPatte, couleurPatte,1));
+    public void draw(GUISimulator gui, int ratio, int pixel){
+	int x = this.cas.getPosition().getColonne() * ratio;
+	int y = this.cas.getPosition().getLigne() * ratio;
+	int size = ratio/pixel;
+	Color redIndian = new Color(205,92,92);
 
-	gui.addGraphicalElement(new Rectangle(x,y+1,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+1,y+1,couleurPatte, couleurPatte,2));
-	gui.addGraphicalElement(new Rectangle(x+3,y+1,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+4,y+1,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+5,y+1,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+6,y+1,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+7,y+1,couleurPatte, couleurPatte,2));
-	gui.addGraphicalElement(new Rectangle(x+9,y+1,couleurPatte, couleurPatte,1));
-
-	gui.addGraphicalElement(new Rectangle(x+1,y+3,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+3,y+3,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+6,y+3,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+8,y+3,couleurPatte, couleurPatte,1));
-
-	gui.addGraphicalElement(new Rectangle(x+1,y+4,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+4,y+4,couleurPatte, couleurPatte,2));
-	gui.addGraphicalElement(new Rectangle(x+8,y+4,couleurPatte, couleurPatte,1));
-
-	gui.addGraphicalElement(new Rectangle(x+1,y+5,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+8,y+5,couleurPatte, couleurPatte,1));
-
-	gui.addGraphicalElement(new Rectangle(x+1,y+6,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+3,y+6,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+6,y+6,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+8,y+6,couleurPatte, couleurPatte,1));
-
-	gui.addGraphicalElement(new Rectangle(x+1,y+7,couleurPatte, couleurPatte,2));
-	gui.addGraphicalElement(new Rectangle(x+7,y+7,couleurPatte, couleurPatte,2));
-
-	gui.addGraphicalElement(new Rectangle(x,y+8,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+3,y+8,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+4,y+8,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+5,y+8,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+6,y+8,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+9,y+8,couleurPatte, couleurPatte,1));
-
-	gui.addGraphicalElement(new Rectangle(x+1,y+9,couleurPatte, couleurPatte,1));
-	gui.addGraphicalElement(new Rectangle(x+8,y+9,couleurPatte, couleurPatte,1));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*1, redIndian.darker(), redIndian.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*1, redIndian.darker(), redIndian.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*1, redIndian.darker(), redIndian.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*1, redIndian.darker(), redIndian.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*2, Color.black, Color.black, size));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*3, Color.black, Color.black, size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*2, Color.black, Color.black, size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*3, Color.black, Color.black, size));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*4, redIndian, redIndian, size));
+	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*4, redIndian, redIndian, size));
+	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*4, redIndian, redIndian, size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*4, redIndian, redIndian, size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*4, redIndian.darker(), redIndian.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*4, redIndian, redIndian, size));
+	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*5, redIndian, redIndian, size));
+	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*5, redIndian, redIndian, size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*5, redIndian, redIndian, size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*5, redIndian.darker(), redIndian.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*6, Color.black, Color.black, size));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*7, Color.black, Color.black, size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*6, Color.black, Color.black, size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*7, Color.black, Color.black, size));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*8, redIndian.darker(), redIndian.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*8, redIndian.darker(), redIndian.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*8, redIndian.darker(), redIndian.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*8, redIndian.darker(), redIndian.darker(), size));
     }
 }

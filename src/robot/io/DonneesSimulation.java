@@ -99,16 +99,16 @@ public class DonneesSimulation{
 	return getCaseAt(source.getPosition().deplace(dir));
     }
 
-    public void drawCarte(GUISimulator gui, int ratio, int smallest){
-	for(int i = 0; i < donneesCarte.getNbLigne(); i++){
-	    for(int j = 0; j < donneesCarte.getNbColonne(); j++){
-		donneesCarte.getCaseAt(i, j).draw(gui, ratio, smallest);
-	    }
-	}
+    public void drawCarte(int ligne, int colonne, GUISimulator gui, int ratio, int pixel){
+	donneesCarte.getCaseAt(ligne, colonne).draw(gui, ratio, pixel);
     }
 
     //partie tous les donnees des incendies
 
+    public int getNbIncendie(){
+	return donneesIncendie.length;
+    }
+    
     /**
      * return la position de ieme incendie
      * @param i
@@ -126,10 +126,8 @@ public class DonneesSimulation{
 	return donneesIncendie[i].getNbLitresEauPourExtinction();
     }
 
-    public void drawIncendie(GUISimulator gui,int ratio, int smallest){
-        for(int i = 0; i < donneesIncendie.length; i++){
-	    donneesIncendie[i].draw(gui,ratio,smallest);
-	}
+    public void drawIncendie(int i, GUISimulator gui,int ratio, int pixel){
+	    donneesIncendie[i].draw(gui,ratio,pixel);
     }
 
     //partie tous les donnees des robots
@@ -249,8 +247,8 @@ public class DonneesSimulation{
 	return donneesRobot[i].tempsRemplissage();
     }
 
-    public void drawRobot(int i, GUISimulator gui){
-        
+    public void drawRobot(int i, GUISimulator gui, int ratio, int pixel){
+        donneesRobot[i].draw(gui,ratio,pixel);
     }
 
 }

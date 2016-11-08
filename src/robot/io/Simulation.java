@@ -19,11 +19,11 @@ public class Simulation implements Simulable {
 	draw(ratio, smallest);
     }
 
-    private void draw(int ratio, int smallest){
+    private void draw(int ratio, int pixel){
 	gui.reset();
-	//methods to be placed here
-	data.drawCarte(gui, ratio, smallest);
-	data.drawIncendie(gui, ratio, smallest);
+	drawCarte(ratio, pixel);
+	drawIncendie(ratio, pixel);
+	drawRobots(ratio,pixel);
     }
 
     @Override
@@ -34,9 +34,23 @@ public class Simulation implements Simulable {
     public void restart(){
     }
 
-    private void drawRobots(){
+    private void drawRobots(int ratio, int pixel){
 	for(int i=0; i < data.getNbRobots(); i++){
-	    data.drawRobot(i,gui);
+	    data.drawRobot(i,gui,ratio,pixel);
+	}
+    }
+
+    private void drawCarte(int ratio, int pixel){
+	for(int i=0; i < data.getCarteNbLigne(); i++){
+	    for(int j=0; j < data.getCarteNbColonne(); j++){
+		data.drawCarte(i,j,gui,ratio,pixel);
+	    }
+	}
+    }
+
+    private void drawIncendie(int ratio, int pixel){
+	for(int i=0; i < data.getNbIncendie(); i++){
+	    data.drawIncendie(i,gui,ratio,pixel);
 	}
     }
 

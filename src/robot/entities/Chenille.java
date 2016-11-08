@@ -65,7 +65,7 @@ public class Chenille extends Robot{
     public int tempsDeplacement(Case c1){return 0;}	
 
     @Override
-    public void draw(GUISimulator gui, int ratio, int smallest){
+    public void draw(GUISimulator gui, int ratio, int pixel){
 	int x = this.cas.getPosition().getColonne();
 	int y = this.cas.getPosition().getLigne();
 	gui.addGraphicalElement(new Rectangle(x+1,y,couleurChenille, couleurChenille,1));

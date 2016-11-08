@@ -77,5 +77,5 @@ public class Carte implements Drawable {
 	return getCaseAt(source.getPosition().deplace(dir));
     }
     
-    public void draw(GUISimulator gui, int ratio, int smallest){}
+    public void draw(GUISimulator gui, int ratio, int pixel){}
 }

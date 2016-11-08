@@ -69,10 +69,10 @@ public class Case implements Drawable {
 	return type;
     }
 
-    private void drawEau(GUISimulator gui, int ratio, int smallest){
+    private void drawEau(GUISimulator gui, int ratio, int pixel){
 	int x = getPosition().getColonne()*ratio;
 	int y = getPosition().getLigne()*ratio;
-	int size = ratio/smallest;
+	int size = ratio/pixel;
 	Color eau = Color.blue;
 	for(int i = x; i < x + ratio; i += size){
 	    for(int j = y; j < y + ratio; j += size){
@@ -80,9 +80,9 @@ public class Case implements Drawable {
 	    }
 	}
 
-	if(ratio%smallest != 0){
-	    for(int i = size*smallest; i < ratio; i++){
-		for(int j = size*smallest; j < ratio; j++){
+	if(ratio%pixel != 0){
+	    for(int i = size*pixel; i < ratio; i++){
+		for(int j = size*pixel; j < ratio; j++){
 		    gui.addGraphicalElement(new Rectangle(i, j, eau, eau, 1));
 		}
 	    }
@@ -102,10 +102,10 @@ public class Case implements Drawable {
 	gui.addGraphicalElement(new Rectangle(x + size*1, y + size*6, eau.darker(), eau.darker(), size));
     }
 
-    private void drawForet(GUISimulator gui, int ratio, int smallest){
+    private void drawForet(GUISimulator gui, int ratio, int pixel){
 	int x = getPosition().getColonne()*ratio;
 	int y = getPosition().getLigne()*ratio;
-	int size = ratio/smallest;
+	int size = ratio/pixel;
 	Color foret = new Color(34,139,34);
 	Color brown = new Color(184,134,11);
 	for(int i = x; i < x + ratio; i += size){
@@ -114,9 +114,9 @@ public class Case implements Drawable {
 	    }
 	}
 
-	if(ratio%smallest != 0){
-	    for(int i = size*smallest; i < ratio; i++){
-		for(int j = size*smallest; j < ratio; j++){
+	if(ratio%pixel != 0){
+	    for(int i = size*pixel; i < ratio; i++){
+		for(int j = size*pixel; j < ratio; j++){
 		    gui.addGraphicalElement(new Rectangle(i, j, foret, foret, 1));
 		}
 	    }
@@ -141,10 +141,10 @@ public class Case implements Drawable {
 	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*7, brown, brown, size));
     }
 
-    private void drawRoche(GUISimulator gui, int ratio, int smallest){
+    private void drawRoche(GUISimulator gui, int ratio, int pixel){
 	int x = getPosition().getColonne()*ratio;
 	int y = getPosition().getLigne()*ratio;
-	int size = ratio/smallest;
+	int size = ratio/pixel;
 	Color roche = new Color(189,183,107);
 	for(int i = x; i < x + ratio; i += size){
 	    for(int j = y; j < y + ratio; j += size){
@@ -152,9 +152,9 @@ public class Case implements Drawable {
 	    }
 	}
 
-	if(ratio%smallest != 0){
-	    for(int i = size*smallest; i < ratio; i++){
-		for(int j = size*smallest; j < ratio; j++){
+	if(ratio%pixel != 0){
+	    for(int i = size*pixel; i < ratio; i++){
+		for(int j = size*pixel; j < ratio; j++){
 		    gui.addGraphicalElement(new Rectangle(i, j, roche, roche, 1));
 		}
 	    }
@@ -181,10 +181,10 @@ public class Case implements Drawable {
 	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*8, roche.darker(), roche.darker(), size));
     }
 
-    private void drawTerrainLibre(GUISimulator gui, int ratio, int smallest){
+    private void drawTerrainLibre(GUISimulator gui, int ratio, int pixel){
 	int x = getPosition().getColonne()*ratio;
 	int y = getPosition().getLigne()*ratio;
-	int size = ratio/smallest;
+	int size = ratio/pixel;
 	Color terrain = Color.green;
 	for(int i = x; i < x + ratio; i += size){
 	    for(int j = y; j < y + ratio; j += size){
@@ -192,9 +192,9 @@ public class Case implements Drawable {
 	    }
 	}
 
-	if(ratio%smallest != 0){
-	    for(int i = size*smallest; i < ratio; i++){
-		for(int j = size*smallest; j < ratio; j++){
+	if(ratio%pixel != 0){
+	    for(int i = size*pixel; i < ratio; i++){
+		for(int j = size*pixel; j < ratio; j++){
 		    gui.addGraphicalElement(new Rectangle(i, j, terrain.brighter(), terrain.brighter(), 1));
 		}
 	    }
@@ -210,10 +210,10 @@ public class Case implements Drawable {
 	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*5, terrain.darker(), terrain.darker(), size));
     }
   
-    private void drawHabitat(GUISimulator gui, int ratio, int smallest){
+    private void drawHabitat(GUISimulator gui, int ratio, int pixel){
 	int x = getPosition().getColonne()*ratio;
 	int y = getPosition().getLigne()*ratio;
-	int size = ratio/smallest;
+	int size = ratio/pixel;
 	Color habitat = new Color(169,169,169);
 	for(int i = x; i < x + ratio; i += size){
 	    for(int j = y; j < y + ratio; j += size){
@@ -221,9 +221,9 @@ public class Case implements Drawable {
 	    }
 	}
 
-	if(ratio%smallest != 0){
-	    for(int i = size*smallest; i < ratio; i++){
-		for(int j = size*smallest; j < ratio; j++){
+	if(ratio%pixel != 0){
+	    for(int i = size*pixel; i < ratio; i++){
+		for(int j = size*pixel; j < ratio; j++){
 		    gui.addGraphicalElement(new Rectangle(i, j, habitat, habitat, 1));
 		}
 	    }
@@ -273,22 +273,22 @@ public class Case implements Drawable {
     }
     
     @Override
-    public void draw(GUISimulator gui, int ratio, int smallest){
+    public void draw(GUISimulator gui, int ratio, int pixel){
 	switch(getNatureType()){
 	case EAU: 
-	    drawEau(gui, ratio, smallest);
+	    drawEau(gui, ratio, pixel);
 	    break;
 	case FORET: 
-	    drawForet(gui, ratio, smallest);
+	    drawForet(gui, ratio, pixel);
 	    break;
 	case ROCHE: 
-	    drawRoche(gui, ratio, smallest);
+	    drawRoche(gui, ratio, pixel);
 	    break;
 	case TERRAIN_LIBRE: 
-	    drawTerrainLibre(gui, ratio, smallest);
+	    drawTerrainLibre(gui, ratio, pixel);
 	    break;
 	case HABITAT: 
-	    drawHabitat(gui, ratio, smallest);
+	    drawHabitat(gui, ratio, pixel);
 	    break;
 	}
     }

@@ -23,7 +23,7 @@ public class Carte implements Drawable {
     }
 
     /**
-     * set nature case(
+     * set nature case
      * @param Position p
      * @param Case c
      */
@@ -77,5 +77,5 @@ public class Carte implements Drawable {
 	return getCaseAt(source.getPosition().deplace(dir));
     }
     
-    public void draw(GUISimulator gui){}
+    public void draw(GUISimulator gui, int ratio, int smallest){}
 }

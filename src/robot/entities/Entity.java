@@ -15,7 +15,7 @@ public abstract class Entity implements Drawable{
     /**
      * La taille d'une case
      */
-	public static final int  TAILLE = 10;
+    public static final int  TAILLE = 10;
 	
     protected Case cas;
     protected Color col;
@@ -28,10 +28,10 @@ public abstract class Entity implements Drawable{
      * @param cas la cas sur laquelle elle se trouve
      * @param col la couleur de l'entité
      */
-	public Entity(Case cas, Color col){
-		this.cas = cas;
-		this.col = col;
-	}
+    public Entity(Case cas, Color col){
+	this.cas = cas;
+	this.col = col;
+    }
 
 
 
@@ -42,11 +42,8 @@ public abstract class Entity implements Drawable{
      * @return la position de l'entité
      * @see    robot.map.Case
      */
-	public Case getPosition(){
-		return this.cas;
-	}
-	
-	
-
-
+    public Case getPosition(){
+	return this.cas;
+    }
+      
 }

@@ -13,9 +13,9 @@ public class TestDonneesSimulation{
 	
 	try {
             DonneesSimulation Data = LecteurDonnees.creeDonnees(args[0]);
-	    Data.getDonneesCarte();
-	    Data.getDonneesIncendies();
-	    Data.getDonneesRobots();
+	    Data.afficheDonneesCarte();
+	    Data.afficheDonneesIncendies();
+	    Data.afficheDonneesRobots();
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {

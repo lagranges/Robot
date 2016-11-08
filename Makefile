@@ -38,8 +38,11 @@ testInvader:
 testLecture:
 	$(JAVAC) $(GUI_CLASSPATH) src/robot/TestLecteurDonnees.java
 
-testSimulation:
+testDonnees:
 	$(JAVAC) $(GUI_CLASSPATH) src/robot/TestDonneesSimulation.java
+
+testSimulation:
+	$(JAVAC) $(GUI_CLASSPATH) src/robot/TestSimulation.java	
 
 javadoc:
 	$(JAVADOC) $(GUI_CLASSPATH) src/robot/*.java src/robot/entities/*.java src/robot/io/*.java src/robot/map/*.java
@@ -55,8 +58,20 @@ exeInvader:
 exeLecture: 
 	java -classpath bin TestLecteurDonnees cartes/carteSujet.map
 
-exeSimulation:
+exeDonnees:
 	java -classpath bin TestDonneesSimulation cartes/carteSujet.map
+
+exeSimulationSujet:
+	java -classpath bin:bin/gui.jar TestSimulation cartes/carteSujet.map	
+
+exeSimulationMadness:
+	java -classpath bin:bin/gui.jar TestSimulation cartes/spiralOfMadness-50x50.map
+
+exeSimulationDeath:
+	java -classpath bin:bin/gui.jar TestSimulation cartes/desertOfDeath-20x20.map
+
+exeSimulationHell:
+	java -classpath bin:bin/gui.jar TestSimulation cartes/mushroomOfHell-20x20.map
 
 clean:
 	rm -rf bin/*.class

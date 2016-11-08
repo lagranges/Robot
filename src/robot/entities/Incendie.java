@@ -17,7 +17,7 @@ public class Incendie extends Entity {
     /**
      * Le coleur de l'Incendie , rouge par default
      */
-	public static final Color incendieCouleur = new Color(255,0,0);
+    public static final Color incendieCouleur = new Color(255,0,0);
 
     /**
      * Le nombre de litres d'eau nécessaires à l'extinction de l'incendie.
@@ -34,8 +34,8 @@ public class Incendie extends Entity {
      * @see            robot.map.Case
      */
     public Incendie(Case pos, int nbLitres) {
-		super(pos,incendieCouleur);
-		nbLitresEauPourExtinction = nbLitres;
+	super(pos,incendieCouleur);
+	nbLitresEauPourExtinction = nbLitres;
     }
 
 
@@ -46,42 +46,33 @@ public class Incendie extends Entity {
      * @return le nombre de litres d'eau necéssaires.
      */
     public int getNbLitresEauPourExtinction() {
-		return nbLitresEauPourExtinction;
+	return nbLitresEauPourExtinction;
     }
     
-	@Override
-    public void draw(GUISimulator gui){
-	    /*
-	int x = this.cas.getPosition().getColonne();
-	int y = this.cas.getPosition().getLigne();
-	gui.addGraphicalElement(new Rectangle(x+4,y,incendieCouleur, incendieCouleur,2));
+    @Override
+    public void draw(GUISimulator gui, int ratio, int smallest){
+	int x = this.cas.getPosition().getColonne() * ratio;
+	int y = this.cas.getPosition().getLigne() * ratio;
+	int size = ratio/smallest;
 
-	gui.addGraphicalElement(new Rectangle(x+3,y+1,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+5,y+1,incendieCouleur, incendieCouleur,2));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*1, Color.red.darker(), Color.red.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*2, Color.red.darker(), Color.red.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*2, Color.red.darker(), Color.red.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*9, y + size*3, Color.red.darker(), Color.red.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*3, Color.red.darker(), Color.red.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*7, y + size*3, Color.red.darker(), Color.red.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*3, Color.red.darker(), Color.red.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*8, y + size*4, Color.red.darker(), Color.red.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*7, y + size*4, Color.orange.darker(), Color.orange.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*4, Color.orange.darker(), Color.orange.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*4, Color.red.darker(), Color.red.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*8, y + size*5, Color.red.darker(), Color.red.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*7, y + size*5, Color.orange.darker(), Color.orange.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*5, Color.orange.darker(), Color.orange.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*5, Color.orange.darker(), Color.orange.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*5, Color.red.darker(), Color.red.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*5, Color.red.darker(), Color.red.darker(), size));
 
-	gui.addGraphicalElement(new Rectangle(x+2,y+2,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+4,y+2,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+6,y+2,incendieCouleur, incendieCouleur,2));
-	
-	gui.addGraphicalElement(new Rectangle(x+1,y+4,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+3,y+4,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+5,y+4,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+7,y+4,incendieCouleur, incendieCouleur,2));
-
-	gui.addGraphicalElement(new Rectangle(x,y+6,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+2,y+6,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+4,y+6,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+6,y+6,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+8,y+6,incendieCouleur, incendieCouleur,2));
-
-	gui.addGraphicalElement(new Rectangle(x+1,y+8,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+3,y+8,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+5,y+8,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+7,y+8,incendieCouleur, incendieCouleur,2));
-
-	gui.addGraphicalElement(new Rectangle(x+2,y+9,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+4,y+9,incendieCouleur, incendieCouleur,2));
-	gui.addGraphicalElement(new Rectangle(x+6,y+9,incendieCouleur, incendieCouleur,2));*/
-} 
+    } 
     
 }

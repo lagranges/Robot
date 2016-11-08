@@ -27,19 +27,19 @@ SOURCEPATH=-sourcepath src/
 GUI_CLASSPATH=-classpath bin/gui.jar
 JAVAC_DESTINATION_FOLDER=-d bin
 
-JAVAC=javac $(ENCODING) $(JAVAC_DESTINATION_FOLDER) $(SOURCEPATH)
+JAVAC=javac $(ENCODING) $(JAVAC_DESTINATION_FOLDER) $(SOURCEPATH) $(GUI_CLASSPATH)
 JAVADOC=javadoc $(JAVADOC_ENCODING) -d doc-tmp/ $(SOURCEPATH)
 
 all: testInvader testLecture
 
 testInvader:
-	$(JAVAC) $(GUI_CLASSPATH) src/robot/TestInvader.java
+	$(JAVAC) src/robot/TestInvader.java
 
 testLecture:
 	$(JAVAC) src/robot/TestLecteurDonnees.java
 
 javadoc:
-	$(JAVADOC) $(GUI_CLASSPATH) src/robot/*.java src/robot/entities/*.java src/robot/io/*.java src/robot/map/*.java
+	$(JAVADOC) src/robot/*.java src/robot/entities/*.java src/robot/io/*.java src/robot/map/*.java
 
 # Execution:
 # on peut taper directement la ligne de commande :

@@ -3,7 +3,7 @@ package robot.map;
 import robot.*;
 import gui.GUISimulator;
 
-public class Carte implements Drawables {
+public class Carte implements Drawable {
 
     private final int tailleCases;
     private final int nbLignes;
@@ -74,6 +74,13 @@ public class Carte implements Drawables {
 	}
 	return getCaseAt(source.getPosition().deplace(dir));
     }
-    
-    public void draw(GUISimulator gui){}
+
+    @Override
+    public void draw(GUISimulator gui){ 
+	for( Case[] cc : map) {
+	    for(Case c : cc) {
+		c.draw(gui);
+	    }
+	}
+    }
 }

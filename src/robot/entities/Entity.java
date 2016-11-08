@@ -42,8 +42,8 @@ public abstract class Entity implements Drawable{
      * @return la position de l'entité
      * @see    robot.map.Case
      */
+
     public Case getPosition(){
 	return this.cas;
     }
-      
 }

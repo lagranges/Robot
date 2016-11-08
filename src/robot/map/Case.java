@@ -5,6 +5,9 @@ import java.awt.Color;
 
 import gui.GUISimulator;
 import gui.Rectangle;
+import gui.*;
+import java.awt.Color;
+
 /**
  * La classe Case représente un élément atomique d'une carte.
  * Une Case est composée d'une Position et d'un type NatureTerrain.
@@ -291,6 +294,6 @@ public class Case implements Drawable {
 	    drawHabitat(gui, ratio, pixel);
 	    break;
 	}
+    
     }
 }
-

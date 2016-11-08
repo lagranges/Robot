@@ -74,5 +74,5 @@ public class Incendie extends Entity {
 	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*5, Color.red.darker(), Color.red.darker(), size));
 
     } 
-    
+
 }

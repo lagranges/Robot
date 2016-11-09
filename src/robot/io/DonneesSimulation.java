@@ -3,6 +3,7 @@ package robot.io;
 import robot.map.*;
 import robot.entities.*;
 import robot.*;
+import robot.graph.*;
 
 import java.io.*;
 import java.util.*;
@@ -27,6 +28,28 @@ public class DonneesSimulation{
 	this.donneesRobot = bot;
     }
 
+    
+    /*
+     * Tester le plus cour chemin
+     */
+    public void TestPlusCourtChemin(){
+        Robot robot = new Patte(donneesCarte.getCaseAt(0,15));
+        Graphe g = new Graphe(robot,donneesCarte);
+        Dijkstra dijkstra = new Dijkstra(g);
+        System.out.println(g);
+        dijkstra.traiterGraphe(robot.getPosition());
+        // attention : robot.getPosition() return a Casei
+        Case destination = donneesCarte.getCaseAt(15,0);
+        List<Case> chemin = dijkstra.getPath(destination);
+        try{
+        for(Case cas : chemin){
+            System.out.println(cas);
+        }
+        } catch( Exception e){
+            System.out.println("Can't get to "+ destination+" from this actual robot position :" +robot.getPosition() );
+        }
+
+    } 
     /*
      * Affiche tous les donnees concernant la carte
      */

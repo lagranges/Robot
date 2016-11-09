@@ -2,6 +2,7 @@ package robot.entities;
 
 import java.awt.Color;
 import robot.map.*;
+import robot.gui.BetterGUISimulator;
 import gui.*;
 
 /**
@@ -50,7 +51,9 @@ public class Incendie extends Entity {
     }
     
     @Override
-    public void draw(GUISimulator gui, int ratio, int pixel){
+    public void draw(BetterGUISimulator gui){
+	int ratio = gui.getTailleCase();
+	int pixel = gui.getTaillePixel();
 	int x = this.cas.getPosition().getColonne() * ratio;
 	int y = this.cas.getPosition().getLigne() * ratio;
 	int size = ratio/pixel;

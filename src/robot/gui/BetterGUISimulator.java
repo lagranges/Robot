@@ -1,7 +1,9 @@
 package robot.gui;
 
 import java.awt.Color;
+import java.util.List;
 import gui.*;
+import robot.*;
 
 public class BetterGUISimulator extends GUISimulator { 
 
@@ -22,4 +24,21 @@ public class BetterGUISimulator extends GUISimulator {
 	return taillePixelGraphique;
     }
 
+    public void drawAll(List<Drawable> l) {
+	// for( Drawable d:l) == Iterator<Drawable> it = l.getIterator();
+	for( Drawable d : l) {
+	    d.draw(this);
+	}
+    }
+
+    public void drawAll(Drawable[] l) {
+	// for( Drawable d:l) == for(int i = 0;i<l.length;i++)
+	for( Drawable d : l) {
+	    d.draw(this);
+	}
+    }
+
+    public void drawAll(Drawable d) {
+	d.draw(this);
+    }
 }

@@ -2,10 +2,10 @@
 package robot;
 
 import robot.map.*;
-import gui.GUISimulator;
+import robot.gui.BetterGUISimulator;
 
 public interface Drawable {
 
-    public void draw(GUISimulator gui, int ratio, int pixel);
+    public void draw(BetterGUISimulator gui);
 
 }

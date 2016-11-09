@@ -1,7 +1,7 @@
 package robot.map;
 
 import robot.*;
-import gui.GUISimulator;
+import robot.gui.BetterGUISimulator;
 
 public class Carte implements Drawable {
 
@@ -77,5 +77,11 @@ public class Carte implements Drawable {
 	return getCaseAt(source.getPosition().deplace(dir));
     }
     
-    public void draw(GUISimulator gui, int ratio, int pixel){}
+    public void draw(BetterGUISimulator gui){
+	for(Case[] lc : map) {
+	    for(Case c : lc) {
+		c.draw(gui);
+	    }
+	}
+    }
 }

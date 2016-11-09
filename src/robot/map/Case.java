@@ -307,6 +307,6 @@ public class Case implements Drawable {
 
     @Override
     public String toString(){
-        return "("+pos.getLigne+","+pos.getColonne+")" + ": "+NatureTerrain.toString();
+        return "("+pos.getLigne()+","+pos.getColonne()+")" + ": "+this.getNatureType().toString();
     }
 }

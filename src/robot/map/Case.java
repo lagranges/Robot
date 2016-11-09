@@ -2,11 +2,9 @@ package robot.map;
 
 import robot.*;
 import java.awt.Color;
-
-
 import robot.gui.BetterGUISimulator;
+import robot.gui.Drawable;
 import gui.*;
-import java.awt.Color;
 
 /**
  * La classe Case représente un élément atomique d'une carte.

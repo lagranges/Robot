@@ -1,6 +1,7 @@
 package robot.map;
 
 import robot.*;
+import robot.gui.Drawable;
 import robot.gui.BetterGUISimulator;
 
 public class Carte implements Drawable {

@@ -28,6 +28,7 @@ public class TestSimulation{
 	    data.afficheDonneesCarte();
 	    data.afficheDonneesIncendies();
 	    data.afficheDonneesRobots();
+        data.TestPlusCourtChemin();
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {

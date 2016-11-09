@@ -162,7 +162,7 @@ public abstract class Robot extends Entity {
     public double getVitesse(Case cas){
         return getVitesse(cas.getNatureType());
     }
-    abstract boolean peutDeplacerSur(NatureTerrain natureTerrain);
+    public abstract boolean peutDeplacerSur(NatureTerrain natureTerrain);
 
     /**
      * Retourne la vitesse du robot sur les Terrains différents
@@ -170,7 +170,7 @@ public abstract class Robot extends Entity {
      * @param natureTerrain : la type de natureTerrain
      * @see NatureTerrain
      */
-    abstract double getVitesse(NatureTerrain natureTerrain); 
+    public abstract double getVitesse(NatureTerrain natureTerrain); 
 
 
     /**
@@ -178,6 +178,6 @@ public abstract class Robot extends Entity {
      * à la case , n'est pas encore définir
      * @param cas : Case
      */
-    abstract int tempsDeplacement(Case cas);
+    public abstract int tempsDeplacement(Case cas);
 
 }

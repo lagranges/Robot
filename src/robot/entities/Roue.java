@@ -10,7 +10,7 @@ import robot.gui.BetterGUISimulator;
 /**
  * Un robot avec la vitesse de remplissage = 5000/(60*10) l/s 
  * 		 la vitesse de déversement = 100/5 l/s
- *		 la vitesse de déplacement = 80*1000/60 m/s 
+ *		 la vitesse de déplacement = 80 km/s 
  * Ne peut se déplacer que sur du terrain libre ou habitat,
  * se remplir à coté d'une case contenant de l'eau.
  */
@@ -20,7 +20,7 @@ public class Roue extends Robot{
     public static final int volumeMaxRoue = 5000;
     public static final double vitesseRemplissageRoue = 5000/600;
     public static final double vitesseDeversementRoue = 100/5;
-    public static final double vitesseDeplacementRoue = (80*1000)/60 ;
+    public static final double vitesseDeplacementRoue = 80 ;
     public static final Color couleurRoue = Color.yellow;	
 
 	

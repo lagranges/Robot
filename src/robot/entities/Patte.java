@@ -10,7 +10,7 @@ import gui.*;
 /**
  * Un robot avec  
  * 		 la vitesse de déversement = 10/1 l/s
- *		 la vitesse de déplacement = 30*1000/60 m/s
+ *		 la vitesse de déplacement = 30 km/h
  * La vitesse réduite à 10 km/s sur du rocher, ne peut pas se rendre sur de l'eau
  * Ne se remplit jamais
  */
@@ -19,8 +19,8 @@ public class Patte extends Robot{
 	  
     public static final int volumeMaxPatte = Integer.MAX_VALUE;
     public static final double vitesseRemplissagePatte = Integer.MAX_VALUE;
-    public static final double vitesseDeversementPatte = 10/1;
-    public static final double vitesseDeplacementPatte = (30*1000)/60 ;
+    public static final double vitesseDeversementPatte = 10;
+    public static final double vitesseDeplacementPatte = 30;
     public static final double vitesseDeplacementPatteRoche = 10/60 ;
     public static final Color couleurPatte = Color.green;	
 
@@ -45,7 +45,7 @@ public class Patte extends Robot{
     @Override
     public double getVitesse(NatureTerrain natureTerrain){
 	if(this.peutDeplacerSur(natureTerrain))	
-	    if(natureTerrain.compareTo(NatureTerrain.ROCHE)>0)	return vitesseDeplacementPatteRoche;
+	    if(natureTerrain.equals(NatureTerrain.ROCHE))	return vitesseDeplacementPatteRoche;
 	    else return vitesseDeplacementPatte;
 	else return 0;	
     }	

@@ -11,7 +11,7 @@ import gui.*;
 /**
  * Un robot avec la vitesse de remplissage = 2000/(60*5) l/s 
  * 		 la vitesse de déversement = 100/8 l/s
- *		 la vitesse de déplacement = (60*1000)/60 m/s
+ *		 la vitesse de déplacement = 60 km/s
  * La vitesse est diminuée de 50% en foret, ne peut pas se rendre sur l'eau ou du rocher
  * se remplir à coté d'une case contenant de l'eau.
  */
@@ -21,7 +21,7 @@ public class Chenille extends Robot{
     public static final int volumeMaxChenille = 2000;
     public static final double vitesseRemplissageChenille = 2000/300;
     public static final double vitesseDeversementChenille = 100/8;
-    public static final double vitesseDeplacementChenille = (60*1000)/60 ;
+    public static final double vitesseDeplacementChenille = 60;
     public static final Color couleurChenille = Color.gray;	
 
 	

@@ -9,7 +9,7 @@ import robot.gui.BetterGUISimulator;
 /**
  * Un robot avec la vitesse de remplissage = 10000/(60*30) l/s 
  * 		 la vitesse de déversement = 10000/30 l/s
- *		 la vitesse de déplacement = 100*1000/60 m/s
+ *		 la vitesse de déplacement = 100 km/h
  * se déplacer sur tous les case, à vitesse constante,
  * se remplir sur une case contenant de l'eau.
  */
@@ -24,7 +24,7 @@ public class Drone extends Robot{
     public static final int volumeMaxDrone = 10000;
     public static final double vitesseRemplissageDrone = 10000/1800;
     public static final double vitesseDeversementDrone = 10000/30;
-    public static final double vitesseDeplacementDrone = (100*1000)/60 ;
+    public static final double vitesseDeplacementDrone = 100 ;
     public static final Color couleurDrone = Color.blue;	
 
 	

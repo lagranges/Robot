@@ -155,6 +155,13 @@ public abstract class Robot extends Entity {
      * @param natureTerrain
      * @see NatureTerrain 
      */
+    public boolean peutDeplacerSur(Case cas){
+        return peutDeplacerSur(cas.getNatureType());
+    }
+    
+    public double getVitesse(Case cas){
+        return getVitesse(cas.getNatureType());
+    }
     abstract boolean peutDeplacerSur(NatureTerrain natureTerrain);
 
     /**

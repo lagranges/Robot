@@ -1,29 +1,27 @@
 package robot.io;
 
-import gui.GUISimulator;
-import gui.Rectangle;
+import robot.gui.BetterGUISimulator;
 import gui.Simulable;
-import gui.Text;
 
 public class Simulation implements Simulable {
     /** L'interface graphique associée */
-    private GUISimulator gui;
+    private BetterGUISimulator gui;
 
     /** Les données de simulation */
     private DonneesSimulation data;
 
-    public Simulation(GUISimulator gui, DonneesSimulation data, int ratio, int smallest){
+    public Simulation(BetterGUISimulator gui, DonneesSimulation data) {
 	this.gui = gui;
 	gui.setSimulable(this); //association a la gui
 	this.data = data;
-	draw(ratio, smallest);
+	draw();
     }
 
-    private void draw(int ratio, int pixel){
+    private void draw(){
 	gui.reset();
-	drawCarte(ratio, pixel);
-	drawIncendie(ratio, pixel);
-	drawRobots(ratio,pixel);
+	drawCarte();
+	drawIncendies();
+	drawRobots();
     }
 
     @Override
@@ -34,24 +32,16 @@ public class Simulation implements Simulable {
     public void restart(){
     }
 
-    private void drawRobots(int ratio, int pixel){
-	for(int i=0; i < data.getNbRobots(); i++){
-	    data.drawRobot(i,gui,ratio,pixel);
-	}
+    private void drawRobots(){
+	gui.drawAll(data.getRobots());
     }
 
-    private void drawCarte(int ratio, int pixel){
-	for(int i=0; i < data.getCarteNbLigne(); i++){
-	    for(int j=0; j < data.getCarteNbColonne(); j++){
-		data.drawCarte(i,j,gui,ratio,pixel);
-	    }
-	}
+    private void drawCarte(){
+	gui.drawAll(data.getCarte());
     }
 
-    private void drawIncendie(int ratio, int pixel){
-	for(int i=0; i < data.getNbIncendie(); i++){
-	    data.drawIncendie(i,gui,ratio,pixel);
-	}
+    private void drawIncendies(){
+	gui.drawAll(data.getIncendies());
     }
 
 }

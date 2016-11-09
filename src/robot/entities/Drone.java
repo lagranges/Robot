@@ -3,6 +3,7 @@ package robot.entities;
 import java.awt.Color;
 import robot.map.*;
 import gui.*;
+import robot.gui.BetterGUISimulator;
 
 //Remarque: c'est pas tres clair d'afficher la vitesse en km/s, soit km/h ou m/s c'est plus parlant
 /**
@@ -50,7 +51,9 @@ public class Drone extends Robot{
     public int tempsDeplacement(Case c1){return 0;}	
 
     @Override
-    public void draw(GUISimulator gui, int ratio, int pixel){	    
+    public void draw(BetterGUISimulator gui){	    
+	int ratio = gui.getTailleCase();
+	int pixel = gui.getTaillePixel();
 	int x = this.cas.getPosition().getColonne() * ratio;
 	int y = this.cas.getPosition().getLigne() * ratio;
 	int size = ratio/pixel;

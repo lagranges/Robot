@@ -2,11 +2,9 @@ package robot.map;
 
 import robot.*;
 import java.awt.Color;
-
-import gui.GUISimulator;
-import gui.Rectangle;
+import robot.gui.BetterGUISimulator;
+import robot.gui.Drawable;
 import gui.*;
-import java.awt.Color;
 
 /**
  * La classe Case représente un élément atomique d'une carte.
@@ -72,7 +70,9 @@ public class Case implements Drawable {
 	return type;
     }
 
-    private void drawEau(GUISimulator gui, int ratio, int pixel){
+    private void drawEau(BetterGUISimulator gui){
+	int ratio = gui.getTailleCase();
+	int pixel = gui.getTaillePixel();
 	int x = getPosition().getColonne()*ratio;
 	int y = getPosition().getLigne()*ratio;
 	int size = ratio/pixel;
@@ -105,7 +105,9 @@ public class Case implements Drawable {
 	gui.addGraphicalElement(new Rectangle(x + size*1, y + size*6, eau.darker(), eau.darker(), size));
     }
 
-    private void drawForet(GUISimulator gui, int ratio, int pixel){
+    private void drawForet(BetterGUISimulator gui){
+	int ratio = gui.getTailleCase();
+	int pixel = gui.getTaillePixel();
 	int x = getPosition().getColonne()*ratio;
 	int y = getPosition().getLigne()*ratio;
 	int size = ratio/pixel;
@@ -144,7 +146,9 @@ public class Case implements Drawable {
 	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*7, brown, brown, size));
     }
 
-    private void drawRoche(GUISimulator gui, int ratio, int pixel){
+    private void drawRoche(BetterGUISimulator gui){
+	int ratio = gui.getTailleCase();
+	int pixel = gui.getTaillePixel();
 	int x = getPosition().getColonne()*ratio;
 	int y = getPosition().getLigne()*ratio;
 	int size = ratio/pixel;
@@ -184,7 +188,9 @@ public class Case implements Drawable {
 	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*8, roche.darker(), roche.darker(), size));
     }
 
-    private void drawTerrainLibre(GUISimulator gui, int ratio, int pixel){
+    private void drawTerrainLibre(BetterGUISimulator gui){
+	int ratio = gui.getTailleCase();
+	int pixel = gui.getTaillePixel();
 	int x = getPosition().getColonne()*ratio;
 	int y = getPosition().getLigne()*ratio;
 	int size = ratio/pixel;
@@ -213,7 +219,9 @@ public class Case implements Drawable {
 	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*5, terrain.darker(), terrain.darker(), size));
     }
   
-    private void drawHabitat(GUISimulator gui, int ratio, int pixel){
+    private void drawHabitat(BetterGUISimulator gui){
+	int ratio = gui.getTailleCase();
+	int pixel = gui.getTaillePixel();
 	int x = getPosition().getColonne()*ratio;
 	int y = getPosition().getLigne()*ratio;
 	int size = ratio/pixel;
@@ -276,22 +284,22 @@ public class Case implements Drawable {
     }
     
     @Override
-    public void draw(GUISimulator gui, int ratio, int pixel){
+    public void draw(BetterGUISimulator gui){
 	switch(getNatureType()){
 	case EAU: 
-	    drawEau(gui, ratio, pixel);
+	    drawEau(gui);
 	    break;
 	case FORET: 
-	    drawForet(gui, ratio, pixel);
+	    drawForet(gui);
 	    break;
 	case ROCHE: 
-	    drawRoche(gui, ratio, pixel);
+	    drawRoche(gui);
 	    break;
 	case TERRAIN_LIBRE: 
-	    drawTerrainLibre(gui, ratio, pixel);
+	    drawTerrainLibre(gui);
 	    break;
 	case HABITAT: 
-	    drawHabitat(gui, ratio, pixel);
+	    drawHabitat(gui);
 	    break;
 	}
     

@@ -2,8 +2,9 @@ package robot.entities;
 
 import robot.*;
 import robot.map.*;
-import gui.GUISimulator;
+import robot.gui.Drawable;
 import java.awt.Color;
+
 /**
  * Un  entité représente un élément présent sur une case, dans une carte.
  *

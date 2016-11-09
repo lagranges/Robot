@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
 import java.awt.Color;
 
-import gui.GUISimulator;
+import robot.gui.BetterGUISimulator;
 
 public class TestSimulation{
     public static void main(String[] args){
@@ -17,11 +17,13 @@ public class TestSimulation{
 
 	try {
 	    DonneesSimulation data = LecteurDonnees.creeDonnees(args[0]);
+	    // taille de la fenetre initial
 	    int guiColonne = 500;
 	    int guiLigne = 500;
 	    // crée la fenêtre graphique dans laquelle dessiner
-	    GUISimulator gui = new GUISimulator(guiColonne,guiLigne, Color.BLACK);
-	    Simulation simu = new Simulation(gui, data, guiColonne/data.getCarteNbColonne(), guiColonne/50);
+	    BetterGUISimulator gui = new BetterGUISimulator(guiColonne,guiLigne, Color.BLACK, guiColonne/data.getCarteNbColonne(), guiColonne/50);
+
+	    Simulation simu = new Simulation(gui, data);
 					    
 	    data.afficheDonneesCarte();
 	    data.afficheDonneesIncendies();

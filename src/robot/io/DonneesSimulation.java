@@ -14,7 +14,7 @@ public class DonneesSimulation{
     private Carte donneesCarte;
     private Incendie donneesIncendie[];
     private Robot donneesRobot[];
-
+    
     /**
      * Crée une nouvelle DonnesSimulation avec tous les donnees d'une carte, des robots et des incendies
      * @param mapData
@@ -68,6 +68,10 @@ public class DonneesSimulation{
 
     //partie get tous les donnees d'une carte
 
+    public Carte getCarte() {
+	return donneesCarte;
+    }
+    
     public int getCarteNbLigne(){
 	return donneesCarte.getNbLigne();
     }
@@ -98,12 +102,16 @@ public class DonneesSimulation{
 	}
 	return getCaseAt(source.getPosition().deplace(dir));
     }
-
+    /*
     public void drawCarte(int ligne, int colonne, GUISimulator gui, int ratio, int pixel){
 	donneesCarte.getCaseAt(ligne, colonne).draw(gui, ratio, pixel);
     }
-
+*/
     //partie tous les donnees des incendies
+
+    public Incendie[] getIncendies() {
+	return donneesIncendie;
+    }
 
     public int getNbIncendie(){
 	return donneesIncendie.length;
@@ -126,14 +134,13 @@ public class DonneesSimulation{
 	return donneesIncendie[i].getNbLitresEauPourExtinction();
     }
 
-    public void drawIncendie(int i, GUISimulator gui,int ratio, int pixel){
-	    donneesIncendie[i].draw(gui,ratio,pixel);
-    }
-
-    //partie tous les donnees des robots
 
     public int getNbRobots(){
 	return donneesRobot.length;
+    }
+
+    public Robot[] getRobots() {
+	return donneesRobot;
     }
 
     /**
@@ -245,10 +252,6 @@ public class DonneesSimulation{
      */
     public int getRobotTempsRemplissage(int i){
 	return donneesRobot[i].tempsRemplissage();
-    }
-
-    public void drawRobot(int i, GUISimulator gui, int ratio, int pixel){
-        donneesRobot[i].draw(gui,ratio,pixel);
     }
 
 }

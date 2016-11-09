@@ -8,8 +8,9 @@ public class Dijkstra {
 
         private final List<Case> listCase;
         private final List<Aretes> listAretes;
+
         private Set<Case> setCaseTraite;
-        private Set<Case> setCaseCousin;
+        private Set<Case> setCaseEnTraitant;
         private Map<Case, Case> predecesseur;
         private Map<Case, Integer> time;
 
@@ -18,30 +19,30 @@ public class Dijkstra {
                 this.listAretes = new ArrayList<Aretes>(graph.getListAretes());
         }
 
-        public void execute(Case source) {
+        public void traiterGraphe(Case source) {
                 setCaseTraite = new HashSet<Case>();
-                setCaseCousin = new HashSet<Case>();
+                setCaseEnTraitant = new HashSet<Case>();
                 time = new HashMap<Case, Integer>();
                 predecesseur = new HashMap<Case, Case>();
                 time.put(source, 0);
-                setCaseCousin.add(source);
-                while (setCaseCousin.size() > 0) {
-                        Case cas = getMinimum(setCaseCousin);
+                setCaseEnTraitant.add(source);
+                while (setCaseEnTraitant.size() > 0) {
+                        Case cas = getMinimum(setCaseEnTraitant);
                         setCaseTraite.add(cas);
-                        setCaseCousin.remove(cas);
-                        findMinimalDistances(cas);
+                        setCaseEnTraitant.remove(cas);
+                        updateCaseEnTraitant(cas);
                 }
         }
 
-        private void findMinimalDistances(Case cas) {
-                List<Case> adjacentNodes = getNeighbors(cas);
+        private void updateCaseEnTraitant(Case cas) {
+                List<Case> adjacentNodes = getCousin(cas);
                 for (Case target : adjacentNodes) {
                         if (getShortestDistance(target) > getShortestDistance(cas)
                                         + getDistance(cas, target)) {
                                 time.put(target, getShortestDistance(cas)
                                                 + getDistance(cas, target));
                                 predecesseur.put(target, cas);
-                                setCaseCousin.add(target);
+                                setCaseEnTraitant.add(target);
                         }
                 }
 
@@ -57,33 +58,33 @@ public class Dijkstra {
                 throw new RuntimeException("Should not happen");
         }
 
-        private List<Case> getNeighbors(Case cas) {
-                List<Case> neighbors = new ArrayList<Case>();
+        private List<Case> getCousin(Case cas) {
+                List<Case> cousin = new ArrayList<Case>();
                 for (Aretes aretes : listAretes) {
                         if (aretes.getSource().equals(cas)
-                                        && !isSettled(aretes.getDestination())) {
-                                neighbors.add(aretes.getDestination());
+                                        && !isTraite(aretes.getDestination())) {
+                                cousin.add(aretes.getDestination());
                         }
                 }
-                return neighbors;
+                return cousin;
         }
 
-        private Case getMinimum(Set<Case> vertexes) {
+        private Case getMinimum(Set<Case> cases) {
                 Case minimum = null;
-                for (Case vertex : vertexes) {
+                for (Case cas : cases) {
                         if (minimum == null) {
-                                minimum = vertex;
+                                minimum = cas;
                         } else {
-                                if (getShortestDistance(vertex) < getShortestDistance(minimum)) {
-                                        minimum = vertex;
+                                if (getShortestDistance(cas) < getShortestDistance(minimum)) {
+                                        minimum = cas;
                                 }
                         }
                 }
                 return minimum;
         }
 
-        private boolean isSettled(Case vertex) {
-                return setCaseTraite.contains(vertex);
+        private boolean isTraite(Case cas) {
+                return setCaseTraite.contains(cas);
         }
 
         private int getShortestDistance(Case destination) {
@@ -99,8 +100,8 @@ public class Dijkstra {
          * This method returns the path from the source to the selected target and
          * NULL if no path exists
          */
-        public LinkedList<Case> getPath(Case target) {
-                LinkedList<Case> path = new LinkedList<Case>();
+        public List<Case> getPath(Case target) {
+                ArrayList<Case> path = new ArrayList<Case>();
                 Case step = target;
                 // check if a path exists
                 if (predecesseur.get(step) == null) {

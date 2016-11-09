@@ -15,13 +15,11 @@ public class TestGraph{
 		Carte carte = new Carte(1,4,4);
 		carte.setMap(map);
 		Graphe graph = new Graphe(carte);
-		graph.setGraphe();
 		System.out.println(graph);
 		Dijkstra dijkstra = new Dijkstra(graph);
-		dijkstra.execute(carte.getCaseAt(new Position(1,2)));
-		LinkedList<Case> path = dijkstra.getPath(carte.getCaseAt(new Position(3,3)));
-
-                for (Case cas : path) {
+		dijkstra.traiterGraphe(carte.getCaseAt(new Position(1,2)));
+		List<Case> chemin = dijkstra.getPath(carte.getCaseAt(new Position(3,3)));
+                for (Case cas : chemin) {
                         System.out.println(cas);
                 }
 	}

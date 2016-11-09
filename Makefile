@@ -21,13 +21,31 @@
 #   -classpath : repertoire dans lequel sont cherches les .class deja compiles
 #   -sourcepath : repertoire dans lequel sont cherches les .java (dependances)
 
+ENCODING=-encoding UTF-8
+JAVADOC_ENCODING=$(ENCODING) -charset UTF-8 -docencoding UTF-8
+SOURCEPATH=-sourcepath src/
+GUI_CLASSPATH=-classpath bin/gui.jar
+JAVAC_DESTINATION_FOLDER=-d bin
+
+JAVAC=javac $(ENCODING) $(JAVAC_DESTINATION_FOLDER) $(SOURCEPATH) $(GUI_CLASSPATH)
+JAVADOC=javadoc $(JAVADOC_ENCODING) -d doc-tmp/ $(SOURCEPATH)
+
 all: testInvader testLecture
 
 testInvader:
-	javac -d bin -classpath bin/gui.jar -sourcepath src src/TestInvader.java
+	$(JAVAC) src/robot/TestInvader.java
 
 testLecture:
-	javac -d bin -sourcepath src src/TestLecteurDonnees.java
+	$(JAVAC) $(GUI_CLASSPATH) src/robot/TestLecteurDonnees.java
+
+testDonnees:
+	$(JAVAC) $(GUI_CLASSPATH) src/robot/TestDonneesSimulation.java
+
+testSimulation:
+	$(JAVAC) $(GUI_CLASSPATH) src/robot/TestSimulation.java	
+
+javadoc:
+	$(JAVADOC) src/robot/*.java src/robot/entities/*.java src/robot/io/*.java src/robot/map/*.java
 
 # Execution:
 # on peut taper directement la ligne de commande :
@@ -40,5 +58,24 @@ exeInvader:
 exeLecture: 
 	java -classpath bin TestLecteurDonnees cartes/carteSujet.map
 
+exeDonnees:
+	java -classpath bin TestDonneesSimulation cartes/carteSujet.map
+
+exeSimulationSujet:
+	java -classpath bin:bin/gui.jar TestSimulation cartes/carteSujet.map	
+
+exeSimulationMadness:
+	java -classpath bin:bin/gui.jar TestSimulation cartes/spiralOfMadness-50x50.map
+
+exeSimulationDeath:
+	java -classpath bin:bin/gui.jar TestSimulation cartes/desertOfDeath-20x20.map
+
+exeSimulationHell:
+	java -classpath bin:bin/gui.jar TestSimulation cartes/mushroomOfHell-20x20.map
+
 clean:
 	rm -rf bin/*.class
+	rm -rf src/robot/*.class
+	rm -rf src/robot/entities/*.class
+	rm -rf src/robot/map/*.class
+	rm -rf src/robot/io/*.class

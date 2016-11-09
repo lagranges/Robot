@@ -26,6 +26,6 @@ public class Aretes{
 	}
 	@Override
 	public String toString(){
-		return "["+source.toString()+"->"+destination.toString()+"]";
+		return "["+source.toString()+"->"+destination.toString()+"]"+":"+time;
 	}
 }

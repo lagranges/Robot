@@ -1,6 +1,7 @@
 package robot.graph;
 
 import robot.*;
+import robot.entities.*;
 import robot.map.*;
 import java.util.*;
 
@@ -9,8 +10,12 @@ public class Graphe{
 	private List<Case> listCase;
 	private List<Aretes> listAretes;
 	private Carte carte;
-	public Graphe(Carte carte){
+    private Robot robot;
+
+	public Graphe(Robot robot, Carte carte){
 		this.carte = carte;
+        this.robot = robot;
+        setGraphe();
 	}
 
 	public void setGraphe(){
@@ -22,8 +27,11 @@ public class Graphe{
 
 		for(Case cas : listCase){
 			for(Direction dir : Direction.values()){
-			if(carte.voisinExiste(cas,dir)) 
-				listAretes.add(new Aretes(cas,carte.getCaseAt(cas.getPosition().deplace(dir)),1));	
+			if(carte.voisinExiste(cas,dir)){ 
+                Case temps = carte.getCaseAt(cas.getPosition().deplace(dir));
+                int time = (int) (robot.getVitesse(cas.getNatureType())+robot.getVitesse(temps.getNatureType()))/2;
+				listAretes.add(new Aretes(cas,temps,time));
+            }                
 		}
 		}
 		
@@ -31,7 +39,7 @@ public class Graphe{
 		List<Case> willRemoveCase= new ArrayList<Case>();
 		for(Case cas : listCase)
 		{
-			if(cas.getNatureType().equals(NatureTerrain.FORET)){
+			if(!robot.peutDeplacerSur(cas)){
 				removeAretes(cas);
 				willRemoveCase.add(cas);
 			}
@@ -43,10 +51,12 @@ public class Graphe{
 
 	@Override
 	public String toString(){
-		String s=new String("Graph with sommet :");
-		for(Case cas : listCase) s+=cas.toString();
-		s+="and aretes";
-		for(Aretes aretes : listAretes) s+=aretes.toString();
+		String s=new String("Graph with sommet : \n");
+		for(Case cas : listCase){
+            s+=(cas.toString()+"\n");
+        }
+		s+="And the aretes :\n";
+		for(Aretes aretes : listAretes) s+=(aretes.toString()+"\n");
 		return s;
 	}
 	

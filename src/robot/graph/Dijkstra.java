@@ -27,7 +27,7 @@ public class Dijkstra {
                 time.put(source, 0);
                 setCaseEnTraitant.add(source);
                 while (setCaseEnTraitant.size() > 0) {
-                        Case cas = getMinimum(setCaseEnTraitant);
+                        Case cas = getMin(setCaseEnTraitant);
                         setCaseTraite.add(cas);
                         setCaseEnTraitant.remove(cas);
                         updateCaseEnTraitant(cas);
@@ -36,22 +36,22 @@ public class Dijkstra {
 
         private void updateCaseEnTraitant(Case cas) {
                 List<Case> adjacentNodes = getCousin(cas);
-                for (Case target : adjacentNodes) {
-                        if (getShortestDistance(target) > getShortestDistance(cas)
-                                        + getDistance(cas, target)) {
-                                time.put(target, getShortestDistance(cas)
-                                                + getDistance(cas, target));
-                                predecesseur.put(target, cas);
-                                setCaseEnTraitant.add(target);
+                for (Case destination : adjacentNodes) {
+                        if (getTime(destination) > getTime(cas)
+                                        + getDistance(cas, destination)) {
+                                time.put(destination, getTime(cas)
+                                                + getDistance(cas, destination));
+                                predecesseur.put(destination, cas);
+                                setCaseEnTraitant.add(destination);
                         }
                 }
 
         }
 
-        private int getDistance(Case cas, Case target) {
+        private int getDistance(Case cas, Case destination) {
                 for (Aretes aretes : listAretes) {
                         if (aretes.getSource().equals(cas)
-                                        && aretes.getDestination().equals(target)) {
+                                        && aretes.getDestination().equals(destination)) {
                                 return aretes.getTime();
                         }
                 }
@@ -69,52 +69,80 @@ public class Dijkstra {
                 return cousin;
         }
 
-        private Case getMinimum(Set<Case> cases) {
-                Case minimum = null;
+        private Case getMin(Set<Case> cases) {
+                Case min = null;
                 for (Case cas : cases) {
-                        if (minimum == null) {
-                                minimum = cas;
+                        if (min == null) {
+                                min = cas;
                         } else {
-                                if (getShortestDistance(cas) < getShortestDistance(minimum)) {
-                                        minimum = cas;
+                                if (getTime(cas) < getTime(min)) {
+                                        min = cas;
                                 }
                         }
                 }
-                return minimum;
+                return min;
         }
 
         private boolean isTraite(Case cas) {
                 return setCaseTraite.contains(cas);
         }
 
-        private int getShortestDistance(Case destination) {
-                Integer d = time.get(destination);
-                if (d == null) {
+
+        /*
+         * Retourne le temps nécessaire pour que : source - destination 
+         * Integer.MAX_VALUE si il n'y a aucun chemin
+         */
+        public int getTime(Case destination) {
+
+                Integer t = time.get(destination);
+                if (t == null) {
                         return Integer.MAX_VALUE;
                 } else {
-                        return d;
+                        return t;
                 }
         }
 
+
         /*
-         * This method returns the path from the source to the selected target and
-         * NULL if no path exists
+         * Retourne la list de temps sur les Cases (dans le plus court chemin)
+         * NULL si il n'y a aucun chemin
          */
-        public List<Case> getPath(Case target) {
-                ArrayList<Case> path = new ArrayList<Case>();
-                Case step = target;
-                // check if a path exists
+        public List<Integer> getListTime(Case destination) {
+                ArrayList<Integer> listTime = new ArrayList<Integer>();
+                Case step = destination;
+
                 if (predecesseur.get(step) == null) {
                         return null;
                 }
-                path.add(step);
+                listTime.add(0);
                 while (predecesseur.get(step) != null) {
                         step = predecesseur.get(step);
-                        path.add(step);
+                        listTime.add(this.getTime(step));
                 }
-                // Put it into the correct order
-                Collections.reverse(path);
-                return path;
+
+                Collections.reverse(listTime);
+                return listTime;
+        }
+        /*
+         * Retourne la list de Cases : le plus court chemin
+         * NULL si il n'y a aucun chemin
+         */
+        public List<Case> getChemin(Case destination) {
+                ArrayList<Case> chemin = new ArrayList<Case>();
+                Case step = destination;
+
+                if (predecesseur.get(step) == null) {
+                        return null;
+                }
+                chemin.add(step);
+                while (predecesseur.get(step) != null) {
+                        step = predecesseur.get(step);
+                        chemin.add(step);
+                }
+
+                Collections.reverse(chemin);
+                return chemin;
         }
 
+	
 }

@@ -33,18 +33,24 @@ public class DonneesSimulation{
      * Tester le plus cour chemin
      */
     public void TestPlusCourtChemin(){
-        Robot robot = new Patte(donneesCarte.getCaseAt(0,15));
+        Robot robot = new Patte(donneesCarte.getCaseAt(2,6));
         Graphe g = new Graphe(robot,donneesCarte);
         Dijkstra dijkstra = new Dijkstra(g);
         System.out.println(g);
         dijkstra.traiterGraphe(robot.getPosition());
         // attention : robot.getPosition() return a Casei
-        Case destination = donneesCarte.getCaseAt(15,0);
-        List<Case> chemin = dijkstra.getPath(destination);
+        Case destination = donneesCarte.getCaseAt(7,1);
+        List<Case> chemin = dijkstra.getChemin(destination);
+        List<Integer> t = dijkstra.getListTime(destination);
+	System.out.println("\n Le plus court chemin: \n");
+	System.out.println("Le temps nécessaire : "+ dijkstra.getTime(destination));
         try{
         for(Case cas : chemin){
             System.out.println(cas);
         }
+	for(int time : t){
+	    System.out.println(time);
+	}
         } catch( Exception e){
             System.out.println("Can't get to "+ destination+" from this actual robot position :" +robot.getPosition() );
         }
@@ -85,7 +91,7 @@ public class DonneesSimulation{
 	    System.out.println("Robot " + i + ": position = (" + 
 			       donneesRobot[i].getPosition().getPosition().getLigne() + "," + 
 			       donneesRobot[i].getPosition().getPosition().getColonne() + "); Type :" 
-			       + donneesRobot[i].toString() + "; Vitesse :" + donneesRobot[i].getVitesseDeplacementDefault() + " m/s");
+			       + donneesRobot[i].toString() + "; Vitesse :" + donneesRobot[i].getVitesseDeplacementDefault() + " km/h");
 	}
     }
 

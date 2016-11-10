@@ -114,7 +114,7 @@ public class Dijkstra {
                 if (predecesseur.get(step) == null) {
                         return null;
                 }
-                listTime.add(0);
+                listTime.add(this.getTime(step));
                 while (predecesseur.get(step) != null) {
                         step = predecesseur.get(step);
                         listTime.add(this.getTime(step));

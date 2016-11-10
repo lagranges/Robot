@@ -29,7 +29,7 @@ public class Graphe{
 			for(Direction dir : Direction.values()){
 			if(carte.voisinExiste(cas,dir)){ 
                 Case temps = carte.getCaseAt(cas.getPosition().deplace(dir));
-                int time = (int) (robot.getVitesse(cas.getNatureType())+robot.getVitesse(temps.getNatureType()))/2;
+                int time = (int) (robot.getVitesse(cas)+robot.getVitesse(temps))/2;
 				listAretes.add(new Aretes(cas,temps,time));
             }                
 		}

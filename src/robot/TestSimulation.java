@@ -1,6 +1,5 @@
-import robot.io.LecteurDonnees;
-import robot.io.DonneesSimulation;
-import robot.io.Simulation;
+import robot.io.*;
+import robot.simulateur.*;
 
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
@@ -21,14 +20,14 @@ public class TestSimulation{
 	    int guiColonne = 500;
 	    int guiLigne = 500;
 	    // crée la fenêtre graphique dans laquelle dessiner
-	    BetterGUISimulator gui = new BetterGUISimulator(guiColonne,guiLigne, Color.BLACK, guiColonne/data.getCarteNbColonne(), guiColonne/50);
+	    BetterGUISimulator gui = new BetterGUISimulator(guiColonne,guiLigne, Color.BLACK, guiColonne/data.getCarte().getNbColonne(), guiColonne/50);
 
-	    Simulation simu = new Simulation(gui, data);
+	    Simulateur simu = new Simulateur(gui, data);
 					    
 	    data.afficheDonneesCarte();
 	    data.afficheDonneesIncendies();
 	    data.afficheDonneesRobots();
-        data.TestPlusCourtChemin();
+	    data.TestPlusCourtChemin();
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {

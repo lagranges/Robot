@@ -1,16 +1,17 @@
-package robot.io;
+package robot.simulateur;
 
 import robot.gui.BetterGUISimulator;
+import robot.io.*;
 import gui.Simulable;
 
-public class Simulation implements Simulable {
+public class Simulateur implements Simulable {
     /** L'interface graphique associée */
     private BetterGUISimulator gui;
 
     /** Les données de simulation */
     private DonneesSimulation data;
 
-    public Simulation(BetterGUISimulator gui, DonneesSimulation data) {
+    public Simulateur(BetterGUISimulator gui, DonneesSimulation data) {
 	this.gui = gui;
 	gui.setSimulable(this); //association a la gui
 	this.data = data;

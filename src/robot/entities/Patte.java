@@ -19,7 +19,7 @@ public class Patte extends Robot{
 	  
     public static final int volumeMaxPatte = Integer.MAX_VALUE;
     public static final double vitesseRemplissagePatte = Integer.MAX_VALUE;
-    public static final double vitesseDeversementPatte = 10/60;
+    public static final double vitesseDeversementPatte = 10;
     public static final double vitesseDeplacementPatte = 30;
     public static final double vitesseDeplacementPatteRoche = 10;
     public static final Color couleurPatte = Color.green;	
@@ -101,5 +101,7 @@ public class Patte extends Robot{
 	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*8, redIndian.darker(), redIndian.darker(), size));
 	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*8, redIndian.darker(), redIndian.darker(), size));
 	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*8, redIndian.darker(), redIndian.darker(), size));
+
+	gui.addGraphicalElement(new Text(x + size*5, y + size*9, Color.darkGray, "Infini"));
     }
 }

@@ -4,6 +4,7 @@ import robot.map.*;
 import robot.entities.*;
 import robot.*;
 import robot.graph.*;
+import robot.simulateur.*;
 
 import java.io.*;
 import java.util.*;
@@ -15,6 +16,13 @@ public class DonneesSimulation{
     private Carte donneesCarte;
     private Incendie donneesIncendie[];
     private Robot donneesRobot[];
+
+    private enum Type{
+	Drone,
+	Chenille,
+	Patte,
+	Roue,
+    }
     
     /**
      * Crée une nouvelle DonnesSimulation avec tous les donnees d'une carte, des robots et des incendies
@@ -32,7 +40,7 @@ public class DonneesSimulation{
     /*
      * Tester le plus cour chemin
      */
-    public void TestPlusCourtChemin(){
+    public void testPlusCourtChemin(){
         Robot robot = new Patte(donneesCarte.getCaseAt(2,6));
         Graphe g = new Graphe(robot,donneesCarte);
         Dijkstra dijkstra = new Dijkstra(g);
@@ -107,4 +115,77 @@ public class DonneesSimulation{
 	return donneesRobot;
     }
 
+    private Incendie[] copyIncendies(){
+	Incendie[] fire = new Incendie[getIncendies().length];
+	for(int i=0; i < getIncendies().length; i++){
+	    fire[i] = new Incendie(getIncendies()[i].getPosition(),getIncendies()[i].getNbLitresEauPourExtinction());
+	}
+	return fire;
+    }
+
+    private Robot[] copyRobots(){
+	Robot[] bot = new Robot[getRobots().length];
+	for(int i=0; i < getRobots().length; i++){
+	    String type = getRobots()[i].getClass().getSimpleName();
+	    Type typeValue = Type.valueOf(type);
+	    switch(typeValue){
+	    case Drone:
+		bot[i] = new Drone(getRobots()[i].getPosition());
+		break;
+	    case Chenille:
+		bot[i] = new Chenille(getRobots()[i].getPosition());
+		break;
+	    case Roue:
+		bot[i] = new Roue(getRobots()[i].getPosition());
+		break;
+	    case Patte:
+		bot[i] = new Patte(getRobots()[i].getPosition());
+		break;
+	    }
+	}
+	return bot;
+    }
+
+    public DonneesSimulation copy(){
+	return new DonneesSimulation(getCarte(),copyIncendies(),copyRobots());
+    }
+
+    public Direction whichDirection(Case before, Case after){
+	int ligBefore = before.getPosition().getLigne();
+	int colBefore = before.getPosition().getColonne();
+	int ligAfter = after.getPosition().getLigne();
+	int colAfter = after.getPosition().getColonne();
+	if(ligAfter == ligBefore){
+	    if(colAfter > colBefore){
+		return Direction.EST;
+	    }else{
+		return Direction.OUEST;
+	    }
+	}else{
+	    if(ligAfter > ligBefore){
+		return Direction.SUD;
+	    }else{
+		return Direction.NORD;
+	    }
+	}
+    }
+
+    public void goToCourtChemin(Simulateur sim, int i, int DestLigne, int DestColonne){
+	Graphe g = new Graphe(getRobots()[i],getCarte());
+	Dijkstra dijkstra = new Dijkstra(g);
+	dijkstra.traiterGraphe(getRobots()[i].getPosition());
+	Case dest = getCarte().getCaseAt(DestLigne,DestColonne);
+	List<Case> chemin = dijkstra.getChemin(dest);
+	Case[] listChemin = chemin.toArray(new Case[chemin.size()]);
+	List<Integer> t = dijkstra.getListTime(dest);
+	Integer[] listT = t.toArray(new Integer[t.size()]);
+
+	try{
+	    for(int j=0; j < listChemin.length - 1; j++){
+		sim.ajouteEvenement(new Deplacement((long)listT[j+1],i,whichDirection(listChemin[j],listChemin[j+1]))); 
+	    }
+        } catch( Exception e){
+            System.out.println("Can't get to  from this actual robot position :" );
+        }
+    }
 }

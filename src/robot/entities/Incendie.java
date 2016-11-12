@@ -23,7 +23,7 @@ public class Incendie extends Entity {
     /**
      * Le nombre de litres d'eau nécessaires à l'extinction de l'incendie.
      */
-    private final int nbLitresEauPourExtinction;
+    private int nbLitresEauPourExtinction;
 
     /**
      * Crée un nouvelle incendie, avec pour position la case <code>pos</code>
@@ -49,33 +49,39 @@ public class Incendie extends Entity {
     public int getNbLitresEauPourExtinction() {
 	return nbLitresEauPourExtinction;
     }
-    
+
+    public void nbLitresEauArrive(int vol){
+	this.nbLitresEauPourExtinction -= vol;
+    }
+
     @Override
     public void draw(BetterGUISimulator gui){
-	int ratio = gui.getTailleCase();
-	int pixel = gui.getTaillePixel();
-	int x = this.cas.getPosition().getColonne() * ratio;
-	int y = this.cas.getPosition().getLigne() * ratio;
-	int size = ratio/pixel;
+	if(getNbLitresEauPourExtinction() > 0){
+	    int ratio = gui.getTailleCase();
+	    int pixel = gui.getTaillePixel();
+	    int x = this.cas.getPosition().getColonne() * ratio;
+	    int y = this.cas.getPosition().getLigne() * ratio;
+	    int size = ratio/pixel;
 
-	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*1, Color.red.darker(), Color.red.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*2, Color.red.darker(), Color.red.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*2, Color.red.darker(), Color.red.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*9, y + size*3, Color.red.darker(), Color.red.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*3, Color.red.darker(), Color.red.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*7, y + size*3, Color.red.darker(), Color.red.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*3, Color.red.darker(), Color.red.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*8, y + size*4, Color.red.darker(), Color.red.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*7, y + size*4, Color.orange.darker(), Color.orange.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*4, Color.orange.darker(), Color.orange.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*4, Color.red.darker(), Color.red.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*8, y + size*5, Color.red.darker(), Color.red.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*7, y + size*5, Color.orange.darker(), Color.orange.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*5, Color.orange.darker(), Color.orange.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*5, Color.orange.darker(), Color.orange.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*5, Color.red.darker(), Color.red.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*5, Color.red.darker(), Color.red.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*6, y + size*1, Color.red.darker(), Color.red.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*6, y + size*2, Color.red.darker(), Color.red.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*4, y + size*2, Color.red.darker(), Color.red.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*9, y + size*3, Color.red.darker(), Color.red.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*6, y + size*3, Color.red.darker(), Color.red.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*7, y + size*3, Color.red.darker(), Color.red.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*5, y + size*3, Color.red.darker(), Color.red.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*8, y + size*4, Color.red.darker(), Color.red.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*7, y + size*4, Color.orange.darker(), Color.orange.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*6, y + size*4, Color.orange.darker(), Color.orange.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*5, y + size*4, Color.red.darker(), Color.red.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*8, y + size*5, Color.red.darker(), Color.red.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*7, y + size*5, Color.orange.darker(), Color.orange.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*6, y + size*5, Color.orange.darker(), Color.orange.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*5, y + size*5, Color.orange.darker(), Color.orange.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*4, y + size*5, Color.red.darker(), Color.red.darker(), size));
+	    gui.addGraphicalElement(new Rectangle(x + size*3, y + size*5, Color.red.darker(), Color.red.darker(), size));
 
-    } 
-
+	    gui.addGraphicalElement(new Text(x + size*4, y - size, Color.white, Integer.toString(getNbLitresEauPourExtinction())));
+	} 
+    }
 }

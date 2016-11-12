@@ -71,6 +71,7 @@ public abstract class Robot extends Entity {
     public void setPosition(Case cas){
 	this.cas = cas;
     }
+
     /**
      * Modifier la volume de l'eau dans le robot
      */
@@ -180,4 +181,5 @@ public abstract class Robot extends Entity {
      */
     public abstract int tempsDeplacement(Case cas);
 
+    
 }

@@ -1,5 +1,6 @@
 import robot.io.*;
 import robot.simulateur.*;
+import robot.*;
 
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
@@ -22,12 +23,19 @@ public class TestSimulation{
 	    // crée la fenêtre graphique dans laquelle dessiner
 	    BetterGUISimulator gui = new BetterGUISimulator(guiColonne,guiLigne, Color.BLACK, guiColonne/data.getCarte().getNbColonne(), guiColonne/50);
 
-	    Simulateur simu = new Simulateur(gui, data);
-					    
-	    data.afficheDonneesCarte();
-	    data.afficheDonneesIncendies();
-	    data.afficheDonneesRobots();
-	    data.TestPlusCourtChemin();
+	    Simulateur sim = new Simulateur(gui, data);
+	    /*
+	    sim.ajouteEvenement(new Deplacement(0, 1,Direction.NORD));
+	    sim.ajouteEvenement(new Intervention(1, 1));
+	    sim.ajouteEvenement(new Deplacement(2, 1,Direction.OUEST));
+	    sim.ajouteEvenement(new Deplacement(3, 1,Direction.OUEST));
+	    sim.ajouteEvenement(new Remplissage(4, 1));
+	    sim.ajouteEvenement(new Deplacement(5, 1, Direction.EST));
+	    sim.ajouteEvenement(new Deplacement(6, 1, Direction.EST));
+	    sim.ajouteEvenement(new Intervention(7, 1));
+	    */
+	    data.goToCourtChemin(sim,1,7,7);
+	    data.testPlusCourtChemin();
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {

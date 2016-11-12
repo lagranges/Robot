@@ -37,10 +37,8 @@ public class Dijkstra {
         private void updateCaseEnTraitant(Case cas) {
                 List<Case> adjacentNodes = getCousin(cas);
                 for (Case destination : adjacentNodes) {
-                        if (getTime(destination) > getTime(cas)
-                                        + getDistance(cas, destination)) {
-                                time.put(destination, getTime(cas)
-                                                + getDistance(cas, destination));
+                        if (getTime(destination) > getTime(cas) + getTimeEntre(cas, destination)) {
+                                time.put(destination, getTime(cas) + getTimeEntre(cas, destination));
                                 predecesseur.put(destination, cas);
                                 setCaseEnTraitant.add(destination);
                         }
@@ -48,23 +46,19 @@ public class Dijkstra {
 
         }
 
-        private int getDistance(Case cas, Case destination) {
+        private int getTimeEntre(Case cas, Case destination) {
                 for (Aretes aretes : listAretes) {
-                        if (aretes.getSource().equals(cas)
-                                        && aretes.getDestination().equals(destination)) {
+                        if (aretes.getSource().equals(cas) && aretes.getDestination().equals(destination)) 
                                 return aretes.getTime();
-                        }
                 }
-                throw new RuntimeException("Should not happen");
+                throw new RuntimeException(" No chemin ");
         }
 
         private List<Case> getCousin(Case cas) {
                 List<Case> cousin = new ArrayList<Case>();
                 for (Aretes aretes : listAretes) {
-                        if (aretes.getSource().equals(cas)
-                                        && !isTraite(aretes.getDestination())) {
+                        if (aretes.getSource().equals(cas) && !isTraite(aretes.getDestination())) 
                                 cousin.add(aretes.getDestination());
-                        }
                 }
                 return cousin;
         }
@@ -72,13 +66,8 @@ public class Dijkstra {
         private Case getMin(Set<Case> cases) {
                 Case min = null;
                 for (Case cas : cases) {
-                        if (min == null) {
-                                min = cas;
-                        } else {
-                                if (getTime(cas) < getTime(min)) {
-                                        min = cas;
-                                }
-                        }
+                        if (min == null) min = cas;
+                        else if (getTime(cas) < getTime(min)) min = cas;
                 }
                 return min;
         }
@@ -95,11 +84,8 @@ public class Dijkstra {
         public int getTime(Case destination) {
 
                 Integer t = time.get(destination);
-                if (t == null) {
-                        return Integer.MAX_VALUE;
-                } else {
-                        return t;
-                }
+                if (t == null) return Integer.MAX_VALUE;
+                else return t;             
         }
 
 

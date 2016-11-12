@@ -9,6 +9,8 @@ public class Intervention extends Evenement{
 
     private int indice;
 
+    private int volEau;
+
     public Intervention(long date, int indice){
 	super(date);
 	this.indice = indice;

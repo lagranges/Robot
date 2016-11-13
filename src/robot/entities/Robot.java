@@ -47,19 +47,9 @@ public abstract class Robot extends Entity {
     private double vitesseDeversement;
 	
     /**
-     * L'indicateur boolean si le robot est en train de se deplacer
+     * L'indicateur boolean si le robot est occupe
      */
-    private boolean enTrainDeSeDeplacer = false;
-
-    /**
-     * L'indicateur boolean si le robot est en train de deversement
-     */
-    private boolean enTrainDeDeversement = false;
-
-    /**
-     * L'indicateur boolean si le robot est en train de remplir
-     */
-    private boolean enTrainDeRemplir = false;
+    private boolean occupe = false;
 
     /**
      * Contructeur d'un nouveau Robot 
@@ -79,56 +69,19 @@ public abstract class Robot extends Entity {
 	this.vitesseDeversement = vitesseDeversement;
     }
 
+    public boolean getStatus(){
+	return this.occupe;
+    }
+
+    public void setStatus(boolean bool){
+	this.occupe = bool;
+    }
+
     /**
      * Retourne : la volume de l'eau dans le Robot
      */
     public int getVolumeEau(){
 	return this.volumeEau;
-    }
-
-    /** 
-     * Retourne : L'indicatuer en train de seplacer
-     */
-    public boolean getIndicateurDeplacement(){
-	return this.enTrainDeSeDeplacer;
-    }
-
-
-    /** 
-     * Définit : L'indicateur en train de seplacer
-     */
-    public void setIndicateurDeplacement(boolean bool){
-	this.enTrainDeSeDeplacer = bool;
-    }
-
-    /** 
-     * Retourne : L'indicateur en train de deversement
-     */
-    public boolean getIndicateurDeversement(){
-	return this.enTrainDeDeversement;
-    }
-
-
-    /** 
-     * Définit : L'indicateur en train de deversement
-     */
-    public void setIndicateurDeversement(boolean bool){
-	this.enTrainDeDeversement = bool;
-    }
-
-    /** 
-     * Retourne : L'indicatuer en train de remplir
-     */
-    public boolean getIndicateurRemplir(){
-	return this.enTrainDeRemplir;
-    }
-
-
-    /** 
-     * Définit : L'indicateur en train de remplir
-     */
-    public void setIndicateurRemplir(boolean bool){
-	this.enTrainDeRemplir = bool;
     }
 
     /**
@@ -259,14 +212,14 @@ public abstract class Robot extends Entity {
     public abstract int tempsDeplacement(Case cas);
 
     /**
-     * Trouver le chemin possible
-     * retourne NULL s'il ne trouve pas
+     * Trouver le chemin possible avec le temps qu'il en a besoin
+     * retourne INFINI s'il ne trouve pas
      */
-    public List<Case> calculPlusCourtChemin(DonneesSimulation data, Case destination, int numero){
+    public int calculPlusCourtChemin(DonneesSimulation data, Case destination, int numero){
 	Graphe g = new Graphe(data.getRobots()[numero],data.getCarte());
 	Dijkstra dijkstra = new Dijkstra(g);
 	dijkstra.traiterGraphe(data.getRobots()[numero].getPosition());
-	return dijkstra.getChemin(destination);
+	return dijkstra.getTime(destination);
     }
 
     private Direction whichDirection(Case before, Case after){

@@ -1,6 +1,7 @@
 import robot.io.*;
 import robot.simulateur.*;
 import robot.*;
+import robot.strategy.*;
 
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
@@ -25,54 +26,11 @@ public class TestSimulation{
 
 	    Simulateur sim = new Simulateur(gui, data);
 	    
-	    //Robot0
-	    data.getRobots()[0].programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,1), 0);
-	    data.getRobots()[0].programEventIntervention(sim, data, 0);
-	    data.getRobots()[0].programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,2), 0);
-	    data.getRobots()[0].programEventRemplissage(sim, 0);
-	    data.getRobots()[0].programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,1), 0);
-	    data.getRobots()[0].programEventIntervention(sim, data, 0);
+	    Chief chef = new Elementaire(sim, data);
 
-	    //Robot1
-	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,5), 1);
-	    data.getRobots()[1].programEventIntervention(sim, data, 1);
-	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,3), 1);
-	    data.getRobots()[1].programEventRemplissage(sim,1);
-	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,5), 1);
-	    data.getRobots()[1].programEventIntervention(sim, data, 1);
-
-	    //Robot2
-	    data.getRobots()[2].programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,7), 2);
-	    data.getRobots()[2].programEventIntervention(sim, data, 2);
-
-	    //Robot1
-	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,1), 1);
-	    data.getRobots()[1].programEventIntervention(sim, data, 1);
-	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(4,1), 1);
-	    data.getRobots()[1].programEventRemplissage(sim,1);
-	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,1), 1);
-	    data.getRobots()[1].programEventIntervention(sim, data, 1);
-	    
-	    //Robot2
-	    data.getRobots()[2].programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,0), 2);
-	    data.getRobots()[2].programEventIntervention(sim, data, 2);
-
-	    //Robot2
-	    data.getRobots()[2].programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,0), 2);
-	    data.getRobots()[2].programEventIntervention(sim, data, 2);
-
-	    sim.restart();
-
-	    /*
-	    sim.ajouteEvenement(new Deplacement(0, 1,Direction.NORD));
-	    sim.ajouteEvenement(new Intervention(1, 1));
-	    sim.ajouteEvenement(new Deplacement(2, 1,Direction.OUEST));
-	    sim.ajouteEvenement(new Deplacement(3, 1,Direction.OUEST));
-	    sim.ajouteEvenement(new Remplissage(4, 1));
-	    sim.ajouteEvenement(new Deplacement(5, 1, Direction.EST));
-	    sim.ajouteEvenement(new Deplacement(6, 1, Direction.EST));
-	    sim.ajouteEvenement(new Intervention(7, 1));
-	    */
+	    while(!chef.allDejaTraiteIncendie() || !chef.allDejaProposeRobot()){
+		chef.strategy();
+	    }
 	  
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");

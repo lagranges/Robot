@@ -41,7 +41,7 @@ public class DonneesSimulation{
      * Tester le plus cour chemin
      */
     public void testPlusCourtChemin(){
-        Robot robot = new Patte(donneesCarte.getCaseAt(2,6));
+        Robot robot = new Drone(donneesCarte.getCaseAt(2,6));
         Graphe g = new Graphe(robot,donneesCarte);
         Dijkstra dijkstra = new Dijkstra(g);
         System.out.println(g);

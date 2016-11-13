@@ -24,6 +24,19 @@ public class TestSimulation{
 	    BetterGUISimulator gui = new BetterGUISimulator(guiColonne,guiLigne, Color.BLACK, guiColonne/data.getCarte().getNbColonne(), guiColonne/50);
 
 	    Simulateur sim = new Simulateur(gui, data);
+
+	    data.goToCourtChemin(sim,1,5,5);
+	    // sim.ajouteEvenement(new Arrive(sim.getListeEvenement()[sim.getListeSize() - 1].getDate() + 3, 1, 5,5));
+	    data.interventionParSecond(sim,0);	    
+	    data.goToCourtChemin(sim,1,5,3);
+	    //  sim.ajouteEvenement(new Arrive(sim.getListeEvenement()[sim.getListeSize() - 1].getDate() + 3, 1, 5,3));
+	    data.remplirParSecond(sim,0);
+	    data.goToCourtChemin(sim,1,5,5);
+	    // sim.ajouteEvenement(new Arrive(sim.getListeEvenement()[sim.getListeSize() - 1].getDate() + 1, 1, 5,5));
+	    data.interventionParSecond(sim,0);
+
+	    sim.restart();
+
 	    /*
 	    sim.ajouteEvenement(new Deplacement(0, 1,Direction.NORD));
 	    sim.ajouteEvenement(new Intervention(1, 1));
@@ -34,7 +47,8 @@ public class TestSimulation{
 	    sim.ajouteEvenement(new Deplacement(6, 1, Direction.EST));
 	    sim.ajouteEvenement(new Intervention(7, 1));
 	    */
-	    data.goToCourtChemin(sim,1,7,7);
+	  
+
 	    data.testPlusCourtChemin();
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");

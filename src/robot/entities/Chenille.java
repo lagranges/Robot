@@ -19,7 +19,7 @@ import gui.*;
 public class Chenille extends Robot{  
 	  
     public static final int volumeMaxChenille = 2000;
-    public static final double vitesseRemplissageChenille = 2000/300;
+    public static final int vitesseRemplissageChenille = 2000/300;
     public static final double vitesseDeversementChenille = 100/8;
     public static final double vitesseDeplacementChenille = 60;
     public static final Color couleurChenille = Color.gray;	

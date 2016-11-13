@@ -41,13 +41,13 @@ public class DonneesSimulation{
      * Tester le plus cour chemin
      */
     public void testPlusCourtChemin(){
-        Robot robot = new Patte(donneesCarte.getCaseAt(2,6));
+        Robot robot = new Roue(donneesCarte.getCaseAt(6,5));
         Graphe g = new Graphe(robot,donneesCarte);
         Dijkstra dijkstra = new Dijkstra(g);
         System.out.println(g);
         dijkstra.traiterGraphe(robot.getPosition());
         // attention : robot.getPosition() return a Casei
-        Case destination = donneesCarte.getCaseAt(7,1);
+        Case destination = donneesCarte.getCaseAt(5,5);
         List<Case> chemin = dijkstra.getChemin(destination);
         List<Integer> t = dijkstra.getListTime(destination);
 	System.out.println("\n Le plus court chemin: \n");
@@ -142,6 +142,7 @@ public class DonneesSimulation{
 		bot[i] = new Patte(getRobots()[i].getPosition());
 		break;
 	    }
+	    bot[i].setVitesseDeplacement(getRobots()[i].getVitesseDeplacementDefault());
 	}
 	return bot;
     }
@@ -150,6 +151,8 @@ public class DonneesSimulation{
 	return new DonneesSimulation(getCarte(),copyIncendies(),copyRobots());
     }
 
+    //Je ne sais pas où je dois mettre ces methodes ci-dessous -Hariz-
+
     public Direction whichDirection(Case before, Case after){
 	int ligBefore = before.getPosition().getLigne();
 	int colBefore = before.getPosition().getColonne();
@@ -157,14 +160,18 @@ public class DonneesSimulation{
 	int colAfter = after.getPosition().getColonne();
 	if(ligAfter == ligBefore){
 	    if(colAfter > colBefore){
+		System.out.println("EST");
 		return Direction.EST;
 	    }else{
+		System.out.println("OUEST");
 		return Direction.OUEST;
 	    }
 	}else{
 	    if(ligAfter > ligBefore){
+		System.out.println("SUD");
 		return Direction.SUD;
 	    }else{
+		System.out.println("NORD");
 		return Direction.NORD;
 	    }
 	}
@@ -180,12 +187,59 @@ public class DonneesSimulation{
 	List<Integer> t = dijkstra.getListTime(dest);
 	Integer[] listT = t.toArray(new Integer[t.size()]);
 
+	long dernierDate = 0;
+	if(sim.getListeEvenement().length > 0){
+	    dernierDate = sim.getListeEvenement()[sim.getListeEvenement().length-1].getDate();
+	    dernierDate++;
+	}
+
 	try{
 	    for(int j=0; j < listChemin.length - 1; j++){
-		sim.ajouteEvenement(new Deplacement((long)listT[j+1],i,whichDirection(listChemin[j],listChemin[j+1]))); 
+		System.out.println("size: " + listChemin.length);
+		sim.ajouteEvenement(new Deplacement(dernierDate + (long)listT[j+1],i,whichDirection(listChemin[j],listChemin[j+1]))); 
 	    }
+	    getRobots()[i].setPosition(dest);
         } catch( Exception e){
             System.out.println("Can't get to  from this actual robot position :" );
         }
     }
+
+    public void interventionParSecond(Simulateur sim, int i){
+	Robot bot = getRobots()[i];
+	Case pos = bot.getPosition();
+	long dernierDate = 0;
+
+	if(sim.getListeEvenement().length > 0){
+	    dernierDate = sim.getListeEvenement()[sim.getListeEvenement().length-1].getDate();
+	    dernierDate++;
+	}
+	int j = 0;
+	int k = bot.getVolumeEau();
+	while(k > 0){
+	    sim.ajouteEvenement(new Intervention(dernierDate + (long)j, i, (int)bot.getVitesseDeversement()));
+	    k -= bot.getVitesseDeversement();
+	    j++;
+	}
+    }
+
+      public void remplirParSecond(Simulateur sim, int i){
+	Robot bot = getRobots()[i];
+	Case pos = bot.getPosition();
+	long dernierDate = 0;
+
+	if(sim.getListeEvenement().length > 0){
+	    dernierDate = sim.getListeEvenement()[sim.getListeEvenement().length-1].getDate();
+	    dernierDate++;
+	}
+	int j = 0;
+	int k = 0;
+	System.out.println(bot.getVolumeMax());
+	while(k < bot.getVolumeMax()){
+	    System.out.println("in");
+		sim.ajouteEvenement(new Remplissage(dernierDate + (long)j, i, bot.getVitesseRemplissage()));
+		k += bot.getVitesseRemplissage();
+		j++;
+	}
+    }
 }
+

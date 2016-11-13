@@ -26,13 +26,13 @@ public class TestScenario1{
 	    Simulateur sim = new Simulateur(gui, data);
 
 	    sim.ajouteEvenement(new Deplacement(0, 1,Direction.NORD));
-	    sim.ajouteEvenement(new Intervention(1, 1));
+	    sim.ajouteEvenement(new Intervention(1, 1, data.getRobots()[1].getVolumeMax()));
 	    sim.ajouteEvenement(new Deplacement(2, 1,Direction.OUEST));
 	    sim.ajouteEvenement(new Deplacement(3, 1,Direction.OUEST));
-	    sim.ajouteEvenement(new Remplissage(4, 1));
+	    sim.ajouteEvenement(new Remplissage(4, 1, data.getRobots()[1].getVolumeMax()));
 	    sim.ajouteEvenement(new Deplacement(5, 1, Direction.EST));
 	    sim.ajouteEvenement(new Deplacement(6, 1, Direction.EST));
-	    sim.ajouteEvenement(new Intervention(7, 1));
+	    sim.ajouteEvenement(new Intervention(7, 1, data.getRobots()[1].getVolumeMax()));
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {

@@ -11,13 +11,18 @@ public class Intervention extends Evenement{
 
     private int volEau;
 
-    public Intervention(long date, int indice){
+    public Intervention(long date, int indice, int volEau){
 	super(date);
 	this.indice = indice;
+	this.volEau = volEau;
     }
 
     private int getIndice(){
 	return this.indice;
+    }
+
+    private int getVolEau(){
+	return this.volEau;
     }
 
     private int verifierIndiceIncendie(Case pos, Incendie[] fire){
@@ -36,9 +41,9 @@ public class Intervention extends Evenement{
 	Case pos = data.getRobots()[getIndice()].getPosition();
 	int i = verifierIndiceIncendie(pos, data.getIncendies());
 	if(i < data.getIncendies().length){
-	    if(data.getIncendies()[i].getNbLitresEauPourExtinction() >= data.getRobots()[indice].getVolumeMax()){
-		data.getIncendies()[i].nbLitresEauArrive(data.getRobots()[indice].getVolumeMax());
-		data.getRobots()[indice].deverserEau(data.getRobots()[indice].getVolumeMax());
+	    if(data.getIncendies()[i].getNbLitresEauPourExtinction() >= getVolEau()){
+		data.getIncendies()[i].nbLitresEauArrive(getVolEau());
+		data.getRobots()[indice].deverserEau(getVolEau());
 	    }else{
 		data.getRobots()[indice].deverserEau(data.getIncendies()[i].getNbLitresEauPourExtinction());
 		data.getIncendies()[i].nbLitresEauArrive(data.getIncendies()[i].getNbLitresEauPourExtinction());

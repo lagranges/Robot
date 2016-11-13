@@ -22,7 +22,7 @@ public class Drone extends Robot{
      *
      */
     public static final int volumeMaxDrone = 10000;
-    public static final double vitesseRemplissageDrone = 10000/1800;
+    public static final int vitesseRemplissageDrone = 10000/1800;
     public static final double vitesseDeversementDrone = 10000/30;
     public static final double vitesseDeplacementDrone = 100 ;
     public static final Color couleurDrone = Color.blue;	

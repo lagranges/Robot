@@ -32,13 +32,18 @@ public abstract class Robot extends Entity {
     /**
      * La vitesse de remplissage , unitaire : litre/s
      */
-    private double vitesseRemplissage;
+    private int vitesseRemplissage;
     
     /**
      * La vitesse de déversement , unitaire : litre/s
      */
     private double vitesseDeversement;
 	
+    /**
+     * L'indicateur boolean si le robot est en train de se deplacer
+     */
+    private boolean enTrainDeSeDeplacer = false;
+
     /**
      * Contructeur d'un nouveau Robot 
      * 
@@ -48,7 +53,7 @@ public abstract class Robot extends Entity {
      * @param lesvitesse
      * 
      */
-    public Robot(Case cas, Color couleur, int volumeEau, int volumeMax, double vitesseDeplacementDefault,double vitesseRemplissage, double vitesseDeversement){
+    public Robot(Case cas, Color couleur, int volumeEau, int volumeMax, double vitesseDeplacementDefault,int vitesseRemplissage, double vitesseDeversement){
 	super(cas,couleur);
 	this.volumeEau = volumeEau;
 	this.volumeMax = volumeMax;
@@ -56,13 +61,26 @@ public abstract class Robot extends Entity {
 	this.vitesseRemplissage = vitesseRemplissage;
 	this.vitesseDeversement = vitesseDeversement;
     }
-	
+
+    /** 
+     * Retourne : L'indicatuer en train de seplacer
+     */
+    public boolean getIndicateurDeplacement(){
+	return this.enTrainDeSeDeplacer;
+    }
 
     /**
      * Retourne : la volume de l'eau dans le Robot
      */
     public int getVolumeEau(){
 	return this.volumeEau;
+    }
+
+    /** 
+     * Définit : L'indicateur en train de seplacer
+     */
+    public void setIndicateurDeplacement(boolean bool){
+	this.enTrainDeSeDeplacer = bool;
     }
 
     /**
@@ -82,8 +100,8 @@ public abstract class Robot extends Entity {
     /**
      * Modifier la vitesse de déplacement du robot
      */
-    public void setVitesseDeplacement(int vitesse){
-	this.vitesseDeplacementDefault = (vitesse*1000)/60;
+    public void setVitesseDeplacement(double vitesse){
+	this.vitesseDeplacementDefault = vitesse;
     }
 
     /**
@@ -101,9 +119,9 @@ public abstract class Robot extends Entity {
     }
 
     /**
-     * Retourne : la vitesse de remlissage du robot
+     * Retourne : la vitesse de remplissage du robot
      */
-    public double getVitesseRemplissage(){
+    public int getVitesseRemplissage(){
 	return this.vitesseRemplissage;
     }
 
@@ -124,6 +142,17 @@ public abstract class Robot extends Entity {
 	volumeEau -= vol;
     }
 
+    /**
+     * Le robot remplir le reservoir par second
+     *
+     * @param le nombre de litre par second
+     */
+    public void remplirEau(int vol){
+	volumeEau += vol;
+	if(volumeEau > getVolumeMax()){
+	    volumeEau = getVolumeMax();
+	}
+    }
 	
     /**
      * Retourne le temps nécessaire pour deverser vol litres de l'eau, unitaire s

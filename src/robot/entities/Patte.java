@@ -18,7 +18,7 @@ import gui.*;
 public class Patte extends Robot{  
 	  
     public static final int volumeMaxPatte = Integer.MAX_VALUE;
-    public static final double vitesseRemplissagePatte = Integer.MAX_VALUE;
+    public static final int vitesseRemplissagePatte = Integer.MAX_VALUE;
     public static final double vitesseDeversementPatte = 10;
     public static final double vitesseDeplacementPatte = 30;
     public static final double vitesseDeplacementPatteRoche = 10;

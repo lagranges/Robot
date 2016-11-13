@@ -4,11 +4,11 @@ import robot.*;
 import robot.io.*;
 import robot.map.*;
 
-public class Arrive extends Evenement{
+public class StartDeversement extends Evenement{
     
     private int indice;
 
-    public Arrive(long date, int indice){
+    public StartDeversement(long date, int indice){
 	super(date);
 	this.indice = indice;
     }
@@ -19,7 +19,7 @@ public class Arrive extends Evenement{
 
     @Override
     public void execute(DonneesSimulation data){
-	data.getRobots()[getIndice()].setIndicateurDeplacement(false);
+	data.getRobots()[getIndice()].setIndicateurDeversement(true);
     }
 
 }

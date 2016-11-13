@@ -1,7 +1,14 @@
 package robot.entities;
 
 import java.awt.Color;
+import java.util.*;
+
 import robot.map.*;
+import robot.graph.*;
+import robot.simulateur.*;
+import robot.io.*;
+import robot.*;
+
 import gui.GUISimulator;
 
 /**
@@ -45,6 +52,16 @@ public abstract class Robot extends Entity {
     private boolean enTrainDeSeDeplacer = false;
 
     /**
+     * L'indicateur boolean si le robot est en train de deversement
+     */
+    private boolean enTrainDeDeversement = false;
+
+    /**
+     * L'indicateur boolean si le robot est en train de remplir
+     */
+    private boolean enTrainDeRemplir = false;
+
+    /**
      * Contructeur d'un nouveau Robot 
      * 
      * @param cas 		la cas sur laquelle il se trouve
@@ -62,13 +79,6 @@ public abstract class Robot extends Entity {
 	this.vitesseDeversement = vitesseDeversement;
     }
 
-    /** 
-     * Retourne : L'indicatuer en train de seplacer
-     */
-    public boolean getIndicateurDeplacement(){
-	return this.enTrainDeSeDeplacer;
-    }
-
     /**
      * Retourne : la volume de l'eau dans le Robot
      */
@@ -77,10 +87,48 @@ public abstract class Robot extends Entity {
     }
 
     /** 
+     * Retourne : L'indicatuer en train de seplacer
+     */
+    public boolean getIndicateurDeplacement(){
+	return this.enTrainDeSeDeplacer;
+    }
+
+
+    /** 
      * Définit : L'indicateur en train de seplacer
      */
     public void setIndicateurDeplacement(boolean bool){
 	this.enTrainDeSeDeplacer = bool;
+    }
+
+    /** 
+     * Retourne : L'indicateur en train de deversement
+     */
+    public boolean getIndicateurDeversement(){
+	return this.enTrainDeDeversement;
+    }
+
+
+    /** 
+     * Définit : L'indicateur en train de deversement
+     */
+    public void setIndicateurDeversement(boolean bool){
+	this.enTrainDeDeversement = bool;
+    }
+
+    /** 
+     * Retourne : L'indicatuer en train de remplir
+     */
+    public boolean getIndicateurRemplir(){
+	return this.enTrainDeRemplir;
+    }
+
+
+    /** 
+     * Définit : L'indicateur en train de remplir
+     */
+    public void setIndicateurRemplir(boolean bool){
+	this.enTrainDeRemplir = bool;
     }
 
     /**
@@ -138,7 +186,7 @@ public abstract class Robot extends Entity {
      *
      * @param la nombre de litres qu'il se faut deverser
      */
-    public void deverserEau(int vol){
+    public void deverserEau(double vol){
 	volumeEau -= vol;
     }
 
@@ -210,5 +258,108 @@ public abstract class Robot extends Entity {
      */
     public abstract int tempsDeplacement(Case cas);
 
+    /**
+     * Trouver le chemin possible
+     * retourne NULL s'il ne trouve pas
+     */
+    public List<Case> calculPlusCourtChemin(DonneesSimulation data, Case destination, int numero){
+	Graphe g = new Graphe(data.getRobots()[numero],data.getCarte());
+	Dijkstra dijkstra = new Dijkstra(g);
+	dijkstra.traiterGraphe(data.getRobots()[numero].getPosition());
+	return dijkstra.getChemin(destination);
+    }
+
+    private Direction whichDirection(Case before, Case after){
+	int ligBefore = before.getPosition().getLigne();
+	int colBefore = before.getPosition().getColonne();
+	int ligAfter = after.getPosition().getLigne();
+	int colAfter = after.getPosition().getColonne();
+	if(ligAfter == ligBefore){
+	    if(colAfter > colBefore){
+		return Direction.EST;
+	    }else{
+		return Direction.OUEST;
+	    }
+	}else{
+	    if(ligAfter > ligBefore){
+		return Direction.SUD;
+	    }else{
+		return Direction.NORD;
+	    }
+	}
+    }
+
+    private long getCurrentDate(Evenement[] e){
+	if(e.length > 0){
+	    return e[e.length-1].getDate() + 1;
+	}
+	return 0;
+    }
+
+    /**
+     * Ajoute des evenement de deplacement dans la liste d'evenement par rapport de vitesse de simulateur
+     */
+    public void programEventDeplacement(Simulateur sim, DonneesSimulation data, Case destination, int numero){
+	Graphe g = new Graphe(data.getRobots()[numero],data.getCarte());
+	Dijkstra dijkstra = new Dijkstra(g);
+	dijkstra.traiterGraphe(data.getRobots()[numero].getPosition());
+	List<Case> chemin = dijkstra.getChemin(destination);
+        List<Integer> t = dijkstra.getListTime(destination);
+
+	long currentDate = getCurrentDate(sim.getEvenement(numero));
+
+	try{
+	    Case[] listC = chemin.toArray(new Case[chemin.size()]);
+	    Integer[] listT = t.toArray(new Integer[t.size()]);
+
+	    for(int i=0; i < listC.length - 1; i++){
+		sim.ajouteEvenement(new Deplacement(currentDate + (long)listT[i+1], numero, whichDirection(listC[i],listC[i+1])),numero); 
+	    }
+	    setPosition(destination);
+        } catch( Exception e){
+            System.out.println("Can't get to  from this actual robot position :" );
+        }
+    }
     
+    public void programEventRemplissage(Simulateur sim, int numero){
+	long currentDate = getCurrentDate(sim.getEvenement(numero));
+
+	int volCurrent = 0;
+	int i = 0;
+    
+	while(volCurrent < getVolumeMax()){
+	    sim.ajouteEvenement(new Remplissage(currentDate + i, numero, getVitesseRemplissage()), numero);
+	    volCurrent += getVitesseRemplissage();
+	    i++;
+	}
+
+    }
+
+   private int whichIncendie(Case pos, Incendie[] fire){
+	for(int i=0; i < fire.length; i++){
+	    if(fire[i].getPosition().getPosition().getLigne() == pos.getPosition().getLigne()){
+		if(fire[i].getPosition().getPosition().getColonne() == pos.getPosition().getColonne()){
+		    return i;
+		}
+	    }
+	}
+	return fire.length;
+    }
+
+    public void programEventIntervention(Simulateur sim, DonneesSimulation data, int numero){
+	long currentDate = getCurrentDate(sim.getEvenement(numero));
+	
+	int n = whichIncendie(getPosition(), data.getIncendies());
+	
+	int volCurrent = getVolumeEau();
+	int intensite = data.getIncendies()[n].getNbLitresEauPourExtinction();
+	int i = 0;
+
+	while((volCurrent > 0) && (intensite > 0)){
+	    sim.ajouteEvenement(new Intervention(currentDate + i, numero, getVitesseDeversement()), numero);
+	    volCurrent -= getVitesseDeversement();
+	    intensite -= getVitesseDeversement();
+	    i++;
+	}
+    }
 }

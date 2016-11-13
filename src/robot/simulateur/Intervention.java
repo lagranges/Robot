@@ -9,9 +9,9 @@ public class Intervention extends Evenement{
 
     private int indice;
 
-    private int volEau;
+    private double volEau;
 
-    public Intervention(long date, int indice, int volEau){
+    public Intervention(long date, int indice, double volEau){
 	super(date);
 	this.indice = indice;
 	this.volEau = volEau;
@@ -21,11 +21,11 @@ public class Intervention extends Evenement{
 	return this.indice;
     }
 
-    private int getVolEau(){
+    private double getVolEau(){
 	return this.volEau;
     }
 
-    private int verifierIndiceIncendie(Case pos, Incendie[] fire){
+    private int witchIncendie(Case pos, Incendie[] fire){
 	for(int i=0; i < fire.length; i++){
 	    if(fire[i].getPosition().getPosition().getLigne() == pos.getPosition().getLigne()){
 		if(fire[i].getPosition().getPosition().getColonne() == pos.getPosition().getColonne()){
@@ -38,15 +38,22 @@ public class Intervention extends Evenement{
 
     @Override
     public void execute(DonneesSimulation data){
-	Case pos = data.getRobots()[getIndice()].getPosition();
-	int i = verifierIndiceIncendie(pos, data.getIncendies());
-	if(i < data.getIncendies().length){
-	    if(data.getIncendies()[i].getNbLitresEauPourExtinction() >= getVolEau()){
-		data.getIncendies()[i].nbLitresEauArrive(getVolEau());
-		data.getRobots()[indice].deverserEau(getVolEau());
+	Robot bot = data.getRobots()[getIndice()];
+	Incendie[] fire = data.getIncendies();
+	int i = witchIncendie(bot.getPosition(), fire);
+	//Si le robot est bien arrive sur l'un de l'incendies
+	if(i < fire.length){
+	    if(fire[i].getNbLitresEauPourExtinction() >= getVolEau()){
+		if(bot.getVolumeEau() > getVolEau()){
+		    fire[i].nbLitresEauArrive(getVolEau());
+		    bot.deverserEau(getVolEau());
+		}else{
+		    fire[i].nbLitresEauArrive(bot.getVolumeEau());
+		    bot.deverserEau(bot.getVolumeEau());
+		}
 	    }else{
-		data.getRobots()[indice].deverserEau(data.getIncendies()[i].getNbLitresEauPourExtinction());
-		data.getIncendies()[i].nbLitresEauArrive(data.getIncendies()[i].getNbLitresEauPourExtinction());
+		bot.deverserEau(fire[i].getNbLitresEauPourExtinction());
+		fire[i].nbLitresEauArrive(fire[i].getNbLitresEauPourExtinction());
 	    }
 	}
     }

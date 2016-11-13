@@ -24,16 +24,42 @@ public class TestSimulation{
 	    BetterGUISimulator gui = new BetterGUISimulator(guiColonne,guiLigne, Color.BLACK, guiColonne/data.getCarte().getNbColonne(), guiColonne/50);
 
 	    Simulateur sim = new Simulateur(gui, data);
+	    
+	    //Robot0
+	    data.getRobots()[0].programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,1), 0);
+	    data.getRobots()[0].programEventIntervention(sim, data, 0);
+	    data.getRobots()[0].programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,2), 0);
+	    data.getRobots()[0].programEventRemplissage(sim, 0);
+	    data.getRobots()[0].programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,1), 0);
+	    data.getRobots()[0].programEventIntervention(sim, data, 0);
 
-	    data.goToCourtChemin(sim,1,5,5);
-	    // sim.ajouteEvenement(new Arrive(sim.getListeEvenement()[sim.getListeSize() - 1].getDate() + 3, 1, 5,5));
-	    data.interventionParSecond(sim,0);	    
-	    data.goToCourtChemin(sim,1,5,3);
-	    //  sim.ajouteEvenement(new Arrive(sim.getListeEvenement()[sim.getListeSize() - 1].getDate() + 3, 1, 5,3));
-	    data.remplirParSecond(sim,0);
-	    data.goToCourtChemin(sim,1,5,5);
-	    // sim.ajouteEvenement(new Arrive(sim.getListeEvenement()[sim.getListeSize() - 1].getDate() + 1, 1, 5,5));
-	    data.interventionParSecond(sim,0);
+	    //Robot1
+	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,5), 1);
+	    data.getRobots()[1].programEventIntervention(sim, data, 1);
+	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,3), 1);
+	    data.getRobots()[1].programEventRemplissage(sim,1);
+	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,5), 1);
+	    data.getRobots()[1].programEventIntervention(sim, data, 1);
+
+	    //Robot2
+	    data.getRobots()[2].programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,7), 2);
+	    data.getRobots()[2].programEventIntervention(sim, data, 2);
+
+	    //Robot1
+	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,1), 1);
+	    data.getRobots()[1].programEventIntervention(sim, data, 1);
+	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(4,1), 1);
+	    data.getRobots()[1].programEventRemplissage(sim,1);
+	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,1), 1);
+	    data.getRobots()[1].programEventIntervention(sim, data, 1);
+	    
+	    //Robot2
+	    data.getRobots()[2].programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,0), 2);
+	    data.getRobots()[2].programEventIntervention(sim, data, 2);
+
+	    //Robot2
+	    data.getRobots()[2].programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,0), 2);
+	    data.getRobots()[2].programEventIntervention(sim, data, 2);
 
 	    sim.restart();
 
@@ -48,8 +74,6 @@ public class TestSimulation{
 	    sim.ajouteEvenement(new Intervention(7, 1));
 	    */
 	  
-
-	    data.testPlusCourtChemin();
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {

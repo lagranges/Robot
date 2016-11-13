@@ -24,15 +24,27 @@ public class Simulateur implements Simulable {
     private long dateSimulation = 0;
 
     /** L'indice d'evenement a executer */
-    private int evenementIndice = 0;
+    private int[] evenementIndice;
 
-    /** La liste d'evenement */
-    private List<Evenement> evenement = new ArrayList<Evenement>();
+    /** La liste d'evenement 
+     * Chaque robot a son liste e'evenement
+     */
+    private List<List<Evenement>> evenement = new ArrayList<List<Evenement>>();
 
     public Simulateur(BetterGUISimulator gui, DonneesSimulation data) {
 	this.gui = gui;
 	gui.setSimulable(this); //association a la gui
 	this.manipulationData = data;
+
+	//Tableaux d'indice d'execution pour chaque evenement, 0 par defaut
+	evenementIndice = new int[data.getRobots().length];
+
+	//Creating des listes evenement associe a chaque robot
+	for(int i=0; i < data.getRobots().length; i++){
+	    List<Evenement> list = new ArrayList<Evenement>();
+	    evenement.add(list);
+	}
+      
 	saveData = data.copy();
 	draw();
     }
@@ -55,35 +67,56 @@ public class Simulateur implements Simulable {
     @Override
     public void next(){
 	if(!simulationTerminee()){
-	    if(getDateSimulation() == (long)getListeEvenement()[evenementIndice].getDate()){
-	    getListeEvenement()[evenementIndice].execute(getDonneesSimulation());
-	    evenementIndice++;
+	    for(int i=0; i < getListeSize(); i++){
+		if(evenementIndice[i] < getEvenement(i).length){
+		    long dateEvent = getEvenement(i)[evenementIndice[i]].getDate();
+		    if(getDateSimulation() == dateEvent){
+			getEvenement(i)[evenementIndice[i]].execute(getDonneesSimulation());
+			evenementIndice[i]++;
+		    }
+		}
 	    }
 	    incrementeDate();
 	    draw();
 	}
-
-
     }
 
     @Override
     public void restart(){
 	this.manipulationData = saveData.copy();
 	this.dateSimulation = 0;
-	this.evenementIndice = 0;
+	for(int i=0; i< evenementIndice.length; i++){
+	    evenementIndice[i] = 0;
+	}
 	draw();
     }
 
-    public Evenement[] getListeEvenement(){
-	return evenement.toArray(new Evenement[evenement.size()]);
+    public Evenement[] getEvenement(int i){
+	List<Evenement> row = evenement.get(i);
+	return row.toArray(new Evenement[row.size()]);
+    }
+
+    public Evenement[][] getListe(){
+	Evenement[][] liste = new Evenement[evenement.size()][];
+	for(int i=0; i < evenement.size(); i++){
+	    List<Evenement> row = evenement.get(i);
+	    liste[i] = row.toArray(new Evenement[row.size()]);
+	}
+	return liste;
     }
 
     public int getListeSize(){
 	return evenement.size();
     }
 
-    public void ajouteEvenement(Evenement e){
-	evenement.add(e);
+    public int getEvenementSize(int i){
+	List<Evenement> row = evenement.get(i);
+	return row.size();
+    }
+
+    public void ajouteEvenement(Evenement e, int i){
+	List<Evenement> row = evenement.get(i);
+	row.add(e);
     }
 
     private void incrementeDate(){
@@ -95,7 +128,12 @@ public class Simulateur implements Simulable {
     }
 
     private boolean simulationTerminee(){
-	return (this.evenementIndice >= getListeEvenement().length);
+	for(int i=0; i<getListeSize(); i++){
+	    if(evenementIndice[i] < getEvenement(i).length){
+		return false;
+	    }
+	}
+	return true;
     }
 
     private void drawRobots(){

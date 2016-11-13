@@ -50,7 +50,7 @@ public class Incendie extends Entity {
 	return nbLitresEauPourExtinction;
     }
 
-    public void nbLitresEauArrive(int vol){
+    public void nbLitresEauArrive(double vol){
 	this.nbLitresEauPourExtinction -= vol;
     }
 

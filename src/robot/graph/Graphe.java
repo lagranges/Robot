@@ -29,8 +29,12 @@ public class Graphe{
 			for(Direction dir : Direction.values()){
 			if(carte.voisinExiste(cas,dir)){ 
                 Case temps = carte.getCaseAt(cas.getPosition().deplace(dir));
-                int time = (int) (robot.getVitesse(cas)+robot.getVitesse(temps))/2;
-				listAretes.add(new Aretes(cas,temps,time));
+                double vitesse =  (robot.getVitesse(cas)+robot.getVitesse(temps))/2;
+		if(vitesse != 0){
+			int time = (int) ((60.0*carte.getTailleCases())/(1000*vitesse)); 
+			listAretes.add(new Aretes(cas,temps,time));
+		}
+		else listAretes.add(new Aretes(cas,temps,Integer.MAX_VALUE));
             }                
 		}
 		}

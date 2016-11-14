@@ -24,7 +24,7 @@ public class BetterGUISimulator extends GUISimulator {
 	return taillePixelGraphique;
     }
 
-    public void drawAll(List<Drawable> l) {
+    public void drawAll(List<? extends Drawable> l) {
 	// for( Drawable d:l) == Iterator<Drawable> it = l.getIterator();
 	for( Drawable d : l) {
 	    d.draw(this);

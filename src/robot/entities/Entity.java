@@ -11,7 +11,7 @@ import java.awt.Color;
  * @see robot.map.case
  * @see robot.map.carte
  */
-public abstract class Entity implements Drawable{
+public abstract class Entity implements Drawable {
 
     /**
      * La taille d'une case

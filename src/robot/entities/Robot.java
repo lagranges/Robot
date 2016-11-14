@@ -263,9 +263,9 @@ public abstract class Robot extends Entity {
      * retourne NULL s'il ne trouve pas
      */
     public List<Case> calculPlusCourtChemin(DonneesSimulation data, Case destination, int numero){
-	Graphe g = new Graphe(data.getRobots()[numero],data.getCarte());
+	Graphe g = new Graphe(data.getRobots().get(numero),data.getCarte());
 	Dijkstra dijkstra = new Dijkstra(g);
-	dijkstra.traiterGraphe(data.getRobots()[numero].getPosition());
+	dijkstra.traiterGraphe(data.getRobots().get(numero).getPosition());
 	return dijkstra.getChemin(destination);
     }
 
@@ -289,20 +289,13 @@ public abstract class Robot extends Entity {
 	}
     }
 
-    private long getCurrentDate(Evenement[] e){
-	if(e.length > 0){
-	    return e[e.length-1].getDate() + 1;
-	}
-	return 0;
-    }
-
     /**
      * Ajoute des evenement de deplacement dans la liste d'evenement par rapport de vitesse de simulateur
      */
     public void programEventDeplacement(Simulateur sim, DonneesSimulation data, Case destination, int numero){
-	Graphe g = new Graphe(data.getRobots()[numero],data.getCarte());
+	Graphe g = new Graphe(data.getRobots().get(numero),data.getCarte());
 	Dijkstra dijkstra = new Dijkstra(g);
-	dijkstra.traiterGraphe(data.getRobots()[numero].getPosition());
+	dijkstra.traiterGraphe(data.getRobots().get(numero).getPosition());
 	List<Case> chemin = dijkstra.getChemin(destination);
         List<Integer> t = dijkstra.getListTime(destination);
 
@@ -313,7 +306,7 @@ public abstract class Robot extends Entity {
 	    Integer[] listT = t.toArray(new Integer[t.size()]);
 
 	    for(int i=0; i < listC.length - 1; i++){
-		sim.ajouteEvenement(new Deplacement(currentDate + (long)listT[i+1], numero, whichDirection(listC[i],listC[i+1])),numero); 
+		sim.ajouteEvenement(new Deplacement(currentDate + (long)listT[i+1], this, whichDirection(listC[i],listC[i+1]))); 
 	    }
 	    setPosition(destination);
         } catch( Exception e){
@@ -322,41 +315,41 @@ public abstract class Robot extends Entity {
     }
     
     public void programEventRemplissage(Simulateur sim, int numero){
-	long currentDate = getCurrentDate(sim.getEvenement(numero));
+	// TODO FIX ME get current date
+	long currentDate = sim.getCurrentDate();
 
 	int volCurrent = 0;
 	int i = 0;
     
 	while(volCurrent < getVolumeMax()){
-	    sim.ajouteEvenement(new Remplissage(currentDate + i, numero, getVitesseRemplissage()), numero);
+	    sim.ajouteEvenement(new Remplissage(currentDate + i, this, getVitesseRemplissage()));
 	    volCurrent += getVitesseRemplissage();
 	    i++;
 	}
 
     }
 
-   private int whichIncendie(Case pos, Incendie[] fire){
-	for(int i=0; i < fire.length; i++){
-	    if(fire[i].getPosition().getPosition().getLigne() == pos.getPosition().getLigne()){
-		if(fire[i].getPosition().getPosition().getColonne() == pos.getPosition().getColonne()){
-		    return i;
-		}
+
+    private static Incendie getIncendieAt(Case caze, List<Incendie> incendies) {
+	for(Incendie inc : incendies) {
+	    if(inc.getPosition().equals(caze.getPosition())){
+		return inc;
 	    }
 	}
-	return fire.length;
+	return null;
     }
 
     public void programEventIntervention(Simulateur sim, DonneesSimulation data, int numero){
 	long currentDate = getCurrentDate(sim.getEvenement(numero));
 	
-	int n = whichIncendie(getPosition(), data.getIncendies());
+	Incendie inc = getIncendieAt(getPosition(), data.getIncendies());
 	
 	int volCurrent = getVolumeEau();
-	int intensite = data.getIncendies()[n].getNbLitresEauPourExtinction();
+	int intensite = inc.getNbLitresEauPourExtinction();
 	int i = 0;
 
 	while((volCurrent > 0) && (intensite > 0)){
-	    sim.ajouteEvenement(new Intervention(currentDate + i, numero, getVitesseDeversement()), numero);
+	    sim.ajouteEvenement(new Intervention(currentDate + i, this, getVitesseDeversement()));
 	    volCurrent -= getVitesseDeversement();
 	    intensite -= getVitesseDeversement();
 	    i++;

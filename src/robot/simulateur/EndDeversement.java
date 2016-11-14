@@ -4,22 +4,15 @@ import robot.*;
 import robot.io.*;
 import robot.map.*;
 
-public class EndDeversement extends Evenement{
+public class EndDeversement extends EvenementRobot {
     
-    private int indice;
-
-    public EndDeversement(long date, int indice){
-	super(date);
-	this.indice = indice;
-    }
-
-    private int getIndice(){
-	return this.indice;
+    public EndDeversement(long date, Robot robot){
+	super(date, robot);
     }
 
     @Override
     public void execute(DonneesSimulation data){
-	data.getRobots()[getIndice()].setIndicateurDeversement(false);
+	getRobot().setIndicateurDeversement(false);
     }
 
 }

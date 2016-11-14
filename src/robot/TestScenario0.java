@@ -7,6 +7,7 @@ import java.util.zip.DataFormatException;
 import java.awt.Color;
 
 import robot.gui.BetterGUISimulator;
+import robot.entities.Robot;
 
 public class TestScenario0{
     public static void main(String[] args){
@@ -24,11 +25,11 @@ public class TestScenario0{
 	    BetterGUISimulator gui = new BetterGUISimulator(guiColonne,guiLigne, Color.BLACK, guiColonne/data.getCarte().getNbColonne(), guiColonne/50);
 
 	    Simulateur sim = new Simulateur(gui, data);
-	    
-	    sim.ajouteEvenement(new Deplacement(0, 0,Direction.NORD));
-	    sim.ajouteEvenement(new Deplacement(1, 0,Direction.NORD));
-	    sim.ajouteEvenement(new Deplacement(2, 0,Direction.NORD));
-	    sim.ajouteEvenement(new Deplacement(3, 0,Direction.NORD));
+	    Robot bot0 = data.getRobots().get(0);
+	    sim.ajouteEvenement(new Deplacement(0, bot0,Direction.NORD));
+	    sim.ajouteEvenement(new Deplacement(1, bot0,Direction.NORD));
+	    sim.ajouteEvenement(new Deplacement(2, bot0,Direction.NORD));
+	    sim.ajouteEvenement(new Deplacement(3, bot0,Direction.NORD));
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {

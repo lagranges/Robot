@@ -31,7 +31,7 @@ public class Graphe{
                 Case temps = carte.getCaseAt(cas.getPosition().deplace(dir));
                 double vitesse =  (robot.getVitesse(cas)+robot.getVitesse(temps))/2;
 		if(vitesse != 0){
-			int time = (int) ((60.0*carte.getTailleCases())/(1000*vitesse)); 
+			int time = (int) ((60.0*10)/(vitesse)); 
 			listAretes.add(new Aretes(cas,temps,time));
 		}
 		else listAretes.add(new Aretes(cas,temps,Integer.MAX_VALUE));

@@ -293,6 +293,8 @@ public class LecteurDonnees {
 
     /**
      * Lit et sauvegarde les donnees des incendies.
+     * @param Carte map - la carte qu'on utilise
+     * @throws DataFormatException 
      */
     private static Incendie[] creeIncendies(Carte map) throws DataFormatException {
         ignorerCommentaires();
@@ -324,6 +326,8 @@ public class LecteurDonnees {
 
     /**
      * Lit et sauvegarde les donnees des robots
+     * @param Carte la carte qu'on utilise
+     * @throws DataFormatException 
      */
     private static Robot[] creeRobots(Carte map) throws DataFormatException {
         ignorerCommentaires();

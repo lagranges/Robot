@@ -64,7 +64,7 @@ public class DonneesSimulation{
         }
 
     } 
-    /*
+    /**
      * Affiche tous les donnees concernant la carte
      */
     public void afficheDonneesCarte(){
@@ -102,19 +102,32 @@ public class DonneesSimulation{
 			       + donneesRobot[i].toString() + "; Vitesse :" + donneesRobot[i].getVitesseDeplacementDefault() + " km/h");
 	}
     }
-
+    /**
+     * Retourne la Carte 
+     */
     public Carte getCarte() {
 	return donneesCarte;
     }
     
+    /**
+     * Retourne les incendies sur la carte
+     * @return La table des incendies
+     */
     public Incendie[] getIncendies() {
 	return donneesIncendie;
     }
  
+    /**
+     * Retourne les robots sur la carte
+     * @return La table des robots
+     */
     public Robot[] getRobots() {
 	return donneesRobot;
     }
-
+    /**
+     * Retourne les incendies qui semblent aux incendies sur la carte 
+     * @return Une table remblant la tables des incendies
+     */
     private Incendie[] copyIncendies(){
 	Incendie[] fire = new Incendie[getIncendies().length];
 	for(int i=0; i < getIncendies().length; i++){
@@ -123,6 +136,10 @@ public class DonneesSimulation{
 	return fire;
     }
 
+    /**
+     * Retourne les robots qui semblent aux robots sur la carte 
+     * @return Une table remblant la tables des robots
+     */
     private Robot[] copyRobots(){
 	Robot[] bot = new Robot[getRobots().length];
 	for(int i=0; i < getRobots().length; i++){
@@ -147,6 +164,10 @@ public class DonneesSimulation{
 	return bot;
     }
 
+    /**
+     * Retourne une donnée de simulation qui semble à la donnée de simulation sur la carte 
+     * @return Une DonneesSimulation remblant la DonneesSimulation
+     */
     public DonneesSimulation copy(){
 	return new DonneesSimulation(getCarte(),copyIncendies(),copyRobots());
     }

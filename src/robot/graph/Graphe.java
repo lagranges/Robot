@@ -12,13 +12,14 @@ public class Graphe{
 	private Carte carte;
     private Robot robot;
 
+
+    /**
+     * Contruire une graphe à partir de carte et de robot
+     *
+     */
 	public Graphe(Robot robot, Carte carte){
 		this.carte = carte;
         this.robot = robot;
-        setGraphe();
-	}
-
-	public void setGraphe(){
 		listCase = new ArrayList<Case>();
 		listAretes = new ArrayList<Aretes>();  
 		for(int i = 0; i < carte.getNbLigne(); i++)
@@ -52,7 +53,11 @@ public class Graphe{
 			listCase.remove(cas);
 		}
 	}
-
+    /**
+     * Retourne les sommet et les aretes de la graphe 
+     *
+     * @return String de l'information de la graphe 
+     */
 	@Override
 	public String toString(){
 		String s=new String("Graph with sommet : \n");
@@ -63,13 +68,21 @@ public class Graphe{
 		for(Aretes aretes : listAretes) s+=(aretes.toString()+"\n");
 		return s;
 	}
-	
+    /**
+     * Supprimer des Arete d'une case dans la graphe
+     * @param Case la case qui est le sommet des aretes
+     */	
 	private void removeAretes(Case cas){
 		for(Aretes aretes : AretesDe(cas)) listAretes.remove(aretes);
 		for(Aretes aretes : AretesA(cas)) listAretes.remove(aretes);
 	}
 
-	// List d'arestes dont la source consiste cas
+	/**
+     * Retourne la liste des aretes qui vient d'une case dans la graphe
+     * @param Case la case qui est la source des aretes
+     * @return La liste des Aretes
+     *
+     */
 	public List<Aretes> AretesDe(Case cas){
 		List<Aretes> aretesDe = new ArrayList<Aretes>();
 		for(Aretes aretes : listAretes){
@@ -79,6 +92,12 @@ public class Graphe{
 			 
 	}
 
+	/**
+     * Retourne la liste des aretes qui vient à une case dans la graphe
+     * @param Case la case qui est la destination des aretes
+     * @return La liste des Aretes
+     *
+     */
 	public List<Aretes> AretesA(Case cas){
 		List<Aretes> aretesA = new ArrayList<Aretes>();
 		for(Aretes aretes : listAretes){
@@ -86,11 +105,17 @@ public class Graphe{
 		}
 		return aretesA;
 	}
-
+    /**
+     * Retourne la liste des Cases de la graphe
+     * @return La liste des Cases
+     */
 	public List<Case> getListCase(){
 		return listCase;
 	}
-	
+	/**
+     * Retourne la liste des Aretes de la graphe
+     * @return La liste des Aretes
+     */
 	public List<Aretes> getListAretes(){
 		return listAretes;
 	}

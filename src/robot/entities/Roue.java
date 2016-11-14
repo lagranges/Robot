@@ -17,12 +17,10 @@ import robot.gui.BetterGUISimulator;
 
 public class Roue extends Robot{  
 	  
-    public static final int volumeMaxRoue = 5000;
-    public static final int vitesseRemplissageRoue = 5000/600;
-    public static final double vitesseDeversementRoue = 100/5;
-    public static final double vitesseDeplacementRoue = 80 ;
-    public static final Color couleurRoue = Color.yellow;	
-
+    public static final int VOLUME_MAX = 5000;
+    public static final int VITESSE_REMPLISSAGE = 5000/600;
+    public static final double VITESSE_DEVERSEMENT = 100/5;
+    public static final double VITESSE_DEPLACEMENT = 80 ;
 	
     /**
      * Le contructeur d'une Roue avec les atribut déterminé au-dessus
@@ -32,7 +30,7 @@ public class Roue extends Robot{
      * @see Entity
      */
     public Roue(Case cas){
-	super(cas, volumeMaxRoue, volumeMaxRoue, vitesseDeplacementRoue, vitesseRemplissageRoue, vitesseDeversementRoue);
+	super(cas, VOLUME_MAX, VOLUME_MAX, VITESSE_DEPLACEMENT, VITESSE_REMPLISSAGE, VITESSE_DEVERSEMENT);
     }
 
     @Override
@@ -43,7 +41,7 @@ public class Roue extends Robot{
     // return 0 à Terrain sur la quelle le robot ne peut pas se déplacer
     @Override
     public double getVitesse(NatureTerrain natureTerrain){
-	if(this.peutDeplacerSur(natureTerrain))	return vitesseDeplacementRoue;
+	if(this.peutDeplacerSur(natureTerrain))	return VITESSE_DEPLACEMENT;
 	else return 0;	
     }	
 	

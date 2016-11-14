@@ -1,9 +1,6 @@
 package robot.simulateur;
 
-import java.util.List;
-import robot.*;
 import robot.io.*;
-import robot.map.*;
 import robot.entities.*;
 
 public class Intervention extends EvenementRobot {

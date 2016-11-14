@@ -16,7 +16,7 @@ public class TestGraph{
             }
         }
         Carte carte = new Carte(1, 4, 4);
-        carte.setMap(map);
+        carte.setCarte(map);
         Graphe graph = new Graphe(carte);
         System.out.println(graph);
         Dijkstra dijkstra = new Dijkstra(graph);

@@ -18,12 +18,10 @@ import gui.*;
 
 public class Chenille extends Robot{  
 	  
-    public static final int volumeMaxChenille = 2000;
-    public static final int vitesseRemplissageChenille = 2000/300;
-    public static final double vitesseDeversementChenille = 100/8;
-    public static final double vitesseDeplacementChenille = 60;
-    public static final Color couleurChenille = Color.gray;	
-
+    public static final int VOLUME_MAX = 2000;
+    public static final int VITESSE_REMPLISSAGE = 2000/300;
+    public static final double VITESSE_DEVERSEMENT = 100.0/8.0;
+    public static final double VITESSE_DEPLACEMENT = 60;
 	
     /**
      * Le contructeur d'une Chenille avec les atribut déterminé au-dessus
@@ -33,7 +31,7 @@ public class Chenille extends Robot{
      * @see Entity
      */
     public Chenille(Case cas){
-	super(cas, volumeMaxChenille, volumeMaxChenille, vitesseDeplacementChenille, vitesseRemplissageChenille, vitesseDeversementChenille);
+	super(cas, VOLUME_MAX, VOLUME_MAX, VITESSE_DEPLACEMENT, VITESSE_REMPLISSAGE, VITESSE_DEVERSEMENT);
     }
     
     @Override
@@ -45,8 +43,8 @@ public class Chenille extends Robot{
     @Override
     public double getVitesse(NatureTerrain natureTerrain){
 	if(this.peutDeplacerSur(natureTerrain))	
-	    if(natureTerrain.compareTo(NatureTerrain.FORET)>0)	return vitesseDeplacementChenille/2;
-	    else return vitesseDeplacementChenille;
+	    if(natureTerrain.compareTo(NatureTerrain.FORET)>0)	return VITESSE_DEPLACEMENT/2;
+	    else return VITESSE_DEPLACEMENT;
 	else return 0;	
     }	
 	

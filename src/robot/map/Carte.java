@@ -26,18 +26,36 @@ public class Carte implements Drawable {
     }
 
     /**
-     * set nature case
-     * @param Position p
-     * @param Case c
+     * Insert une case dans la carte. La position de la case doit être dans les
+     * dimension de la carte.
+     * 
+     * @param c la case a inserer dans la carte
      */
-    public void setCase(Position p, Case c){
+    public void setCase(Case c){
+        Position p = c.getPosition();
 	if(isInMapBound(p)){
 	    this.map[p.getLigne()][p.getColonne()] = c;
 	} else {
 	    throw new IllegalArgumentException("Can't set a Case outside of map's bounds");
 	}
     }
+    
+    /**
+     * Insert toutes les case dans la carte
+     * @param m les cases a inserer
+     */
+    public void setCarte(Case[][] m) {
+        for(Case[] lc : m){
+            for(Case c : lc) {
+                setCase(c);                
+            }
+        }
+    }
 
+    /**
+     * Retourne la liste des cases dans la carte
+     * @return la liste des cases
+     */
     public List<Case> getCases() {
        List<Case> l = new ArrayList<Case>();
        for(Case[] lc : map){

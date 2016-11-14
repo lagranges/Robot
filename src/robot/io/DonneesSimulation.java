@@ -2,15 +2,9 @@ package robot.io;
 
 import robot.map.*;
 import robot.entities.*;
-import robot.*;
 import robot.graph.*;
-import robot.simulateur.*;
 
-import java.io.*;
 import java.util.*;
-import java.util.zip.DataFormatException;
-
-import gui.GUISimulator;
 
 public class DonneesSimulation{
     private Carte donneesCarte;
@@ -57,8 +51,8 @@ public class DonneesSimulation{
         Graphe g = new Graphe(robot,donneesCarte);
         Dijkstra dijkstra = new Dijkstra(g);
         System.out.println(g);
-        dijkstra.traiterGraphe(robot.getPosition());
-        // attention : robot.getPosition() return a Casei
+        dijkstra.traiterGraphe(robot.getCase());
+        // attention : robot.getCase() return a Casei
         Case destination = donneesCarte.getCaseAt(5,5);
         List<Case> chemin = dijkstra.getChemin(destination);
         List<Integer> t = dijkstra.getListTime(destination);
@@ -72,7 +66,7 @@ public class DonneesSimulation{
 	    System.out.println(time);
 	}
         } catch( Exception e){
-            System.out.println("Can't get to "+ destination+" from this actual robot position :" +robot.getPosition() );
+            System.out.println("Can't get to "+ destination+" from this actual robot position :" +robot.getCase() );
         }
 
     } 
@@ -96,8 +90,8 @@ public class DonneesSimulation{
 	System.out.println("Nb d'incendies :" + donneesIncendie.size());
 	for(Incendie i : donneesIncendie ) {
 	    System.out.println("Incendie " + i + ": position = (" + 
-			       i.getPosition().getPosition().getLigne() + "," + 
-			       i.getPosition().getPosition().getColonne() + "); Intensite :" 
+			       i.getCase().getPosition().getLigne() + "," + 
+			       i.getCase().getPosition().getColonne() + "); Intensite :" 
 			       + i.getNbLitresEauPourExtinction() );
 	}
     }
@@ -109,8 +103,8 @@ public class DonneesSimulation{
 	System.out.println("Nb de Robots :" + donneesRobot.size());
 	for(Robot r : donneesRobot) {
 	    System.out.println("Robot " + r + ": position = (" + 
-			       r.getPosition().getPosition().getLigne() + "," + 
-			       r.getPosition().getPosition().getColonne() + "); Type :" 
+			       r.getCase().getPosition().getLigne() + "," + 
+			       r.getCase().getPosition().getColonne() + "); Type :" 
 			       + r.toString() + "; Vitesse :" + r.getVitesseDeplacementDefault() + " km/h");
 	}
     }
@@ -125,7 +119,7 @@ public class DonneesSimulation{
 
     private static Incendie getIncendieAt(Case caze, List<Incendie> incendies) {
 	for(Incendie inc : incendies) {
-	    if(inc.getPosition().equals(caze.getPosition())){
+	    if(inc.getCase().equals(caze.getPosition())){
 		return inc;
 	    }
 	}
@@ -151,7 +145,7 @@ public class DonneesSimulation{
     private List<Incendie> copyIncendies(){
 	List<Incendie> copy = new ArrayList<Incendie>();
 	for(Incendie inc : getIncendies()) {
-	    copy.add(new Incendie(inc.getPosition(),inc.getNbLitresEauPourExtinction()));
+	    copy.add(new Incendie(inc.getCase(),inc.getNbLitresEauPourExtinction()));
 	}
 	return copy;
     }
@@ -164,16 +158,16 @@ public class DonneesSimulation{
 	    Robot cpy = null;
 	    switch(typeValue){
 	    case Drone:
-		cpy = new Drone(rob.getPosition());
+		cpy = new Drone(rob.getCase());
 		break;
 	    case Chenille:
-		cpy = new Chenille(rob.getPosition());
+		cpy = new Chenille(rob.getCase());
 		break;
 	    case Roue:
-		cpy = new Roue(rob.getPosition());
+		cpy = new Roue(rob.getCase());
 		break;
 	    case Patte:
-		cpy = new Patte(rob.getPosition());
+		cpy = new Patte(rob.getCase());
 		break;
 	    }
 	    if(cpy != null) {

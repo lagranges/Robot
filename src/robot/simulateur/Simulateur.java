@@ -22,7 +22,8 @@ public class Simulateur implements Simulable {
 
     /** La date de simulation */
     private long dateSimulation = 0;
-
+    private long dateFin = 0;
+    
     /**
      * A chaque robot sa liste d'evenement
      */
@@ -56,12 +57,16 @@ public class Simulateur implements Simulable {
     @Override
     public void next(){
 	if(!simulationTerminee()){
-	    for(Evenement e : evenements.get(getDateSimulation())){
-		e.execute(getDonneesSimulation());
-	    }
-	    incrementeDate();
-	    draw();
-	}
+            for (Robot r : evenements.keySet()) {
+                for (Evenement e : evenements.get(r)) {
+                    if(e.getDate() == getDateSimulation()) {
+                        e.execute(getDonneesSimulation());
+                    }
+                }
+            }
+            incrementeDate();
+        }
+        draw();
     }
 
     @Override
@@ -78,6 +83,15 @@ public class Simulateur implements Simulable {
 	    evenements.put(e.getRobot(), le);
 	}
 	le.add(e);
+        dateFin = Math.max(e.getDate(),dateFin);
+    }
+    
+    public Evenement getLastEvenement(Robot robot) {
+        List<Evenement> el = evenements.get(robot);
+        if(el == null) {
+            return null;
+        }
+        return el.get(el.size()-1);
     }
 
     private void incrementeDate(){
@@ -89,13 +103,7 @@ public class Simulateur implements Simulable {
     }
 
     private boolean simulationTerminee(){
-	long date = getDateSimulation();
-	for(Long d : evenements.keySet()){
-	    if(d >= date) {
-		return false;
-	    }
-	}
-	return true;
+        return dateSimulation == dateFin;
     }
 
     private void drawRobots(){
@@ -132,7 +140,7 @@ public class Simulateur implements Simulable {
 	for(int i=0; iter.hasNext(); i++) {
 	    Robot bot = iter.next();
 	    gui.addGraphicalElement(new Text(position + 250, (i*140)+30, Color.white, "Robot " + i + ": " + bot.getClass().getSimpleName() ));
-	    gui.addGraphicalElement(new Text(position + 250, (i*140)+50, Color.white, "Pos : " + bot.getPosition().getPosition() ));
+	    gui.addGraphicalElement(new Text(position + 250, (i*140)+50, Color.white, "Pos : " + bot.getCase().getPosition() ));
 	    gui.addGraphicalElement(new Text(position + 250, (i*140)+70, Color.white, "Vitesse : " + bot.getVitesseDeplacementDefault() + "km/h" ));
 	    gui.addGraphicalElement(new Text(position + 250, (i*140)+90, Color.white, "Deversement : " + bot.getVitesseDeversement() + "l/s" ));
 	    if(bot.getClass().getSimpleName().equals("Patte")){
@@ -153,7 +161,7 @@ public class Simulateur implements Simulable {
 	for(int i=0; iter.hasNext(); i++) {
 	    Incendie feu = iter.next();
 	    gui.addGraphicalElement(new Text(position + 430, (i*70)+30, Color.white, "Incendie " + i ));
-	    gui.addGraphicalElement(new Text(position + 430, (i*70)+50, Color.white, "Pos : " + feu.getPosition().getPosition() ));
+	    gui.addGraphicalElement(new Text(position + 430, (i*70)+50, Color.white, "Pos : " + feu.getCase().getPosition() ));
 	    gui.addGraphicalElement(new Text(position + 430, (i*70)+70, Color.white, "Intensité : " + feu.getNbLitresEauPourExtinction() + " L" ));
 	}	
     }

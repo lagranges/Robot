@@ -35,7 +35,7 @@ public class Incendie extends Entity {
      * @see            robot.map.Case
      */
     public Incendie(Case pos, int nbLitres) {
-	super(pos,incendieCouleur);
+	super(pos);
 	nbLitresEauPourExtinction = nbLitres;
     }
 
@@ -59,27 +59,30 @@ public class Incendie extends Entity {
 	if(getNbLitresEauPourExtinction() > 0){
 	    int ratio = gui.getTailleCase();
 	    int pixel = gui.getTaillePixel();
-	    int x = this.cas.getPosition().getColonne() * ratio;
-	    int y = this.cas.getPosition().getLigne() * ratio;
+	    int x = getCase().getPosition().getColonne() * ratio;
+	    int y = getCase().getPosition().getLigne() * ratio;
 	    int size = ratio/pixel;
-
-	    gui.addGraphicalElement(new Rectangle(x + size*6, y + size*1, Color.red.darker(), Color.red.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*6, y + size*2, Color.red.darker(), Color.red.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*4, y + size*2, Color.red.darker(), Color.red.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*9, y + size*3, Color.red.darker(), Color.red.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*6, y + size*3, Color.red.darker(), Color.red.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*7, y + size*3, Color.red.darker(), Color.red.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*5, y + size*3, Color.red.darker(), Color.red.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*8, y + size*4, Color.red.darker(), Color.red.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*7, y + size*4, Color.orange.darker(), Color.orange.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*6, y + size*4, Color.orange.darker(), Color.orange.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*5, y + size*4, Color.red.darker(), Color.red.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*8, y + size*5, Color.red.darker(), Color.red.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*7, y + size*5, Color.orange.darker(), Color.orange.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*6, y + size*5, Color.orange.darker(), Color.orange.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*5, y + size*5, Color.orange.darker(), Color.orange.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*4, y + size*5, Color.red.darker(), Color.red.darker(), size));
-	    gui.addGraphicalElement(new Rectangle(x + size*3, y + size*5, Color.red.darker(), Color.red.darker(), size));
+            Color red = Color.red;
+            Color darkerRed = red.darker();
+            Color orange = Color.orange.darker();
+            
+	    gui.addGraphicalElement(new Rectangle(x + size*6, y + size*1, darkerRed, darkerRed, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*6, y + size*2, darkerRed, darkerRed, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*4, y + size*2, darkerRed, darkerRed, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*9, y + size*3, darkerRed, darkerRed, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*6, y + size*3, darkerRed, darkerRed, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*7, y + size*3, darkerRed, darkerRed, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*5, y + size*3, darkerRed, darkerRed, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*8, y + size*4, darkerRed, darkerRed, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*7, y + size*4, orange, orange, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*6, y + size*4, orange, orange, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*5, y + size*4, darkerRed, darkerRed, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*8, y + size*5, darkerRed, darkerRed, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*7, y + size*5, orange, orange, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*6, y + size*5, orange, orange, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*5, y + size*5, orange, orange, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*4, y + size*5, darkerRed, darkerRed, size));
+	    gui.addGraphicalElement(new Rectangle(x + size*3, y + size*5, darkerRed, darkerRed, size));
 
 	    gui.addGraphicalElement(new Text(x + size*4, y - size, Color.white, Integer.toString(getNbLitresEauPourExtinction())));
 	} 

@@ -2,13 +2,9 @@ package robot.simulateur;
 
 import robot.*;
 import robot.io.*;
-import robot.graph.*;
-import robot.map.*;
 import robot.entities.Robot;
 
-import java.util.*;
-
-public class Deplacement extends Evenement{
+public class Deplacement extends EvenementRobot {
  
     /**
      * La direction du déplacement
@@ -24,14 +20,14 @@ public class Deplacement extends Evenement{
      * Crée un nouvelle évenement de type déplacement.
      */
     public Deplacement(long date, Robot robot, Direction dir){
-	super(date);
+	super(date, robot);
 	this.dir = dir;
 	this.robot = robot;
     }
 
     @Override
     public void execute(DonneesSimulation data){
-	Position pos = new Position(robot.getPosition().getPosition(), dir);
+	Position pos = new Position(robot.getCase().getPosition(), dir);
 	if(data.getCarte().isInMapBound(pos)) {
 	    //Si le robot peut se deplacer sur le nouvel terrain
 	    if(robot.peutDeplacerSur(data.getCarte().getCaseAt(pos))){

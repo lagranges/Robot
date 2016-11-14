@@ -1,8 +1,7 @@
 package robot.simulateur;
 
-import robot.*;
+import robot.entities.Robot;
 import robot.io.*;
-import robot.map.*;
 
 public class StartMove extends EvenementRobot {
     

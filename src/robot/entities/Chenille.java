@@ -33,7 +33,7 @@ public class Chenille extends Robot{
      * @see Entity
      */
     public Chenille(Case cas){
-	super(cas, couleurChenille, volumeMaxChenille, volumeMaxChenille, vitesseDeplacementChenille, vitesseRemplissageChenille, vitesseDeversementChenille);
+	super(cas, volumeMaxChenille, volumeMaxChenille, vitesseDeplacementChenille, vitesseRemplissageChenille, vitesseDeversementChenille);
     }
     
     @Override
@@ -70,8 +70,8 @@ public class Chenille extends Robot{
     public void draw(BetterGUISimulator gui) {
 	int ratio = gui.getTailleCase();
 	int pixel = gui.getTaillePixel();
-	int x = this.cas.getPosition().getColonne() * ratio;
-	int y = this.cas.getPosition().getLigne() * ratio;
+	int x = getCase().getPosition().getColonne() * ratio;
+	int y = getCase().getPosition().getLigne() * ratio;
 	int size = ratio/pixel;
 	Color peru = new Color(205,133,63);
 

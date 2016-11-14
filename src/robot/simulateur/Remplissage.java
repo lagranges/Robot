@@ -38,12 +38,12 @@ public class Remplissage extends EvenementRobot {
     @Override
     public void execute(DonneesSimulation data){
 	Robot robot = getRobot();
-	Case pos = robot.getPosition();
+	Case pos = robot.getCase();
 	String type = robot.getClass().getSimpleName();
 	Type typeValue = Type.valueOf(type);
 	switch(typeValue){
 	case Drone:
-	    if(robot.getPosition().getNatureType() == NatureTerrain.EAU){
+	    if(robot.getCase().getNatureType() == NatureTerrain.EAU){
 		robot.remplirEau(getVolEau());
 	    }
 	    break;

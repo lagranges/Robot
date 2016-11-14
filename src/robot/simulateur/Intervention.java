@@ -18,7 +18,7 @@ public class Intervention extends EvenementRobot {
     @Override
     public void execute(DonneesSimulation data){
 	Robot robot = getRobot();
-	Incendie inc = data.getIncendieAt(robot.getPosition());
+	Incendie inc = data.getIncendieAt(robot.getCase());
 	if(inc != null) {
 	    double litreNeccessaires = inc.getNbLitresEauPourExtinction();
 	    double litreAVerse = Math.min(litreNeccessaires,volEau);

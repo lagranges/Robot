@@ -1,8 +1,6 @@
 package robot.simulateur;
 
-import robot.simulateur.Evenement;
 import robot.entities.Robot;
-import robot.io.*;
 
 public abstract class EvenementRobot extends Evenement {
    

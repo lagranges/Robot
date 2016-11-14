@@ -111,7 +111,7 @@ public class Simulateur implements Simulable {
     }
 
     private void drawCarte(){
-	gui.drawAll(manipulationData.getCarte());
+	gui.draw(manipulationData.getCarte());
     }
 
     private void drawIncendies(){

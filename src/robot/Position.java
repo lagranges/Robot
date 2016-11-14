@@ -78,6 +78,13 @@ public class Position {
 	return new Position(this,dir);
     }
 
+    /**
+     * Retourne la direction associer a la difference entre deux position
+     * 
+     * @param before la position initial
+     * @param after la position suite a un déplacement
+     * @return la direction associer au déplacement, null si aucune Direction ne correspond
+     */
     public static Direction getDirection(Position before, Position after){
 	int dLigne = after.getLigne() - before.getLigne();
 	int dColonne =  after.getColonne() - before.getColonne();
@@ -89,7 +96,14 @@ public class Position {
 	return null;
     }
 
-    
+    /**
+     * {@inheritDoc}
+     * Retourne la valeur de hashage d'un Position.
+     * Si deux positions sont égales leurs hashcode l'est également.
+     * L'inverse n'est pas vérifier.
+     * 
+     * @return  le hashcode de cette position
+     */
     @Override
     public int hashCode() {
 	int hash = 2;
@@ -98,6 +112,12 @@ public class Position {
 	return hash;
     }
 
+    /**
+     * Deux positions sont egales si leur colonne et leur ligne sont égales
+     * 
+     * @param obj objet a tester
+     * @return true si obj egale a this, sinon false
+     */
     @Override
     public boolean equals(Object obj) {
 	if (this == obj) {
@@ -112,6 +132,12 @@ public class Position {
 	return false;
     }
 
+    /**
+     * Retourne la représentation en String de cette position.
+     * Sous la forme "(ligne,colonne)".
+     * 
+     * @return "(ligne,colonne)"
+     */
     @Override
     public String toString() {
 	return "("+getLigne()+","+getColonne()+")";

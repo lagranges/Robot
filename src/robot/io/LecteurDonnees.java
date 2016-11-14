@@ -265,7 +265,7 @@ public class LecteurDonnees {
             for (int lig = 0; lig < nbLignes; lig++) {
                 for (int col = 0; col < nbColonnes; col++) {
 		    Position p = new Position(lig,col);
-		    map.setCase(p,new Case(p,getNature()));
+		    map.setCase(new Case(p,getNature()));
                 }
 	    }
 	    return map;

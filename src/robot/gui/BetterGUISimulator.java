@@ -3,8 +3,13 @@ package robot.gui;
 import java.awt.Color;
 import java.util.List;
 import gui.*;
-import robot.*;
 
+/**
+ * La class BetterGUISimulator est une extension de la class GUISimulator.
+ * Cette class rajoute un accès a des paramètres utile a la représentation 
+ * visuelle de certain éléments. De plus cette class ajout des méthodes utilitaire
+ * pour l'affichage.
+ */
 public class BetterGUISimulator extends GUISimulator { 
 
     private final int tailleCaseGraphique;
@@ -24,21 +29,32 @@ public class BetterGUISimulator extends GUISimulator {
 	return taillePixelGraphique;
     }
 
+    /**
+     * Affiche tout les éléments d'une liste
+     * 
+     * @param l la liste des éléments à dessiner
+     */
     public void drawAll(List<? extends Drawable> l) {
-	// for( Drawable d:l) == Iterator<Drawable> it = l.getIterator();
 	for( Drawable d : l) {
 	    d.draw(this);
 	}
     }
 
+    /**
+     * Affiche tout les éléments d'un tableau liste
+     * @param l le tableau d'éléments à dessiner
+     */
     public void drawAll(Drawable[] l) {
-	// for( Drawable d:l) == for(int i = 0;i<l.length;i++)
 	for( Drawable d : l) {
 	    d.draw(this);
 	}
     }
 
-    public void drawAll(Drawable d) {
+    /**
+     * Dessine un élément de type Drawable;
+     * @param d l'élément à dessiner
+     */
+    public void draw(Drawable d) {
 	d.draw(this);
     }
 }

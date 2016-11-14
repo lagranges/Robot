@@ -14,12 +14,6 @@ import gui.*;
  */
 public class Incendie extends Entity {
 
-
-    /**
-     * Le coleur de l'Incendie , rouge par default
-     */
-    public static final Color incendieCouleur = new Color(255,0,0);
-
     /**
      * Le nombre de litres d'eau nécessaires à l'extinction de l'incendie.
      */

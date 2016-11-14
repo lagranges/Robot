@@ -70,7 +70,7 @@ public class DonneesSimulation{
         }
 
     } 
-    /*
+    /**
      * Affiche tous les donnees concernant la carte
      */
     public void afficheDonneesCarte(){
@@ -108,13 +108,20 @@ public class DonneesSimulation{
 			       + r.toString() + "; Vitesse :" + r.getVitesseDeplacementDefault() + " km/h");
 	}
     }
-
+    /**
+     * Retourne la Carte 
+     */
     public Carte getCarte() {
 	return donneesCarte;
     }
     
+    /**
+     * Retourne les incendies sur la carte
+     *
+     * @return La table des incendies
+     */
     public List<Incendie> getIncendies() {
-	return new ArrayList<Incendie>(donneesIncendie);
+        return new ArrayList<Incendie>(donneesIncendie);
     }
 
     private static Incendie getIncendieAt(Case caze, List<Incendie> incendies) {
@@ -138,10 +145,18 @@ public class DonneesSimulation{
     }
 
  
+    /**
+     * Retourne les robots sur la carte
+     * @return La table des robots
+     */
     public List<Robot> getRobots() {
 	return new ArrayList<Robot>(donneesRobot);
     }
-
+    
+    /**
+     * Retourne les incendies qui semblent aux incendies sur la carte 
+     * @return Une table remblant la tables des incendies
+     */
     private List<Incendie> copyIncendies(){
 	List<Incendie> copy = new ArrayList<Incendie>();
 	for(Incendie inc : getIncendies()) {
@@ -150,6 +165,10 @@ public class DonneesSimulation{
 	return copy;
     }
 
+    /**
+     * Retourne les robots qui semblent aux robots sur la carte 
+     * @return Une table remblant la tables des robots
+     */
     private List<Robot> copyRobots(){
 	List<Robot> copy = new ArrayList<Robot>();
 	for(Robot rob : getRobots()) {
@@ -178,6 +197,10 @@ public class DonneesSimulation{
 	return copy;
     }
 
+    /**
+     * Retourne une donnée de simulation qui semble à la donnée de simulation sur la carte 
+     * @return Une DonneesSimulation remblant la DonneesSimulation
+     */
     public DonneesSimulation copy(){
 	return new DonneesSimulation(getCarte(),copyIncendies(),copyRobots());
     }

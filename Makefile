@@ -51,7 +51,7 @@ testScenario1:
 	$(JAVAC) $(GUI_CLASSPATH) src/robot/TestScenario1.java		
 
 javadoc:
-	$(JAVADOC) src/robot/*.java src/robot/entities/*.java src/robot/io/*.java src/robot/map/*.java
+	$(JAVADOC) src/robot/*.java src/robot/entities/*.java src/robot/io/*.java src/robot/map/*.java src/robot/graph/*.java src/robot/simulateur/*.java
 
 # Execution:
 # on peut taper directement la ligne de commande :
@@ -91,3 +91,4 @@ clean:
 	rm -rf src/robot/entities/*.class
 	rm -rf src/robot/map/*.class
 	rm -rf src/robot/io/*.class
+	rm -rf src/robot/graph/*.class

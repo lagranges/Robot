@@ -122,6 +122,27 @@ public class DonneesSimulation{
     public List<Incendie> getIncendies() {
 	return new ArrayList<Incendie>(donneesIncendie);
     }
+
+    private static Incendie getIncendieAt(Case caze, List<Incendie> incendies) {
+	for(Incendie inc : incendies) {
+	    if(inc.getPosition().equals(caze.getPosition())){
+		return inc;
+	    }
+	}
+	return null;
+    }
+
+    /**
+     * Retourne l'incendie présent sur la case <code>caze</code>.
+     * Si il n'y a pas d'incendie sur cette case alors null est retourner.
+     *
+     * @param  caze la case ou l'incendie se trouve
+     * @return l'incendie si présent, null sinon.
+     */
+    public Incendie getIncendieAt(Case caze) {
+	return getIncendieAt(caze, getIncendies());
+    }
+
  
     public List<Robot> getRobots() {
 	return new ArrayList<Robot>(donneesRobot);
@@ -140,7 +161,7 @@ public class DonneesSimulation{
 	for(Robot rob : getRobots()) {
 	    String type = rob.getClass().getSimpleName();
 	    Type typeValue = Type.valueOf(type);
-	    Robot cpy;
+	    Robot cpy = null;
 	    switch(typeValue){
 	    case Drone:
 		cpy = new Drone(rob.getPosition());

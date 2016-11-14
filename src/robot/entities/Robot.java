@@ -269,25 +269,6 @@ public abstract class Robot extends Entity {
 	return dijkstra.getChemin(destination);
     }
 
-    private Direction whichDirection(Case before, Case after){
-	int ligBefore = before.getPosition().getLigne();
-	int colBefore = before.getPosition().getColonne();
-	int ligAfter = after.getPosition().getLigne();
-	int colAfter = after.getPosition().getColonne();
-	if(ligAfter == ligBefore){
-	    if(colAfter > colBefore){
-		return Direction.EST;
-	    }else{
-		return Direction.OUEST;
-	    }
-	}else{
-	    if(ligAfter > ligBefore){
-		return Direction.SUD;
-	    }else{
-		return Direction.NORD;
-	    }
-	}
-    }
 
     /**
      * Ajoute des evenement de deplacement dans la liste d'evenement par rapport de vitesse de simulateur
@@ -306,7 +287,8 @@ public abstract class Robot extends Entity {
 	    Integer[] listT = t.toArray(new Integer[t.size()]);
 
 	    for(int i=0; i < listC.length - 1; i++){
-		sim.ajouteEvenement(new Deplacement(currentDate + (long)listT[i+1], this, whichDirection(listC[i],listC[i+1]))); 
+		sim.ajouteEvenement(new Deplacement(currentDate + (long)listT[i+1], this, Position.getDirection(listC[i].getPosition(),
+														listC[i+1].getPosition()))); 
 	    }
 	    setPosition(destination);
         } catch( Exception e){
@@ -327,16 +309,6 @@ public abstract class Robot extends Entity {
 	    i++;
 	}
 
-    }
-
-
-    private static Incendie getIncendieAt(Case caze, List<Incendie> incendies) {
-	for(Incendie inc : incendies) {
-	    if(inc.getPosition().equals(caze.getPosition())){
-		return inc;
-	    }
-	}
-	return null;
     }
 
     public void programEventIntervention(Simulateur sim, DonneesSimulation data, int numero){

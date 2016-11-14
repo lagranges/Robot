@@ -1,5 +1,6 @@
 package robot.simulateur;
 
+import java.util.List;
 import robot.*;
 import robot.io.*;
 import robot.map.*;
@@ -14,19 +15,10 @@ public class Intervention extends EvenementRobot {
 	this.volEau = volEau;
     }
 
-    private static Incendie getIncendieAt(Case caze, List<Incendie> incendies) {
-	for(Incendie inc : incendies) {
-	    if(inc.getPosition().equals(caze.getPosition())){
-		return inc;
-	    }
-	}
-	return null;
-    }
-
     @Override
     public void execute(DonneesSimulation data){
 	Robot robot = getRobot();
-	Incendie inc = Intervention.getIncendieAt(robot.getPosition(),data.getIncendies());
+	Incendie inc = data.getIncendieAt(robot.getPosition());
 	if(inc != null) {
 	    double litreNeccessaires = inc.getNbLitresEauPourExtinction();
 	    double litreAVerse = Math.min(litreNeccessaires,volEau);

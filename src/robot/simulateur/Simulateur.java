@@ -24,9 +24,9 @@ public class Simulateur implements Simulable {
     private long dateSimulation = 0;
 
     /**
-     * A chaque date sa liste d'evenement
+     * A chaque robot sa liste d'evenement
      */
-    private Map<Long,List<Evenement>> evenements = new HashMap<Long,List<Evenement>>();
+    private Map<Robot,List<Evenement>> evenements = new HashMap<Robot,List<Evenement>>();
 
     public Simulateur(BetterGUISimulator gui, DonneesSimulation data) {
 	this.gui = gui;
@@ -71,11 +71,11 @@ public class Simulateur implements Simulable {
 	draw();
     }
 
-    public void ajouteEvenement(Evenement e){
-	List<Evenement> le = evenements.get(e.getDate());
+    public void ajouteEvenement(EvenementRobot e){
+	List<Evenement> le = evenements.get(e.getRobot());
 	if(le == null) {
 	    le = new ArrayList<Evenement>();
-	    evenements.put(e.getDate(), le);
+	    evenements.put(e.getRobot(), le);
 	}
 	le.add(e);
     }

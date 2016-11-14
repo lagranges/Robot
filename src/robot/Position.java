@@ -78,6 +78,18 @@ public class Position {
 	return new Position(this,dir);
     }
 
+    public static Direction getDirection(Position before, Position after){
+	int dLigne = after.getLigne() - before.getLigne();
+	int dColonne =  after.getColonne() - before.getColonne();
+	for(Direction d : Direction.values()) {
+	    if (d.getDeltaLigne() == dLigne && d.getDeltaColonne() == dColonne) {
+		return d;
+	    }
+	}
+	return null;
+    }
+
+    
     @Override
     public int hashCode() {
 	int hash = 2;

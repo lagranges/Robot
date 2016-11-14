@@ -15,31 +15,25 @@ import robot.gui.BetterGUISimulator;
  */
 
 public class Drone extends Robot{
-	
-    /**
-     *
-     *
-     *
-     */
-    public static final int volumeMaxDrone = 10000;
-    public static final int vitesseRemplissageDrone = 10000/1800;
-    public static final double vitesseDeversementDrone = 10000/30;
-    public static final double vitesseDeplacementDrone = 100 ;
-    public static final Color couleurDrone = Color.blue;	
+
+    public static final int VOLUME_MAX = 10000;
+    public static final int VITESSE_REMPLISSAGE = 10000/1800;
+    public static final double VITESSE_DEVERSEMENT = 10000/30;
+    public static final double VITESSE_DEPLACEMENT = 100 ;
 
 	
     public Drone(Case cas){
-	super(cas, volumeMaxDrone, volumeMaxDrone, vitesseDeplacementDrone, vitesseRemplissageDrone, vitesseDeversementDrone);
+	super(cas, VOLUME_MAX, VOLUME_MAX, VITESSE_DEPLACEMENT, VITESSE_REMPLISSAGE, VITESSE_DEVERSEMENT);
     }
     
     @Override
     public String toString(){
 	return "Drone";
     }
-	
+
     @Override
     public double getVitesse(NatureTerrain natureTerrain){
-	return vitesseDeversementDrone;
+	return VITESSE_DEVERSEMENT;
     }	
 
     @Override
@@ -48,7 +42,9 @@ public class Drone extends Robot{
     }
 	
     @Override
-    public int tempsDeplacement(Case c1){return 0;}	
+    public int tempsDeplacement(Case c1){
+        return 0;
+    }
 
     @Override
     public void draw(BetterGUISimulator gui){	    

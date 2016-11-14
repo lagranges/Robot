@@ -3,12 +3,11 @@ package robot.simulateur;
 import robot.*;
 import robot.io.*;
 import robot.map.*;
+import robot.entities.Robot;
 
-public class Remplissage extends Evenement{
+public class Remplissage extends EvenementRobot {
     
-    private int indice;
-
-    private int volEau;
+    private final int volEau;
 
     private enum Type{
 	Drone,
@@ -17,16 +16,11 @@ public class Remplissage extends Evenement{
 	Roue,
     }
 
-    public Remplissage(long date, int indice, int volEau){
-	super(date);
-	this.indice = indice;
+    public Remplissage(long date, Robot robot, int volEau){
+	super(date, robot);
 	this.volEau = volEau;
     }
-
-    private int getIndice(){
-	return this.indice;
-    }
-
+    
     private int getVolEau(){
 	return this.volEau;
     }
@@ -34,7 +28,7 @@ public class Remplissage extends Evenement{
     private boolean verifierEauACote(Case pos, Carte map){
 	for(Direction dir : Direction.values()){
 	    Position p = new Position(pos.getPosition(), dir);
-	    if(map.getCaseAt(p.getLigne(),p.getColonne()).getNatureType() == NatureTerrain.EAU){ 
+	    if(map.getCaseAt(p).getNatureType() == NatureTerrain.EAU){ 
 		return true;
 	    }
 	}
@@ -43,19 +37,20 @@ public class Remplissage extends Evenement{
 
     @Override
     public void execute(DonneesSimulation data){
-	Case pos = data.getRobots()[getIndice()].getPosition();
-	String type = data.getRobots()[getIndice()].getClass().getSimpleName();
+	Robot robot = getRobot();
+	Case pos = robot.getCase();
+	String type = robot.getClass().getSimpleName();
 	Type typeValue = Type.valueOf(type);
 	switch(typeValue){
 	case Drone:
-	    if(data.getRobots()[getIndice()].getPosition().getNatureType() == NatureTerrain.EAU){
-		data.getRobots()[getIndice()].remplirEau(getVolEau());
+	    if(robot.getCase().getNatureType() == NatureTerrain.EAU){
+		robot.remplirEau(getVolEau());
 	    }
 	    break;
 	case Chenille:
 	case Roue:
 	    if(verifierEauACote(pos, data.getCarte())){
-		data.getRobots()[getIndice()].remplirEau(getVolEau());
+		robot.remplirEau(getVolEau());
 	    }
 	    break;
 	case Patte:

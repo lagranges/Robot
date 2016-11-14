@@ -2,43 +2,37 @@ package robot.simulateur;
 
 import robot.*;
 import robot.io.*;
-import robot.graph.*;
-import robot.map.*;
+import robot.entities.Robot;
 
-import java.util.*;
-
-public class Deplacement extends Evenement{
+public class Deplacement extends EvenementRobot {
  
-    private Direction dir;
+    /**
+     * La direction du déplacement
+     */
+    private final Direction dir;
 
-    private int indice;
+    /**
+     * le robot affecté par le déplacement
+     */
+    private final Robot robot;
 
-    public Deplacement(long date,int indice, Direction dir){
-	super(date);
+    /**
+     * Crée un nouvelle évenement de type déplacement.
+     */
+    public Deplacement(long date, Robot robot, Direction dir){
+	super(date, robot);
 	this.dir = dir;
-	this.indice = indice;
-    }
-
-    private Direction getDirection(){
-	return this.dir;
-    }
-
-    private int getIndice(){
-	return this.indice;
+	this.robot = robot;
     }
 
     @Override
     public void execute(DonneesSimulation data){
-	Position pos = new Position(data.getRobots()[getIndice()].getPosition().getPosition(), getDirection());
-
-	if(data.getCarte().isInMapBound(pos)){
-		//Si le robot peut se deplacer sur le nouvel terrain
-		if(data.getRobots()[getIndice()].peutDeplacerSur(data.getCarte().getCaseAt(pos.getLigne(),pos.getColonne()).getNatureType())){
-		    data.getRobots()[getIndice()].setPosition(data.getCarte().getCaseAt(pos.getLigne(),pos.getColonne()));
-		}
+	Position pos = new Position(robot.getCase().getPosition(), dir);
+	if(data.getCarte().isInMapBound(pos)) {
+	    //Si le robot peut se deplacer sur le nouvel terrain
+	    if(robot.peutDeplacerSur(data.getCarte().getCaseAt(pos))){
+		robot.setPosition(data.getCarte().getCaseAt(pos));
+	    }
 	}
-	
     }
-
-    
 }

@@ -32,7 +32,7 @@ public class Roue extends Robot{
      * @see Entity
      */
     public Roue(Case cas){
-	super(cas, couleurRoue, volumeMaxRoue, volumeMaxRoue, vitesseDeplacementRoue, vitesseRemplissageRoue, vitesseDeversementRoue);
+	super(cas, volumeMaxRoue, volumeMaxRoue, vitesseDeplacementRoue, vitesseRemplissageRoue, vitesseDeversementRoue);
     }
 
     @Override
@@ -67,31 +67,32 @@ public class Roue extends Robot{
     public void draw(BetterGUISimulator gui){
 	int ratio = gui.getTailleCase();
 	int pixel = gui.getTaillePixel();
-	int x = this.cas.getPosition().getColonne() * ratio;
-	int y = this.cas.getPosition().getLigne() * ratio;
+	int x = getCase().getPosition().getColonne() * ratio;
+	int y = getCase().getPosition().getLigne() * ratio;
 	int size = ratio/pixel;
 	Color teal = new Color(0,128,128);
+        Color tealDarker = teal.darker();
 
-	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*1, teal.darker(), teal.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*1, teal.darker(), teal.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*1, teal.darker(), teal.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*1, teal.darker(), teal.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*1, tealDarker, tealDarker, size));
+	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*1, tealDarker, tealDarker, size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*1, tealDarker, tealDarker, size));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*1, tealDarker, tealDarker, size));
 	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*2, Color.black, Color.black, size));
 	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*3, Color.black, Color.black, size));
 	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*4, teal, teal, size));
 	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*4, teal, teal, size));
 	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*4, teal, teal, size));
-	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*4, teal.darker(), teal.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*4, tealDarker, tealDarker, size));
 	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*5, teal, teal, size));
 	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*5, teal, teal, size));
 	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*5, teal, teal, size));
-	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*5, teal.darker(), teal.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*5, tealDarker, tealDarker, size));
 	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*6, Color.black, Color.black, size));
 	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*7, Color.black, Color.black, size));
-	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*8, teal.darker(), teal.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*8, teal.darker(), teal.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*8, teal.darker(), teal.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*8, teal.darker(), teal.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*8, tealDarker, tealDarker, size));
+	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*8, tealDarker, tealDarker, size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*8, tealDarker, tealDarker, size));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*8, tealDarker, tealDarker, size));
 
 	gui.addGraphicalElement(new Text(x + size*5, y + size*9, Color.darkGray, Integer.toString(getVolumeEau())));
     }

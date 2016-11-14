@@ -1,3 +1,5 @@
+package robot;
+
 import robot.io.LecteurDonnees;
 import robot.io.DonneesSimulation;
 

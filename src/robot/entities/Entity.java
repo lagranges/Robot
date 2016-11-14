@@ -11,31 +11,20 @@ import java.awt.Color;
  * @see robot.map.case
  * @see robot.map.carte
  */
-public abstract class Entity implements Drawable{
+public abstract class Entity implements Drawable {
 
-    /**
-     * La taille d'une case
-     */
-    public static final int  TAILLE = 10;
-	
-    protected Case cas;
-    protected Color col;
+    private Case cas;
 
-    
-    
     /**
      * Contructeur d'une nouvelle entité 
      * 
      * @param cas la cas sur laquelle elle se trouve
      * @param col la couleur de l'entité
      */
-    public Entity(Case cas, Color col){
+    public Entity(Case cas){
 	this.cas = cas;
-	this.col = col;
     }
-
-
-
+    
     /**
      * Retourne la case de l'entité.
      * La position d'une entité est la case sur laquelle elle se trouve.
@@ -44,7 +33,14 @@ public abstract class Entity implements Drawable{
      * @see    robot.map.Case
      */
 
-    public Case getPosition(){
+    public Case getCase(){
 	return this.cas;
+    }
+
+    /**
+     * @param cas the cas to set
+     */
+    protected void setCas(Case cas) {
+        this.cas = cas;
     }
 }

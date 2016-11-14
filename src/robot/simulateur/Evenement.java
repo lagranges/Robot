@@ -3,8 +3,9 @@ package robot.simulateur;
 import robot.io.*;
 
 public abstract class Evenement{
-    private long date;
-
+   
+    private final long date;
+   
     public Evenement(long date){
 	this.date = date;
     }

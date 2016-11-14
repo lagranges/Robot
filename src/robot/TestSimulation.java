@@ -1,3 +1,5 @@
+package robot;
+
 import robot.io.*;
 import robot.simulateur.*;
 import robot.*;
@@ -5,6 +7,7 @@ import robot.*;
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
 import java.awt.Color;
+import robot.entities.Robot;
 
 import robot.gui.BetterGUISimulator;
 
@@ -26,40 +29,41 @@ public class TestSimulation{
 	    Simulateur sim = new Simulateur(gui, data);
 	    
 	    //Robot0
-	    data.getRobots()[0].programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,1), 0);
-	    data.getRobots()[0].programEventIntervention(sim, data, 0);
-	    data.getRobots()[0].programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,2), 0);
-	    data.getRobots()[0].programEventRemplissage(sim, 0);
-	    data.getRobots()[0].programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,1), 0);
-	    data.getRobots()[0].programEventIntervention(sim, data, 0);
+            Robot r0 = data.getRobots().get(0);
+	    r0.programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,1), 0);
+	    r0.programEventIntervention(sim, data, 0);
+	    r0.programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,2), 0);
+	    r0.programEventRemplissage(sim, 0);
+	    r0.programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,1), 0);
+	    r0.programEventIntervention(sim, data, 0);
 
 	    //Robot1
-	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,5), 1);
-	    data.getRobots()[1].programEventIntervention(sim, data, 1);
-	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,3), 1);
-	    data.getRobots()[1].programEventRemplissage(sim,1);
-	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,5), 1);
-	    data.getRobots()[1].programEventIntervention(sim, data, 1);
+            Robot r1 = data.getRobots().get(1);
+	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,5), 1);
+	    r1.programEventIntervention(sim, data, 1);
+	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,3), 1);
+	    r1.programEventRemplissage(sim,1);
+	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,5), 1);
+	    r1.programEventIntervention(sim, data, 1);
 
 	    //Robot2
-	    data.getRobots()[2].programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,7), 2);
-	    data.getRobots()[2].programEventIntervention(sim, data, 2);
+            Robot r2 = data.getRobots().get(2);
+	    r2.programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,7), 2);
+	    r2.programEventIntervention(sim, data, 2);
 
 	    //Robot1
-	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,1), 1);
-	    data.getRobots()[1].programEventIntervention(sim, data, 1);
-	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(4,1), 1);
-	    data.getRobots()[1].programEventRemplissage(sim,1);
-	    data.getRobots()[1].programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,1), 1);
-	    data.getRobots()[1].programEventIntervention(sim, data, 1);
+	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,1), 1);
+	    r1.programEventIntervention(sim, data, 1);
+	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(4,1), 1);
+	    r1.programEventRemplissage(sim,1);
+	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,1), 1);
+	    r1.programEventIntervention(sim, data, 1);
 	    
 	    //Robot2
-	    data.getRobots()[2].programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,0), 2);
-	    data.getRobots()[2].programEventIntervention(sim, data, 2);
-
-	    //Robot2
-	    data.getRobots()[2].programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,0), 2);
-	    data.getRobots()[2].programEventIntervention(sim, data, 2);
+	    r2.programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,0), 2);
+	    r2.programEventIntervention(sim, data, 2);
+	    r2.programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,0), 2);
+	    r2.programEventIntervention(sim, data, 2);
 
 	    sim.restart();
 

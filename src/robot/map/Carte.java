@@ -1,5 +1,7 @@
 package robot.map;
 
+import java.util.ArrayList;
+import java.util.List;
 import robot.*;
 import robot.gui.Drawable;
 import robot.gui.BetterGUISimulator;
@@ -36,6 +38,16 @@ public class Carte implements Drawable {
 	}
     }
 
+    public List<Case> getCases() {
+       List<Case> l = new ArrayList<Case>();
+       for(Case[] lc : map){
+           for(Case c : lc) {
+               l.add(c);               
+           }
+       }
+       return l;
+    }
+    
     public int getNbLigne() {
 	return nbLignes;
     }
@@ -79,10 +91,6 @@ public class Carte implements Drawable {
     }
     
     public void draw(BetterGUISimulator gui){
-	for(Case[] lc : map) {
-	    for(Case c : lc) {
-		c.draw(gui);
-	    }
-	}
+        gui.drawAll(getCases());
     }
 }

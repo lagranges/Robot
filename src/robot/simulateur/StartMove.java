@@ -1,25 +1,17 @@
 package robot.simulateur;
 
-import robot.*;
+import robot.entities.Robot;
 import robot.io.*;
-import robot.map.*;
 
-public class StartMove extends Evenement{
+public class StartMove extends EvenementRobot {
     
-    private int indice;
-
-    public StartMove(long date, int indice){
-	super(date);
-	this.indice = indice;
-    }
-
-    private int getIndice(){
-	return this.indice;
+    public StartMove(long date, Robot robot){
+	super(date,robot);
     }
 
     @Override
     public void execute(DonneesSimulation data){
-	data.getRobots()[getIndice()].setIndicateurDeplacement(true);
+	getRobot().setIndicateurDeplacement(true);
     }
 
 }

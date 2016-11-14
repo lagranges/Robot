@@ -33,7 +33,7 @@ public class Patte extends Robot{
      * @see Entity
      */
     public Patte(Case cas){
-	super(cas, couleurPatte, volumeMaxPatte, volumeMaxPatte, vitesseDeplacementPatte, vitesseRemplissagePatte, vitesseDeversementPatte);
+	super(cas, volumeMaxPatte, volumeMaxPatte, vitesseDeplacementPatte, vitesseRemplissagePatte, vitesseDeversementPatte);
     }
 
     @Override
@@ -52,15 +52,16 @@ public class Patte extends Robot{
 	
     @Override
     public boolean peutDeplacerSur(NatureTerrain natureTerrain){
-	switch (natureTerrain)
-	    {
-	    case EAU: return false; 
-	    case FORET: return true;
-	    case ROCHE: return true;
-	    case TERRAIN_LIBRE: return true;
-	    case HABITAT: return true;
-	    default : return false;
-	    }
+	switch (natureTerrain) {
+	    case FORET:
+	    case ROCHE:
+	    case TERRAIN_LIBRE: 
+	    case HABITAT: 
+                return true;
+            case EAU:
+	    default : 
+                return false;
+	}
     }
 	
     @Override
@@ -70,8 +71,8 @@ public class Patte extends Robot{
     public void draw(BetterGUISimulator gui){
 	int ratio = gui.getTailleCase();
 	int pixel = gui.getTaillePixel();
-	int x = this.cas.getPosition().getColonne() * ratio;
-	int y = this.cas.getPosition().getLigne() * ratio;
+	int x = getCase().getPosition().getColonne() * ratio;
+	int y = getCase().getPosition().getLigne() * ratio;
 	int size = ratio/pixel;
 	Color redIndian = new Color(205,92,92);
 

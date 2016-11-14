@@ -1,3 +1,5 @@
+package robot;
+
 import robot.io.*;
 import robot.simulateur.*;
 import robot.*;
@@ -5,10 +7,11 @@ import robot.*;
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;
 import java.awt.Color;
+import robot.entities.Robot;
 
 import robot.gui.BetterGUISimulator;
 
-public class TestScenario1{
+public class TestScenario1 {
     public static void main(String[] args){
 	if (args.length < 1){
 	    System.out.println("Syntaxe: java TestLecteurDonnees <nomDeFichier>");
@@ -24,15 +27,15 @@ public class TestScenario1{
 	    BetterGUISimulator gui = new BetterGUISimulator(guiColonne,guiLigne, Color.BLACK, guiColonne/data.getCarte().getNbColonne(), guiColonne/50);
 
 	    Simulateur sim = new Simulateur(gui, data);
-
-	    sim.ajouteEvenement(new Deplacement(0, 1,Direction.NORD));
-	    sim.ajouteEvenement(new Intervention(1, 1, data.getRobots()[1].getVolumeMax()));
-	    sim.ajouteEvenement(new Deplacement(2, 1,Direction.OUEST));
-	    sim.ajouteEvenement(new Deplacement(3, 1,Direction.OUEST));
-	    sim.ajouteEvenement(new Remplissage(4, 1, data.getRobots()[1].getVolumeMax()));
-	    sim.ajouteEvenement(new Deplacement(5, 1, Direction.EST));
-	    sim.ajouteEvenement(new Deplacement(6, 1, Direction.EST));
-	    sim.ajouteEvenement(new Intervention(7, 1, data.getRobots()[1].getVolumeMax()));
+            Robot r1 = data.getRobots().get(1);
+	    sim.ajouteEvenement(new Deplacement(0, r1,Direction.NORD));
+	    sim.ajouteEvenement(new Intervention(1, r1, r1.getVolumeMax()));
+	    sim.ajouteEvenement(new Deplacement(2, r1,Direction.OUEST));
+	    sim.ajouteEvenement(new Deplacement(3, r1,Direction.OUEST));
+	    sim.ajouteEvenement(new Remplissage(4, r1, r1.getVolumeMax()));
+	    sim.ajouteEvenement(new Deplacement(5, r1, Direction.EST));
+	    sim.ajouteEvenement(new Deplacement(6, r1, Direction.EST));
+	    sim.ajouteEvenement(new Intervention(7, r1, r1.getVolumeMax()));
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {

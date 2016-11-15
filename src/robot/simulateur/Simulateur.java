@@ -28,11 +28,7 @@ public class Simulateur implements Simulable {
      */
     private Map<Robot,List<Evenement>> evenements = new HashMap<Robot,List<Evenement>>();
 
-    /**
-     * 
-     * @param gui
-     * @param data 
-     */
+
     public Simulateur(BetterGUISimulator gui, DonneesSimulation data) {
 	this.gui = gui;
 	gui.setSimulable(this); //association a la gui

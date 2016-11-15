@@ -89,7 +89,7 @@ public abstract class Robot extends Entity {
      * Définit la case du robot
      */
     public void setPosition(Case cas) {
-        this.setCas(cas);
+        this.setCase(cas);
     }
 
     /**
@@ -223,6 +223,11 @@ public abstract class Robot extends Entity {
      */
     public abstract boolean peutRemplirEau(Carte carte);
 
+    /**
+     * Retourne si le robot peut remplir son réservoir sur une case de type EAU.
+     * 
+     * @return true si le remplissage sur un case eau est possible, sinon false
+     */
     public abstract boolean peutRemplirSurCaseEau();
 
     /**

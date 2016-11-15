@@ -22,7 +22,7 @@ public class Roue extends Robot{
     public static final double VITESSE_DEPLACEMENT = 80 ;
 	
     /**
-     * Le contructeur d'une Roue avec les atribut déterminé au-dessus
+     * Le constructeur d'un robot de type roue avec les attributs déterminé au-dessus
      *
      * @param cas : la position du Robot a roue 
      * @see Robot
@@ -49,6 +49,7 @@ public class Roue extends Robot{
         return carte.caseAProximite(getCase(),NatureTerrain.EAU);
     }
     
+    @Override
     public boolean peutRemplirSurCaseEau() {
         return false;
     }

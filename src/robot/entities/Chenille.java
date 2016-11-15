@@ -52,6 +52,7 @@ public class Chenille extends Robot{
         return carte.caseAProximite(getCase(),NatureTerrain.EAU);
     }
     
+    @Override
     public boolean peutRemplirSurCaseEau() {
         return false;
     }

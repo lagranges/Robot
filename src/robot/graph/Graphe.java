@@ -90,7 +90,7 @@ public class Graphe {
     /**
      * Retourne la liste des aretes qui sortent d'une case du graphe
      *
-     * @param Case la case qui est la source des aretes
+     * @param cas la case source
      * @return La liste des Aretes
      *
      */

@@ -23,7 +23,7 @@ public class Patte extends Robot{
     public static final double VITESSE_DEPLACEMENT_SUR_ROCHE = 10;
 	
     /**
-     * Le contructeur d'une Patte avec les atribut déterminé au-dessus
+     * Le constructeur d'un robot de type patte avec les attributs déterminé au-dessus
      *
      * @param cas : la position du Robot a Patte 
      * @see Robot
@@ -60,6 +60,7 @@ public class Patte extends Robot{
     @Override
     public void deverserEau(double vol) {}
     
+    @Override
     public boolean peutRemplirSurCaseEau() {
         return false;
     }

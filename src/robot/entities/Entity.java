@@ -14,7 +14,7 @@ public abstract class Entity implements Drawable {
     private Case cas;
 
     /**
-     * Contructeur d'une nouvelle entité 
+     * Constructeur d'une nouvelle entité 
      * 
      * @param cas la cas sur laquelle elle se trouve
      * @param col la couleur de l'entité
@@ -30,15 +30,11 @@ public abstract class Entity implements Drawable {
      * @return la position de l'entité
      * @see    robot.map.Case
      */
-
     public Case getCase(){
 	return this.cas;
     }
 
-    /**
-     * @param cas the cas to set
-     */
-    protected void setCas(Case cas) {
+    protected void setCase(Case cas) {
         this.cas = cas;
     }  
 }

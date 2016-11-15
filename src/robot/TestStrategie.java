@@ -2,7 +2,6 @@ package robot;
 
 import robot.io.*;
 import robot.simulateur.*;
-import robot.*;
 import robot.strategy.*;
 
 import java.io.FileNotFoundException;
@@ -82,10 +81,6 @@ public class TestStrategie {
 		chef.wait(5);
 	    }*/
 	    
-
-	
-	    System.out.println("YEAH");
-
         } catch (FileNotFoundException e) {
             System.out.println("fichier " + args[0] + " inconnu ou illisible");
         } catch (DataFormatException e) {

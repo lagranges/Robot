@@ -14,7 +14,7 @@ public class Dijkstra {
         private Map<Case, Case> predecesseur;
         private Map<Case, Integer> time;
         /**
-         * Contruire un Dijkstra correspondant avec une graphe
+         * Construit un Dijkstra correspondant a un graphe
          * @param Graphe graph
          */
         public Dijkstra(Graphe graph) {
@@ -22,7 +22,7 @@ public class Dijkstra {
                 this.listAretes = new ArrayList<Aretes>(graph.getListAretes());
         }
         /**
-         * Calculer les plus courts chemin correspondant avec une case de source 
+         * Calcule le plus court chemin correspondant à une case source 
          * @param Case source
          *
          */
@@ -85,10 +85,10 @@ public class Dijkstra {
 
 
         /**
-         * Retourne le temps nécessaire pour se rendre entre deux case,  
-         * retourne Integer.MAX_VALUE si il n'y a aucun chemin
-         * @param Case destination
-         * @return le temps de déplacement 
+         * Retourne le temps nécessaire pour se rendre d'une case à une autre case. 
+         *
+         * @param destination la case d'arrivée
+         * @return le temps de déplacement, Integer.MAX_VALUE si aucun chemin
          */
         public int getTime(Case destination) {
 
@@ -99,10 +99,10 @@ public class Dijkstra {
 
 
         /**
-         * Retourne la list de temps sur les Cases (dans le plus court chemin)
+         * Retourne la liste des temps de trajet dans le plus court chemin
          * NULL si il n'y a aucun chemin
-         * @param Case destination
-         * @return la liste des cases de chemin 
+         * @param destination la case d'arrivée
+         * @return la liste des cases de chemin , null si aucun chemin.
          */
         public List<Integer> getListTime(Case destination) {
                 ArrayList<Integer> listTime = new ArrayList<Integer>();
@@ -123,7 +123,7 @@ public class Dijkstra {
         /**
          * Retourne la list de Cases du plus court chemin
          * , retourne NULL si il n'y a aucun chemin
-         * @param Case destination
+         * @param destination la case d'arrivée
          * @return la liste des durées de déplacement entre 2 cases de la chemin
          */
         public List<Case> getChemin(Case destination) {

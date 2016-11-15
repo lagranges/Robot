@@ -5,7 +5,6 @@ import robot.simulateur.evenements.Remplissage;
 import robot.simulateur.evenements.Deplacement;
 import robot.io.*;
 import robot.simulateur.*;
-import robot.*;
 
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;

@@ -8,7 +8,7 @@ public class Aretes{
 	private Case destination;
 	private int time;
     /**
-     * Contruire un Arete à partir d'une case de source, d'une case de destination et de temps de déplacement entre les deux case
+     * Construit un Arete à partir d'une case de source, d'une case de destination et du temps de déplacement entre les deux cases
      * @param Case s Source de l'arete
      * @param Case d Destination de l'arete
      * @param int t Le temps de déplacement
@@ -34,7 +34,7 @@ public class Aretes{
 		return destination;
 	}
     /**
-     * Retourne la durée de déplacement entre la source et la destination
+     * Retourne la durée du déplacement entre la source et la destination
      * @return la valuer de la durée
      */
 	public int getTime(){

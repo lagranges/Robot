@@ -11,12 +11,6 @@ public class DonneesSimulation{
     private List<Incendie> donneesIncendie;
     private List<Robot> donneesRobot;
 
-    private enum Type{
-	Drone,
-	Chenille,
-	Patte,
-	Roue,
-    }
     
     /**
      * Crée une nouvelle DonnesSimulation avec tous les donnees d'une carte, des robots et des incendies
@@ -108,9 +102,8 @@ public class DonneesSimulation{
 			       + r.toString() + "; Vitesse :" + r.getVitesseDeplacementDefault() + " km/h");
 	}
     }
-    /**
-     * Retourne la Carte 
-     */
+
+    
     public Carte getCarte() {
 	return donneesCarte;
     }

@@ -30,7 +30,7 @@ JAVAC_DESTINATION_FOLDER=-d bin
 JAVAC=javac $(ENCODING) $(JAVAC_DESTINATION_FOLDER) $(SOURCEPATH) $(GUI_CLASSPATH)
 JAVADOC=javadoc $(JAVADOC_ENCODING) -d doc-tmp/ $(SOURCEPATH)
 
-all: testInvader testLecture testDonnees testSimulation testScenario0 testScenario1
+all: testInvader testLecture testDonnees testSimulation testScenario0 testScenario1 testStrategie
 
 testInvader:
 	$(JAVAC) src/robot/TestInvader.java
@@ -77,7 +77,7 @@ exeScenario1:
 	java  $(GUI_CLASSPATH) robot/TestScenario1 cartes/carteSujet.map	
 
 exeStrategie:
-	java -classpath bin:bin/gui.jar TestStrategie cartes/carteSujet.map
+	java  $(GUI_CLASSPATH) robot/TestStrategie cartes/carteSujet.map
 
 exeSimulationSujet:
 	java  $(GUI_CLASSPATH) robot/TestSimulation cartes/carteSujet.map	

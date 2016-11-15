@@ -84,8 +84,9 @@ public class Simulateur implements Simulable {
         }
 	draw();
     }
-
+   
     public void ajouteEvenement(EvenementRobot e){
+        System.out.println("ajout evement : " + e.getClass() + " robot " + e.getRobot());
 	List<Evenement> le = evenements.get(e.getRobot());
 	if(le == null) {
 	    le = new ArrayList<Evenement>();
@@ -112,7 +113,7 @@ public class Simulateur implements Simulable {
     }
 
     private boolean simulationTerminee(){
-        return dateSimulation == dateFin;
+        return dateSimulation > dateFin;
     }
 
     private void drawRobots(){
@@ -166,7 +167,7 @@ public class Simulateur implements Simulable {
 	    Incendie feu = iter.next();
 	    gui.addGraphicalElement(new Text(position + 430, (i*70)+30, Color.white, "Incendie " + i ));
 	    gui.addGraphicalElement(new Text(position + 430, (i*70)+50, Color.white, "Pos : " + feu.getCase().getPosition() ));
-	    gui.addGraphicalElement(new Text(position + 430, (i*70)+70, Color.white, "Intensité : " + feu.getNbLitresEauPourExtinction() + " L" ));
+	    gui.addGraphicalElement(new Text(position + 430, (i*70)+70, Color.white, "Intensité : " + feu.getNbLitresEauRestantPourExtinction() + " L" ));
 	}	
     }
 }

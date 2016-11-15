@@ -23,6 +23,7 @@ public class Deplacement extends EvenementRobot {
     
     @Override
     public void execute(DonneesSimulation data){
+        System.out.println("["+getDate()+"]Deplacement : " + getRobot() + " dir " + dir);
         positionSave = getRobot().getCase().getPosition();
 	Position pos = new Position(getRobot().getCase().getPosition(), dir);
 	if(data.getCarte().isInMapBound(pos)) {

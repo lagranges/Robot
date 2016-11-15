@@ -1,7 +1,6 @@
 package robot.entities;
 
 import java.awt.Color;
-import java.lang.*;
 import robot.map.*;
 import robot.gui.BetterGUISimulator;
 import gui.*;
@@ -50,7 +49,11 @@ public class Chenille extends Robot{
     
     @Override
     public boolean peutRemplirEau(Carte carte) {
-        return carte.caseEauAProximite(getCase());
+        return carte.caseAProximite(getCase(),NatureTerrain.EAU);
+    }
+    
+    public boolean peutRemplirSurCaseEau() {
+        return false;
     }
     
     @Override

@@ -10,180 +10,88 @@ import robot.simulateur.*;
 
 public class Evolue extends Strategie{
 
-    private int[] estimateTime;
-
+    private Map<Robot,Integer> estimateTime;
+    
+    private List<Case> berges;
+    private List<Case> eaux;
+    
     public Evolue(Simulateur sim, DonneesSimulation data){
 	super(sim, data);
-	this.estimateTime = new int[data.getRobots().length];
+        berges = data.getCarte().getListeCasesBerge();
+        eaux = getDonneesSimulation().getCarte().getListeCases(NatureTerrain.EAU);
+        this.estimateTime = new HashMap<Robot, Integer>();
+    }
+    
+    @Override
+    public void executeStrategie() {
+        for(Incendie i : getIncendiesNonAffecte()){
+            Robot choix = null;
+            int distanceMin = Integer.MAX_VALUE;
+            for(Robot r : getRobotsDisponible()){
+                int distance = r.calculPlusCourtChemin(getDonneesSimulation(), i.getCase());
+                if(distance < distanceMin){
+                    distanceMin = distance;
+                    choix = r;
+                }
+            }
+            if(choix != null){
+                affecterIncendie(choix, i);
+            }
+        }
     }
 
-    public void setTableBoolRobot(int i){
-	getRobots()[i] = true;
-    }
-
-    public void setEstimateTime(int i, int value){
-	estimateTime[i] = value;
-    }
-
-    public int[] getEstimateTime(){
-	return this.estimateTime;
-    }
-
-    public void proposeAll(){
-	Robot[] bot = getDonneesSimulation().getRobots();
-	for(int i=0; i < bot.length; i++){
-	    if(bot[i].getStatus()){
-		setTableBoolRobot(i);
-	    }
-	}
-    }
-
-    //return false si au moins un de Robot est libre
-    public boolean isEveryoneBusy(){
-	for (boolean value : getRobots()) {
-	    if (!value)
-		return false;
-	}
-	return true;
-    }
-
-    public int whichRobotIsCloser(int indiceIncendie){
-	Case dest = getDonneesSimulation().getIncendies()[indiceIncendie].getPosition();
-	Robot[] bot = getDonneesSimulation().getRobots();
+    
+    public Case closestWaterSource(List<Case> lc, Robot bot){
 	int time = Integer.MAX_VALUE;
-	int indice = 0;
-	for(int i=0; i<getRobots().length; i++){
-	    if(!bot[i].getStatus()){
-		if(time > bot[i].calculPlusCourtChemin(getDonneesSimulation(),dest,i)){
-		    time = bot[i].calculPlusCourtChemin(getDonneesSimulation(),dest,i);
-		    indice = i;
-		}
+	Case choix = null;
+	for(Case eau : lc) {
+	    if(time > bot.calculPlusCourtChemin(getDonneesSimulation(),eau)){
+		time = bot.calculPlusCourtChemin(getDonneesSimulation(),eau);
+		choix = eau;
 	    }
 	}
-	if(time == Integer.MAX_VALUE){
-	    return time;
-	}else{
-	    return indice;
-	}
+	return choix;
     }
 
-    public int whichWaterSourceIsCloser(Case[] dest, Robot bot, int numero){
-	int time = Integer.MAX_VALUE;
-	int indice = 0;
-	for(int i=0; i<dest.length; i++){
-	    if(time > bot.calculPlusCourtChemin(getDonneesSimulation(),dest[i],numero)){
-		time = bot.calculPlusCourtChemin(getDonneesSimulation(),dest[i],numero);
-		indice = i;
-	    }
-	}
-	return indice;
-    }
-
-    public List<Case> getPosTousEau(){
-	List<Case> eau = new ArrayList<Case>();
-	for(Case[] lc : getDonneesSimulation().getCarte().getMap()){
-	    for(Case c : lc){
-		if(c.getNatureType() == NatureTerrain.EAU){
-		    eau.add(c);
-		}
-	    }
-	}
-	return eau;
-    }
-
-    public Case[] getListEauPos(){
-	return getPosTousEau().toArray(new Case[getPosTousEau().size()]);
-    }
-
-    public List<Case> getPosTousBerge(){
-	Carte map = getDonneesSimulation().getCarte();
-	List<Case> berge = new ArrayList<Case>();
-	for(Case c : getListEauPos()){
-	    for(Direction dir : Direction.values()){
-		Position pos = new Position(c.getPosition(),dir);
-		if(map.isInMapBound(pos)){
-		    if(map.getCaseAt(pos).getNatureType() != NatureTerrain.EAU){
-			berge.add(map.getCaseAt(pos));
-		    }
-		}
-	    }
-	}
-	return berge;
-    }
-
-    public Case[] getListBergePos(){
-	return getPosTousBerge().toArray(new Case[getPosTousBerge().size()]);
-    }
-
-    public Case closestWaterSource(Robot bot, int indiceRobot){
-	int i;;
-	if(bot.getClass().getSimpleName().equals("Drone")){
-	    i = whichWaterSourceIsCloser(getListEauPos(), bot, indiceRobot);
-	    return getListEauPos()[i];
-	}else{
-	    i = whichWaterSourceIsCloser(getListBergePos(), bot, indiceRobot);
-	    return getListBergePos()[i]; 	
-	}
-    }
-
-    public void checkRobotFinish(){
-	Robot[] bot = getDonneesSimulation().getRobots();
-	for(int i=0; i<estimateTime.length; i++){
-	    if(getTemp() >= estimateTime[i]){
-		bot[i].setStatus(false);
-	    }
-	}
-    }
-
-    public void initProposal(){
-	for(int i=0; i<getRobots().length; i++){
-	    getRobots()[i] = false;
-	}
+    public List<Case> getCasesTypeEau(){
+	return getDonneesSimulation().getCarte().getListeCases(NatureTerrain.EAU);
     }
 
     @Override
-    public void sendRobot(Simulateur sim, int indiceRobot, int indiceIncendie){
-	DonneesSimulation data = getDonneesSimulation();
-	Robot bot = data.getRobots()[indiceRobot];
-	//System.out.println(indiceIncendie);
-	Incendie fire = data.getIncendies()[indiceIncendie];
+    public void sendRobot(Simulateur sim, Robot bot, Incendie fire) {
+        DonneesSimulation data = getDonneesSimulation();
+        //System.out.println(indiceIncendie);
 
-	int time = 0;
+        int time = 0;
 
-	sim.ajouteEvenement(new TempCourant(getTemp()), indiceRobot);
+        sim.ajouteEvenement(new TempCourant(getTemps(), bot));
 
-	int volEau = bot.getVolumeMax();
-	int intensity = fire.getNbLitresEauPourExtinction();
+        int volEau = bot.getVolumeMax();
+        int intensity = fire.getNbLitresEauRestantPourExtinction();
 
-	bot.setStatus(true);
-	time += bot.calculPlusCourtChemin(data,fire.getPosition(), indiceRobot);
-	bot.programEventDeplacement(sim, data, fire.getPosition(), indiceRobot);
-	time += bot.tempsDeversement((int)bot.getVitesseDeversement());
-	bot.programEventIntervention(sim, data, indiceRobot);
-	if(!bot.getClass().getSimpleName().equals("Patte")){
-	    intensity -= volEau;
-	    while(intensity > 0){
-		Case water = closestWaterSource(bot, indiceRobot);
-		time += bot.calculPlusCourtChemin(data, water, indiceRobot);
-		bot.programEventDeplacement(sim, data, water, indiceRobot);
-		time += bot.tempsRemplissage();
-		bot.programEventRemplissage(sim, indiceRobot);
-		time += bot.calculPlusCourtChemin(data,fire.getPosition(), indiceRobot);
-		bot.programEventDeplacement(sim, data, fire.getPosition(), indiceRobot);
-		bot.programEventIntervention(sim, data, indiceRobot);
-		intensity -= volEau;
-	    }
-
-	    if(intensity <= 0){
-		Case water = closestWaterSource(bot, indiceRobot);
-		time += bot.calculPlusCourtChemin(data, water, indiceRobot);
-		bot.programEventDeplacement(sim, data, water, indiceRobot);
-		time += bot.tempsRemplissage();
-		bot.programEventRemplissage(sim, indiceRobot);
-	    }
-	}
-
-	setEstimateTime(indiceRobot, getTemp() + time);
+        bot.setStatus(true);
+        time += bot.calculPlusCourtChemin(data, fire.getCase());
+        bot.programEventDeplacement(sim, data, fire.getCase());
+        time += bot.tempsDeversement((int) bot.getVitesseDeversement());
+        bot.programEventIntervention(sim, data, fire.getCase());
+        intensity -= volEau;
+        while (intensity > 0) {
+            Case water;
+            if (bot.peutRemplirSurCaseEau()) {
+                water = closestWaterSource(eaux, bot);
+            } else {
+                water = closestWaterSource(berges, bot);
+            }
+            time += bot.calculPlusCourtChemin(data, water);
+            bot.programEventDeplacement(sim, data, water);
+            time += bot.tempsRemplissage();
+            bot.programEventRemplissage(sim);
+            time += bot.calculPlusCourtChemin(data, fire.getCase());
+            bot.programEventDeplacement(sim, data, fire.getCase());
+            bot.programEventIntervention(sim, data,fire.getCase());
+            intensity -= volEau;
+        }
     }
 
+    //setEstimateTime(getTemps() + time);
 }

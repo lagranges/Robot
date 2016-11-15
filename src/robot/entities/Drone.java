@@ -41,6 +41,10 @@ public class Drone extends Robot{
         return getCase().getNatureType() == NatureTerrain.EAU;
     }
     
+    public boolean peutRemplirSurCaseEau() {
+        return true;
+    }
+    
     @Override
     public boolean peutDeplacerSur(NatureTerrain natureTerrain){
 	return true;

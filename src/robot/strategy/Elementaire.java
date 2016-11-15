@@ -1,8 +1,6 @@
 package robot.strategy;
 
-import java.util.Random;
 import robot.io.*;
-import robot.map.*;
 import robot.entities.*;
 import robot.simulateur.*;
 
@@ -12,27 +10,23 @@ public class Elementaire extends Strategie{
 	super(sim, data);
     }
 
-    public int chooseRandomRobot(){
-	Random rand = new Random();
-	return rand.nextInt(getRobots().length);
-    } 
-
-    /**
-     * retourne false si libre
-     */
-    public boolean tryPropose(int i){
-	dejaPropose(i);
-	return getDonneesSimulation().getRobots()[i].getStatus();
-    }
-
     @Override
-    public void sendRobot(Simulateur sim, int indiceRobot, int indiceIncendie){
-	DonneesSimulation data = getDonneesSimulation();
-	Robot bot = data.getRobots()[indiceRobot];
-	Incendie fire = data.getIncendies()[indiceIncendie];
-	sim.ajouteEvenement(new TempCourant(getTemp()), indiceRobot);
-	bot.setStatus(true);
-	bot.programEventDeplacement(sim, data, fire.getPosition(), indiceRobot);
-	bot.programEventIntervention(sim, data, indiceRobot);
+    public void executeStrategie() {
+        for(Robot r : getRobots()){
+            affecterIncendie(r, chooseRandomIncendie());
+        }
+    }
+    
+    @Override
+    public void sendRobot(Simulateur sim, Robot robot, Incendie inc) {
+        DonneesSimulation data = getDonneesSimulation();
+	sim.ajouteEvenement(new TempCourant(getTemps(),robot));
+	robot.setStatus(true);
+	robot.programEventDeplacement(sim, data, inc.getCase());
+	robot.programEventIntervention(sim, data, inc.getCase());
+        
+        robot.programEventDeplacement(sim, data, data.getCarte().getListeCasesBerge().get(0));
+        robot.programEventRemplissage(sim);
+        
     }
 }

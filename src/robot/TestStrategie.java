@@ -1,3 +1,5 @@
+package robot;
+
 import robot.io.*;
 import robot.simulateur.*;
 import robot.*;
@@ -9,7 +11,7 @@ import java.awt.Color;
 
 import robot.gui.BetterGUISimulator;
 
-public class TestStrategie{
+public class TestStrategie {
     public static void main(String[] args){
 	if (args.length < 1){
 	    System.out.println("Syntaxe: java TestLecteurDonnees <nomDeFichier>");
@@ -26,8 +28,10 @@ public class TestStrategie{
 
 	    Simulateur sim = new Simulateur(gui, data);
 	        
-	    Elementaire chef = new Elementaire(sim, data);
+	    Strategie chef = new Elementaire(sim, data);
 	    
+            chef.executeStrategie();
+            
 	    /*
 	    while(!chef.allDejaTraiteIncendie() && !chef.allDejaProposeRobot()){
 		int indiceRobot = chef.chooseRandomRobot();
@@ -47,9 +51,12 @@ public class TestStrategie{
 
 		}*/
 	    
-	    
-	    Evolue chef = new Evolue(sim, data);
+	    /*
+	    chef = new Evolue(sim, data);
 
+            
+            chef.executeStrategie();
+            
 	    while(!chef.allDejaTraiteIncendie()){
 		chef.checkRobotFinish();
 		int indiceIncendie = chef.chooseRandomIncendie();
@@ -73,7 +80,7 @@ public class TestStrategie{
 		System.out.println("2 time : " + chef.getEstimateTime()[2]);
 		System.out.println();
 		chef.wait(5);
-	    }
+	    }*/
 	    
 
 	

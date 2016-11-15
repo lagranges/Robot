@@ -17,7 +17,9 @@ public class Incendie extends Entity {
     /**
      * Le nombre de litres d'eau nécessaires à l'extinction de l'incendie.
      */
-    private int nbLitresEauPourExtinction;
+    private final int nbLitresEauPourExtinction;
+    
+    private int nbLitreRestantAvantExtinction;
 
     /**
      * Crée un nouvelle incendie, avec pour position la case <code>pos</code>
@@ -31,6 +33,7 @@ public class Incendie extends Entity {
     public Incendie(Case pos, int nbLitres) {
 	super(pos);
 	nbLitresEauPourExtinction = nbLitres;
+        nbLitreRestantAvantExtinction = nbLitresEauPourExtinction;
     }
 
 
@@ -43,14 +46,22 @@ public class Incendie extends Entity {
     public int getNbLitresEauPourExtinction() {
 	return nbLitresEauPourExtinction;
     }
-
-    public void nbLitresEauArrive(double vol){
-	this.nbLitresEauPourExtinction -= vol;
+    
+    public int getNbLitresEauRestantPourExtinction() {
+	return nbLitreRestantAvantExtinction;
     }
 
+    public void nbLitresEauArrive(double vol){
+	this.nbLitreRestantAvantExtinction -= vol;
+    }
+    
+    public boolean estEteint() {
+        return nbLitreRestantAvantExtinction <= 0;
+    }
+    
     @Override
     public void draw(BetterGUISimulator gui){
-	if(getNbLitresEauPourExtinction() > 0){
+	if(getNbLitresEauRestantPourExtinction() > 0){
 	    int ratio = gui.getTailleCase();
 	    int pixel = gui.getTaillePixel();
 	    int x = getCase().getPosition().getColonne() * ratio;
@@ -78,7 +89,7 @@ public class Incendie extends Entity {
 	    gui.addGraphicalElement(new Rectangle(x + size*4, y + size*5, darkerRed, darkerRed, size));
 	    gui.addGraphicalElement(new Rectangle(x + size*3, y + size*5, darkerRed, darkerRed, size));
 
-	    gui.addGraphicalElement(new Text(x + size*4, y - size, Color.white, Integer.toString(getNbLitresEauPourExtinction())));
+	    gui.addGraphicalElement(new Text(x + size*4, y - size, Color.white, Integer.toString(getNbLitresEauRestantPourExtinction())));
 	} 
     }
 }

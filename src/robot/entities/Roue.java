@@ -46,7 +46,11 @@ public class Roue extends Robot{
     
     @Override
     public boolean peutRemplirEau(Carte carte) {
-        return carte.caseEauAProximite(getCase());
+        return carte.caseAProximite(getCase(),NatureTerrain.EAU);
+    }
+    
+    public boolean peutRemplirSurCaseEau() {
+        return false;
     }
     
     @Override

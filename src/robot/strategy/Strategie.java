@@ -1,6 +1,15 @@
 package robot.strategy;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import robot.io.*;
 import robot.map.*;
 import robot.entities.*;
@@ -11,83 +20,136 @@ public abstract class Strategie{
 
     private Simulateur sim;
 
-    private boolean[] incendie;
+    private Map<Robot,Incendie> association;
+    
+    private Set<Incendie> incendiesAffecte;
+    private List<Incendie> incendiesEnCours;
+    
+    private List<Robot> robots;
 
-    private boolean[] robot;
-
-    private int temp = 0;
+    private int temps = 0;
     
     public Strategie(Simulateur sim, DonneesSimulation data){
-	this.data = data.copy();
+	this.data = data;
 	this.sim = sim;
-	this.incendie = new boolean[data.getIncendies().length];
-	this.robot = new boolean[data.getRobots().length];
+	this.incendiesAffecte = new HashSet<Incendie>(data.getIncendies());
+        this.incendiesEnCours = new ArrayList<Incendie>(data.getIncendies());
+        this.robots = data.getRobots();
+	this.association = new HashMap<Robot,Incendie>();
     }
 
-    public DonneesSimulation getDonneesSimulation(){
+    protected DonneesSimulation getDonneesSimulation(){
 	return this.data;
     }
 
-    public Simulateur getSim(){
+    protected Simulateur getSim(){
 	return this.sim;
     }
-
-    public boolean[] getIncendies(){
-	return this.incendie;
-    }
-
-    public boolean[] getRobots(){
-	return this.robot;
-    }
-
-    public int chooseRandomIncendie(){
+    
+    public Incendie chooseRandomIncendie(){
 	Random rand = new Random();
-	return rand.nextInt(getIncendies().length);
+        int i = rand.nextInt(getIncendiesEnCours().size());
+	return getIncendiesEnCours().get(i);
     }
 
-    public boolean allDejaTraiteIncendie(){
-	for (boolean value : getIncendies()) {
-	    if (!value)
-		return false;
-	}
-	return true;
+    public boolean allDejaTraiteIncendie() {
+        for(Incendie i : getIncendiesEnCours()){
+            if(! incendiesAffecte.contains(i)){
+                return false;
+            }
+        }
+        return true;
     }
 
-    public boolean isDejaTraiteIncendie(int i){
-	return getIncendies()[i];
+    public boolean isIncendieDejaAffecte(Incendie i){
+        return getIncendiesAffecte().contains(i);
     }
 
-    public void dejaTraiteIncendie(int i){
-	getIncendies()[i] = true;
+    public void affecterIncendie(Robot r, Incendie i){
+	association.put(r, i);
+        getIncendiesAffecte().add(i);
+        sendRobot(sim, r, i);
     }
 
-    public boolean allDejaProposeRobot(){
-	for (boolean value : getRobots()) {
-	    if (!value)
-		return false;
-	}
-	return true;
+    public void libererIncendie(Robot r){
+        Incendie i = association.get(r);
+        if(i != null){
+            if(i.estEteint()) {   
+                incendiesEnCours.remove(i);
+            }
+            association.put(r, null);
+            incendiesAffecte.remove(i);
+            r.setStatus(false);
+        }
+    }
+    
+    public int getTemps(){
+	return this.temps;
     }
 
-    public void dejaPropose(int i){
-	getRobots()[i] = true;
-    }
-
-    public int getTemp(){
-	return this.temp;
-    }
-
-    public void incrementTemp(){
-	this.temp++;
+    public void incrementTemps(){
+	this.temps++;
     }
 
     //Wait t en s pour envoyer la commande suivant
     public void wait(int t){
-	incrementTemp();
-	while(temp%t != 0){
-	    incrementTemp();
+	incrementTemps();
+	while(temps%t != 0){
+	    incrementTemps();
 	}
     }
 
-    public abstract void sendRobot(Simulateur sim, int indiceRobot, int indiceIncendie);
+    public abstract void executeStrategie();
+
+    
+    public abstract void sendRobot(Simulateur sim, Robot robot, Incendie inc);
+
+    /**
+     * @return the incendiesAffecte
+     */
+    public Set<Incendie> getIncendiesAffecte() {
+        return incendiesAffecte;
+    }
+
+    /**
+     * @return the incendiesAffecte
+     */
+    public Collection<Incendie> getIncendiesNonAffecte() {
+        List<Incendie> li = new ArrayList<Incendie>();
+        for(Incendie i : incendiesEnCours){
+            if(! incendiesAffecte.contains(i)){
+                li.add(i);
+            }
+        }
+        return li;
+    }
+
+    /**
+     * @return the incendiesEnCours
+     */
+    public List<Incendie> getIncendiesEnCours() {
+        return incendiesEnCours;
+    }
+
+    /**
+     * @return the robots
+     */
+    public List<Robot> getRobots() {
+        return robots;
+    }
+
+    public List<Robot> getRobotsDisponible() {
+        List<Robot> lr = new ArrayList<Robot>();
+        for(Robot r : robots){
+            Incendie i = association.get(r);
+            if(i == null){
+                lr.add(r);
+            } else {
+                if(i.estEteint()){
+                    libererIncendie(r);
+                }
+            }
+        }
+        return lr;
+    }
 }

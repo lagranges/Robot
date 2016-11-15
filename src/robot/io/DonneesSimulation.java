@@ -92,7 +92,7 @@ public class DonneesSimulation{
 	    System.out.println("Incendie " + i + ": position = (" + 
 			       i.getCase().getPosition().getLigne() + "," + 
 			       i.getCase().getPosition().getColonne() + "); Intensite :" 
-			       + i.getNbLitresEauPourExtinction() );
+			       + i.getNbLitresEauRestantPourExtinction() );
 	}
     }
 
@@ -126,7 +126,7 @@ public class DonneesSimulation{
 
     private static Incendie getIncendieAt(Case caze, List<Incendie> incendies) {
 	for(Incendie inc : incendies) {
-	    if(inc.getCase().equals(caze.getPosition())){
+	    if(inc.getCase().getPosition().equals(caze.getPosition())){
 		return inc;
 	    }
 	}

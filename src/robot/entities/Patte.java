@@ -2,7 +2,6 @@ package robot.entities;
 
 import java.awt.Color;
 import robot.map.*;
-import java.lang.*;
 import robot.gui.BetterGUISimulator;
 import gui.*;
 
@@ -55,6 +54,13 @@ public class Patte extends Robot{
 
     @Override
     public boolean peutRemplirEau(Carte carte) {
+        return false;
+    }
+    
+    @Override
+    public void deverserEau(double vol) {}
+    
+    public boolean peutRemplirSurCaseEau() {
         return false;
     }
     

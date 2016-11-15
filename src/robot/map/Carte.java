@@ -2,7 +2,9 @@ package robot.map;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import robot.*;
 import robot.gui.Drawable;
 import robot.gui.BetterGUISimulator;
@@ -121,17 +123,47 @@ public class Carte implements Drawable {
      * <code>pos</code>.
      * 
      * @param pos la position a tester
+     * @param nt le type de terrain
      * @return true si au moins une case eau est a proximite, false sinon
      */
-    public boolean caseEauAProximite(Case pos) {
-        Direction[] d = {Direction.EST,Direction.NORD,Direction.OUEST,Direction.SUD};
-	for(Direction dir : d){
-            if(voisinExiste(pos,dir)){
-                if (getVoisin(pos, dir).getNatureType() == NatureTerrain.EAU) {
-                    return true;
-                }
+    public boolean caseAProximite(Case pos, NatureTerrain nt) {
+	for(Case c : getListCaseAProximite(pos)){
+            if (c.getNatureType() == nt) {
+                return true;
             }
 	}
 	return false;
+    }
+    public List<Case> getListCaseAProximite(Case pos) {
+        List<Case> lc = new ArrayList<Case>();
+        Direction[] d = {Direction.EST,Direction.NORD,Direction.OUEST,Direction.SUD};
+	for(Direction dir : d){
+            if(voisinExiste(pos,dir)){
+                lc.add(getVoisin(pos, dir));
+            }
+	}
+	return lc;
+    }
+    
+    public List<Case> getListeCases(NatureTerrain nt){
+	List<Case> lc = new ArrayList<Case>();
+        for(Case c : getCases()){
+            if(c.getNatureType() == nt){
+                lc.add(c);
+            }
+        }
+	return lc;
+    }
+    
+    public List<Case> getListeCasesBerge(){
+        Set<Case> lc = new HashSet<Case>();
+        for(Case eau : getListeCases(NatureTerrain.EAU)){
+            for(Case c : getListCaseAProximite(eau)){
+                if(c.getNatureType() != NatureTerrain.EAU){
+                    lc.add(c);
+                }
+            }
+        }
+        return new ArrayList<Case>(lc);
     }
 }

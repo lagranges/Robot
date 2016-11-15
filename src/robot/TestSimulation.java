@@ -31,40 +31,40 @@ public class TestSimulation{
 	    
 	    //Robot0
             Robot r0 = data.getRobots().get(0);
-	    r0.programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,1), 0);
-	    r0.programEventIntervention(sim, data, 0);
-	    r0.programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,2), 0);
-	    r0.programEventRemplissage(sim, 0);
-	    r0.programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,1), 0);
-	    r0.programEventIntervention(sim, data, 0);
+	    r0.programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,1));
+	    r0.programEventIntervention(sim, data,data.getCarte().getCaseAt(6,1));
+	    r0.programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,2));
+	    r0.programEventRemplissage(sim);
+	    r0.programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,1));
+	    r0.programEventIntervention(sim, data,data.getCarte().getCaseAt(6,1));
 
 	    //Robot1
             Robot r1 = data.getRobots().get(1);
-	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,5), 1);
-	    r1.programEventIntervention(sim, data, 1);
-	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,3), 1);
-	    r1.programEventRemplissage(sim,1);
-	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,5), 1);
-	    r1.programEventIntervention(sim, data, 1);
+	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,5));
+	    r1.programEventIntervention(sim, data,data.getCarte().getCaseAt(5,5));
+	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,3));
+	    r1.programEventRemplissage(sim);
+	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(5,5));
+	    r1.programEventIntervention(sim, data,data.getCarte().getCaseAt(5,5));
 
 	    //Robot2
             Robot r2 = data.getRobots().get(2);
-	    r2.programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,7), 2);
-	    r2.programEventIntervention(sim, data, 2);
+	    r2.programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,7));
+	    r2.programEventIntervention(sim, data,data.getCarte().getCaseAt(7,7));
 
 	    //Robot1
-	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,1), 1);
-	    r1.programEventIntervention(sim, data, 1);
-	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(4,1), 1);
-	    r1.programEventRemplissage(sim,1);
-	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,1), 1);
-	    r1.programEventIntervention(sim, data, 1);
+	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,1));
+	    r1.programEventIntervention(sim, data,data.getCarte().getCaseAt(7,1));
+	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(4,1));
+	    r1.programEventRemplissage(sim);
+	    r1.programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,1));
+	    r1.programEventIntervention(sim, data, data.getCarte().getCaseAt(7,1));
 	    
 	    //Robot2
-	    r2.programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,0), 2);
-	    r2.programEventIntervention(sim, data, 2);
-	    r2.programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,0), 2);
-	    r2.programEventIntervention(sim, data, 2);
+	    r2.programEventDeplacement(sim, data, data.getCarte().getCaseAt(6,0));
+	    r2.programEventIntervention(sim, data,data.getCarte().getCaseAt(7,0));
+	    r2.programEventDeplacement(sim, data, data.getCarte().getCaseAt(7,0));
+	    r2.programEventIntervention(sim, data,data.getCarte().getCaseAt(7,0));
 
 	    sim.restart();
 

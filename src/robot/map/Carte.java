@@ -1,6 +1,7 @@
 package robot.map;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import robot.*;
 import robot.gui.Drawable;
@@ -59,9 +60,7 @@ public class Carte implements Drawable {
     public List<Case> getCases() {
        List<Case> l = new ArrayList<Case>();
        for(Case[] lc : map){
-           for(Case c : lc) {
-               l.add(c);               
-           }
+           l.addAll(Arrays.asList(lc));
        }
        return l;
     }
@@ -108,7 +107,27 @@ public class Carte implements Drawable {
 	return getCaseAt(source.getPosition().deplace(dir));
     }
     
+    @Override
     public void draw(BetterGUISimulator gui){
         gui.drawAll(getCases());
+    }
+
+    /**
+     * Test si il y a une case de type NatureTerrain.EAU a proximite de la case 
+     * <code>pos</code>.
+     * 
+     * @param pos la position a tester
+     * @return true si au moins une case eau est a proximite, false sinon
+     */
+    public boolean caseEauAProximite(Case pos) {
+        Direction[] d = {Direction.EST,Direction.NORD,Direction.OUEST,Direction.SUD};
+	for(Direction dir : d){
+            if(voisinExiste(pos,dir)){
+                if (getVoisin(pos, dir).getNatureType() == NatureTerrain.EAU) {
+                    return true;
+                }
+            }
+	}
+	return false;
     }
 }

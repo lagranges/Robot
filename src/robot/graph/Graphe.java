@@ -7,13 +7,14 @@ import java.util.*;
 
 public class Graphe {
 
-    private List<Case> listCase;
-    private List<Aretes> listAretes;
-    private Carte carte;
-    private Robot robot;
+    private final List<Case> listCase;
+    private final List<Aretes> listAretes;
+    private final Carte carte;
+    private final Robot robot;
 
     /**
-     * Contruit un graphe à partir d'une carte et d'un robot
+     * Construit un graphe à partir d'une carte et d'un robot. Le robot determine
+     * les movements possible.
      *
      */
     public Graphe(Robot robot, Carte carte) {

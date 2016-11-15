@@ -34,8 +34,13 @@ public class Drone extends Robot{
     @Override
     public double getVitesse(NatureTerrain natureTerrain){
 	return VITESSE_DEVERSEMENT;
-    }	
-
+    }
+    
+    @Override
+    public boolean peutRemplirEau(Carte carte) {
+        return getCase().getNatureType() == NatureTerrain.EAU;
+    }
+    
     @Override
     public boolean peutDeplacerSur(NatureTerrain natureTerrain){
 	return true;

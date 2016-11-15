@@ -152,58 +152,6 @@ public class DonneesSimulation{
     public List<Robot> getRobots() {
 	return new ArrayList<Robot>(donneesRobot);
     }
-    
-    /**
-     * Retourne les incendies qui semblent aux incendies sur la carte 
-     * @return Une table remblant la tables des incendies
-     */
-    private List<Incendie> copyIncendies(){
-	List<Incendie> copy = new ArrayList<Incendie>();
-	for(Incendie inc : getIncendies()) {
-	    copy.add(new Incendie(inc.getCase(),inc.getNbLitresEauPourExtinction()));
-	}
-	return copy;
-    }
-
-    /**
-     * Retourne les robots qui semblent aux robots sur la carte 
-     * @return Une table remblant la tables des robots
-     */
-    private List<Robot> copyRobots(){
-	List<Robot> copy = new ArrayList<Robot>();
-	for(Robot rob : getRobots()) {
-	    String type = rob.getClass().getSimpleName();
-	    Type typeValue = Type.valueOf(type);
-	    Robot cpy = null;
-	    switch(typeValue){
-	    case Drone:
-		cpy = new Drone(rob.getCase());
-		break;
-	    case Chenille:
-		cpy = new Chenille(rob.getCase());
-		break;
-	    case Roue:
-		cpy = new Roue(rob.getCase());
-		break;
-	    case Patte:
-		cpy = new Patte(rob.getCase());
-		break;
-	    }
-	    if(cpy != null) {
-		cpy.setVitesseDeplacement(rob.getVitesseDeplacementDefault());
-		copy.add(cpy);
-	    }
-	}
-	return copy;
-    }
-
-    /**
-     * Retourne une donnée de simulation qui semble à la donnée de simulation sur la carte 
-     * @return Une DonneesSimulation remblant la DonneesSimulation
-     */
-    public DonneesSimulation copy(){
-	return new DonneesSimulation(getCarte(),copyIncendies(),copyRobots());
-    }
 
 }
 

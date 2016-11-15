@@ -19,9 +19,6 @@ public class Simulateur implements Simulable {
     /** Les données de simulation a manipuler */
     private DonneesSimulation manipulationData;
 
-    /** Les données de simulation a sauvegarder */
-    private DonneesSimulation saveData;
-
     /** La date de simulation */
     private long dateSimulation = 0;
     private long dateFin = 0;
@@ -31,13 +28,15 @@ public class Simulateur implements Simulable {
      */
     private Map<Robot,List<Evenement>> evenements = new HashMap<Robot,List<Evenement>>();
 
+    /**
+     * 
+     * @param gui
+     * @param data 
+     */
     public Simulateur(BetterGUISimulator gui, DonneesSimulation data) {
 	this.gui = gui;
 	gui.setSimulable(this); //association a la gui
 	this.manipulationData = data;
-
-      
-	saveData = data.copy();
 	draw();
     }
 
@@ -149,17 +148,12 @@ public class Simulateur implements Simulable {
 	Iterator<Robot> iter = bots.iterator();	
 	for(int i=0; iter.hasNext(); i++) {
 	    Robot bot = iter.next();
-	    gui.addGraphicalElement(new Text(position + 250, (i*140)+30, Color.white, "Robot " + i + ": " + bot.getClass().getSimpleName() ));
+	    gui.addGraphicalElement(new Text(position + 250, (i*140)+30, Color.white, "Robot " + i + ": " + bot));
 	    gui.addGraphicalElement(new Text(position + 250, (i*140)+50, Color.white, "Pos : " + bot.getCase().getPosition() ));
 	    gui.addGraphicalElement(new Text(position + 250, (i*140)+70, Color.white, "Vitesse : " + bot.getVitesseDeplacementDefault() + "km/h" ));
 	    gui.addGraphicalElement(new Text(position + 250, (i*140)+90, Color.white, "Deversement : " + bot.getVitesseDeversement() + "l/s" ));
-	    if(bot.getClass().getSimpleName().equals("Patte")){
-		gui.addGraphicalElement(new Text(position + 250, (i*140)+110, Color.white, "Pas besoin de remplir" ));
-		gui.addGraphicalElement(new Text(position + 250, (i*140)+130, Color.white, "Reservoir : Infini" ));
-	    }else{
-		gui.addGraphicalElement(new Text(position + 250, (i*140)+110, Color.white, "Remplissage : " + bot.getVitesseRemplissage() + "l/s" ));
-		gui.addGraphicalElement(new Text(position + 250, (i*140)+130, Color.white, "Reservoir : " + bot.getVolumeEau() + "/" + bot.getVolumeMax() +" L" ));
-	    }
+            gui.addGraphicalElement(new Text(position + 250, (i * 140) + 110, Color.white, "Remplissage : " + bot.getVitesseRemplissage() + "l/s"));
+            gui.addGraphicalElement(new Text(position + 250, (i * 140) + 130, Color.white, "Reservoir : " + bot.getVolumeEau() + "/" + bot.getVolumeMax() + " L"));
 	}	
     }
 

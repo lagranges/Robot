@@ -47,7 +47,12 @@ public class Patte extends Robot{
 	    else return VITESSE_DEPLACEMENT;
 	else return 0;	
     }	
-	
+    
+    @Override
+    public boolean peutRemplirEau(Carte carte) {
+        return false;
+    }
+    
     @Override
     public boolean peutDeplacerSur(NatureTerrain natureTerrain){
 	switch (natureTerrain) {

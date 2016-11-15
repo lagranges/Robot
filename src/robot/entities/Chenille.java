@@ -47,7 +47,12 @@ public class Chenille extends Robot{
 	    else return VITESSE_DEPLACEMENT;
 	else return 0;	
     }	
-	
+    
+    @Override
+    public boolean peutRemplirEau(Carte carte) {
+        return carte.caseEauAProximite(getCase());
+    }
+    
     @Override
     public boolean peutDeplacerSur(NatureTerrain natureTerrain){
 	switch (natureTerrain)

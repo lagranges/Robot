@@ -243,6 +243,7 @@ public abstract class Robot extends Entity {
     public double getVitesse(Case cas){
         return getVitesse(cas.getNatureType());
     }
+    
     public abstract boolean peutDeplacerSur(NatureTerrain natureTerrain);
 
     /**
@@ -255,20 +256,29 @@ public abstract class Robot extends Entity {
 
 
     /**
-     * Retourne le temps nécessaire pour se deplacer de sa possition
+     * Retourne le temps nécessaire pour se deplacer de sa position
      * à la case , n'est pas encore définir
      * @param cas : Case
      */
     public abstract int tempsDeplacement(Case cas);
 
     /**
+     * Retourne si le robot peut remplir son réservoir à la position où il se 
+     * trouve. Cette condition peux varier en fonction du type de robot.
+     * 
+     * @param carte la carte sur lequelle le robot se trouve
+     * @return v
+     */
+    public abstract boolean peutRemplirEau(Carte carte);
+        
+    /**
      * Trouver le chemin possible
      * retourne NULL s'il ne trouve pas
      */
-    public List<Case> calculPlusCourtChemin(DonneesSimulation data, Case destination, int numero){
-	Graphe g = new Graphe(data.getRobots().get(numero),data.getCarte());
+    public List<Case> calculPlusCourtChemin(DonneesSimulation data, Case destination){
+	Graphe g = new Graphe(this,data.getCarte());
 	Dijkstra dijkstra = new Dijkstra(g);
-	dijkstra.traiterGraphe(data.getRobots().get(numero).getCase());
+	dijkstra.traiterGraphe(getCase());
 	return dijkstra.getChemin(destination);
     }
 

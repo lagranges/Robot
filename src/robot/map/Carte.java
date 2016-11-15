@@ -1,5 +1,8 @@
 package robot.map;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import robot.*;
 import robot.gui.Drawable;
 import robot.gui.BetterGUISimulator;
@@ -24,18 +27,44 @@ public class Carte implements Drawable {
     }
 
     /**
-     * set nature case
-     * @param Position p
-     * @param Case c
+     * Insert une case dans la carte. La position de la case doit être dans les
+     * dimension de la carte.
+     * 
+     * @param c la case a inserer dans la carte
      */
-    public void setCase(Position p, Case c){
+    public void setCase(Case c){
+        Position p = c.getPosition();
 	if(isInMapBound(p)){
 	    this.map[p.getLigne()][p.getColonne()] = c;
 	} else {
 	    throw new IllegalArgumentException("Can't set a Case outside of map's bounds");
 	}
     }
+    
+    /**
+     * Insert toutes les case dans la carte
+     * @param m les cases a inserer
+     */
+    public void setCarte(Case[][] m) {
+        for(Case[] lc : m){
+            for(Case c : lc) {
+                setCase(c);                
+            }
+        }
+    }
 
+    /**
+     * Retourne la liste des cases dans la carte
+     * @return la liste des cases
+     */
+    public List<Case> getCases() {
+       List<Case> l = new ArrayList<Case>();
+       for(Case[] lc : map){
+           l.addAll(Arrays.asList(lc));
+       }
+       return l;
+    }
+    
     public int getNbLigne() {
 	return nbLignes;
     }
@@ -82,11 +111,27 @@ public class Carte implements Drawable {
 	return map;
     }
     
+    @Override
     public void draw(BetterGUISimulator gui){
-	for(Case[] lc : map) {
-	    for(Case c : lc) {
-		c.draw(gui);
-	    }
+        gui.drawAll(getCases());
+    }
+
+    /**
+     * Test si il y a une case de type NatureTerrain.EAU a proximite de la case 
+     * <code>pos</code>.
+     * 
+     * @param pos la position a tester
+     * @return true si au moins une case eau est a proximite, false sinon
+     */
+    public boolean caseEauAProximite(Case pos) {
+        Direction[] d = {Direction.EST,Direction.NORD,Direction.OUEST,Direction.SUD};
+	for(Direction dir : d){
+            if(voisinExiste(pos,dir)){
+                if (getVoisin(pos, dir).getNatureType() == NatureTerrain.EAU) {
+                    return true;
+                }
+            }
 	}
+	return false;
     }
 }

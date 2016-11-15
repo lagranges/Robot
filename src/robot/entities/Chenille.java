@@ -18,12 +18,10 @@ import gui.*;
 
 public class Chenille extends Robot{  
 	  
-    public static final int volumeMaxChenille = 2000;
-    public static final int vitesseRemplissageChenille = 2000/300;
-    public static final double vitesseDeversementChenille = 100/8;
-    public static final double vitesseDeplacementChenille = 60;
-    public static final Color couleurChenille = Color.gray;	
-
+    public static final int VOLUME_MAX = 2000;
+    public static final int VITESSE_REMPLISSAGE = 2000/300;
+    public static final double VITESSE_DEVERSEMENT = 100.0/8.0;
+    public static final double VITESSE_DEPLACEMENT = 60;
 	
     /**
      * Le contructeur d'une Chenille avec les atribut déterminé au-dessus
@@ -33,7 +31,7 @@ public class Chenille extends Robot{
      * @see Entity
      */
     public Chenille(Case cas){
-	super(cas, couleurChenille, volumeMaxChenille, volumeMaxChenille, vitesseDeplacementChenille, vitesseRemplissageChenille, vitesseDeversementChenille);
+	super(cas, VOLUME_MAX, VOLUME_MAX, VITESSE_DEPLACEMENT, VITESSE_REMPLISSAGE, VITESSE_DEVERSEMENT);
     }
     
     @Override
@@ -45,11 +43,16 @@ public class Chenille extends Robot{
     @Override
     public double getVitesse(NatureTerrain natureTerrain){
 	if(this.peutDeplacerSur(natureTerrain))	
-	    if(natureTerrain.compareTo(NatureTerrain.FORET)>0)	return vitesseDeplacementChenille/2;
-	    else return vitesseDeplacementChenille;
+	    if(natureTerrain.compareTo(NatureTerrain.FORET)>0)	return VITESSE_DEPLACEMENT/2;
+	    else return VITESSE_DEPLACEMENT;
 	else return 0;	
     }	
-	
+    
+    @Override
+    public boolean peutRemplirEau(Carte carte) {
+        return carte.caseEauAProximite(getCase());
+    }
+    
     @Override
     public boolean peutDeplacerSur(NatureTerrain natureTerrain){
 	switch (natureTerrain)
@@ -70,8 +73,8 @@ public class Chenille extends Robot{
     public void draw(BetterGUISimulator gui) {
 	int ratio = gui.getTailleCase();
 	int pixel = gui.getTaillePixel();
-	int x = this.cas.getPosition().getColonne() * ratio;
-	int y = this.cas.getPosition().getLigne() * ratio;
+	int x = getCase().getPosition().getColonne() * ratio;
+	int y = getCase().getPosition().getLigne() * ratio;
 	int size = ratio/pixel;
 	Color peru = new Color(205,133,63);
 
@@ -100,6 +103,6 @@ public class Chenille extends Robot{
 	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*7, Color.black, Color.black, size));
 	gui.addGraphicalElement(new Rectangle(x + size*7, y + size*7, Color.black, Color.black, size));
 
-	gui.addGraphicalElement(new Text(x + size*5, y + size*9, Color.darkGray, Integer.toString(getVolumeEau())));
+	gui.addGraphicalElement(new Text(x + size*5, y + size*9, Color.darkGray, Double.toString(getVolumeEau())));
     }
 }

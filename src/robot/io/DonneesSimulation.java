@@ -2,20 +2,14 @@ package robot.io;
 
 import robot.map.*;
 import robot.entities.*;
-import robot.*;
 import robot.graph.*;
-import robot.simulateur.*;
 
-import java.io.*;
 import java.util.*;
-import java.util.zip.DataFormatException;
-
-import gui.GUISimulator;
 
 public class DonneesSimulation{
     private Carte donneesCarte;
-    private Incendie donneesIncendie[];
-    private Robot donneesRobot[];
+    private List<Incendie> donneesIncendie;
+    private List<Robot> donneesRobot;
 
     private enum Type{
 	Drone,
@@ -32,8 +26,20 @@ public class DonneesSimulation{
      */
     public DonneesSimulation(Carte mapData, Incendie fireData[], Robot bot[]){
 	this.donneesCarte = mapData;
-	this.donneesIncendie = fireData;
-	this.donneesRobot = bot;
+	this.donneesIncendie = new ArrayList<Incendie>();
+	for(Incendie i : fireData) {
+	    donneesIncendie.add(i);
+	}
+	this.donneesRobot = new ArrayList<Robot>();
+	for(Robot r : bot) {
+	    donneesRobot.add(r);
+	}
+    }
+
+    public DonneesSimulation(Carte mapData, List<Incendie> incendies, List<Robot> robots){
+	this.donneesCarte = mapData;
+	this.donneesIncendie = new ArrayList<Incendie>(incendies);
+	this.donneesRobot = new ArrayList<Robot>(robots);
     }
 
     
@@ -45,8 +51,8 @@ public class DonneesSimulation{
         Graphe g = new Graphe(robot,donneesCarte);
         Dijkstra dijkstra = new Dijkstra(g);
         System.out.println(g);
-        dijkstra.traiterGraphe(robot.getPosition());
-        // attention : robot.getPosition() return a Casei
+        dijkstra.traiterGraphe(robot.getCase());
+        // attention : robot.getCase() return a Casei
         Case destination = donneesCarte.getCaseAt(5,5);
         List<Case> chemin = dijkstra.getChemin(destination);
         List<Integer> t = dijkstra.getListTime(destination);
@@ -60,11 +66,11 @@ public class DonneesSimulation{
 	    System.out.println(time);
 	}
         } catch( Exception e){
-            System.out.println("Can't get to "+ destination+" from this actual robot position :" +robot.getPosition() );
+            System.out.println("Can't get to "+ destination+" from this actual robot position :" +robot.getCase() );
         }
 
     } 
-    /*
+    /**
      * Affiche tous les donnees concernant la carte
      */
     public void afficheDonneesCarte(){
@@ -81,12 +87,12 @@ public class DonneesSimulation{
      * Affiche tous les donnees concernant les incendies
      */
     public void afficheDonneesIncendies(){
-	System.out.println("Nb d'incendies :" + donneesIncendie.length);
-	for(int i = 0; i < donneesIncendie.length; i++){
+	System.out.println("Nb d'incendies :" + donneesIncendie.size());
+	for(Incendie i : donneesIncendie ) {
 	    System.out.println("Incendie " + i + ": position = (" + 
-			       donneesIncendie[i].getPosition().getPosition().getLigne() + "," + 
-			       donneesIncendie[i].getPosition().getPosition().getColonne() + "); Intensite :" 
-			       + donneesIncendie[i].getNbLitresEauPourExtinction() );
+			       i.getCase().getPosition().getLigne() + "," + 
+			       i.getCase().getPosition().getColonne() + "); Intensite :" 
+			       + i.getNbLitresEauPourExtinction() );
 	}
     }
 
@@ -94,61 +100,57 @@ public class DonneesSimulation{
      * Affiche tous les donnees concernant les robots
      */
     public void afficheDonneesRobots(){
-	System.out.println("Nb de Robots :" + donneesRobot.length);
-	for(int i = 0; i < donneesRobot.length; i++){
-	    System.out.println("Robot " + i + ": position = (" + 
-			       donneesRobot[i].getPosition().getPosition().getLigne() + "," + 
-			       donneesRobot[i].getPosition().getPosition().getColonne() + "); Type :" 
-			       + donneesRobot[i].toString() + "; Vitesse :" + donneesRobot[i].getVitesseDeplacementDefault() + " km/h");
+	System.out.println("Nb de Robots :" + donneesRobot.size());
+	for(Robot r : donneesRobot) {
+	    System.out.println("Robot " + r + ": position = (" + 
+			       r.getCase().getPosition().getLigne() + "," + 
+			       r.getCase().getPosition().getColonne() + "); Type :" 
+			       + r.toString() + "; Vitesse :" + r.getVitesseDeplacementDefault() + " km/h");
 	}
     }
-
+    /**
+     * Retourne la Carte 
+     */
     public Carte getCarte() {
 	return donneesCarte;
     }
     
-    public Incendie[] getIncendies() {
-	return donneesIncendie;
-    }
- 
-    public Robot[] getRobots() {
-	return donneesRobot;
-    }
-
-    private Incendie[] copyIncendies(){
-	Incendie[] fire = new Incendie[getIncendies().length];
-	for(int i=0; i < getIncendies().length; i++){
-	    fire[i] = new Incendie(getIncendies()[i].getPosition(),getIncendies()[i].getNbLitresEauPourExtinction());
-	}
-	return fire;
+    /**
+     * Retourne les incendies sur la carte
+     *
+     * @return La table des incendies
+     */
+    public List<Incendie> getIncendies() {
+        return new ArrayList<Incendie>(donneesIncendie);
     }
 
-    private Robot[] copyRobots(){
-	Robot[] bot = new Robot[getRobots().length];
-	for(int i=0; i < getRobots().length; i++){
-	    String type = getRobots()[i].getClass().getSimpleName();
-	    Type typeValue = Type.valueOf(type);
-	    switch(typeValue){
-	    case Drone:
-		bot[i] = new Drone(getRobots()[i].getPosition());
-		break;
-	    case Chenille:
-		bot[i] = new Chenille(getRobots()[i].getPosition());
-		break;
-	    case Roue:
-		bot[i] = new Roue(getRobots()[i].getPosition());
-		break;
-	    case Patte:
-		bot[i] = new Patte(getRobots()[i].getPosition());
-		break;
+    private static Incendie getIncendieAt(Case caze, List<Incendie> incendies) {
+	for(Incendie inc : incendies) {
+	    if(inc.getCase().equals(caze.getPosition())){
+		return inc;
 	    }
-	    bot[i].setVitesseDeplacement(getRobots()[i].getVitesseDeplacementDefault());
 	}
-	return bot;
+	return null;
     }
 
-    public DonneesSimulation copy(){
-	return new DonneesSimulation(getCarte(),copyIncendies(),copyRobots());
+    /**
+     * Retourne l'incendie présent sur la case <code>caze</code>.
+     * Si il n'y a pas d'incendie sur cette case alors null est retourner.
+     *
+     * @param  caze la case ou l'incendie se trouve
+     * @return l'incendie si présent, null sinon.
+     */
+    public Incendie getIncendieAt(Case caze) {
+	return getIncendieAt(caze, getIncendies());
+    }
+
+ 
+    /**
+     * Retourne les robots sur la carte
+     * @return La table des robots
+     */
+    public List<Robot> getRobots() {
+	return new ArrayList<Robot>(donneesRobot);
     }
 
 }

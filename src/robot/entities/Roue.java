@@ -17,12 +17,10 @@ import robot.gui.BetterGUISimulator;
 
 public class Roue extends Robot{  
 	  
-    public static final int volumeMaxRoue = 5000;
-    public static final int vitesseRemplissageRoue = 5000/600;
-    public static final double vitesseDeversementRoue = 100/5;
-    public static final double vitesseDeplacementRoue = 80 ;
-    public static final Color couleurRoue = Color.yellow;	
-
+    public static final int VOLUME_MAX = 5000;
+    public static final int VITESSE_REMPLISSAGE = 5000/600;
+    public static final double VITESSE_DEVERSEMENT = 100/5;
+    public static final double VITESSE_DEPLACEMENT = 80 ;
 	
     /**
      * Le contructeur d'une Roue avec les atribut déterminé au-dessus
@@ -32,7 +30,7 @@ public class Roue extends Robot{
      * @see Entity
      */
     public Roue(Case cas){
-	super(cas, couleurRoue, volumeMaxRoue, volumeMaxRoue, vitesseDeplacementRoue, vitesseRemplissageRoue, vitesseDeversementRoue);
+	super(cas, VOLUME_MAX, VOLUME_MAX, VITESSE_DEPLACEMENT, VITESSE_REMPLISSAGE, VITESSE_DEVERSEMENT);
     }
 
     @Override
@@ -43,10 +41,15 @@ public class Roue extends Robot{
     // return 0 à Terrain sur la quelle le robot ne peut pas se déplacer
     @Override
     public double getVitesse(NatureTerrain natureTerrain){
-	if(this.peutDeplacerSur(natureTerrain))	return vitesseDeplacementRoue;
+	if(this.peutDeplacerSur(natureTerrain))	return VITESSE_DEPLACEMENT;
 	else return 0;	
     }	
-	
+    
+    @Override
+    public boolean peutRemplirEau(Carte carte) {
+        return carte.caseEauAProximite(getCase());
+    }
+    
     @Override
     public boolean peutDeplacerSur(NatureTerrain natureTerrain){
 	switch (natureTerrain)
@@ -67,32 +70,33 @@ public class Roue extends Robot{
     public void draw(BetterGUISimulator gui){
 	int ratio = gui.getTailleCase();
 	int pixel = gui.getTaillePixel();
-	int x = this.cas.getPosition().getColonne() * ratio;
-	int y = this.cas.getPosition().getLigne() * ratio;
+	int x = getCase().getPosition().getColonne() * ratio;
+	int y = getCase().getPosition().getLigne() * ratio;
 	int size = ratio/pixel;
 	Color teal = new Color(0,128,128);
+        Color tealDarker = teal.darker();
 
-	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*1, teal.darker(), teal.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*1, teal.darker(), teal.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*1, teal.darker(), teal.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*1, teal.darker(), teal.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*1, tealDarker, tealDarker, size));
+	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*1, tealDarker, tealDarker, size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*1, tealDarker, tealDarker, size));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*1, tealDarker, tealDarker, size));
 	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*2, Color.black, Color.black, size));
 	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*3, Color.black, Color.black, size));
 	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*4, teal, teal, size));
 	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*4, teal, teal, size));
 	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*4, teal, teal, size));
-	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*4, teal.darker(), teal.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*4, tealDarker, tealDarker, size));
 	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*5, teal, teal, size));
 	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*5, teal, teal, size));
 	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*5, teal, teal, size));
-	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*5, teal.darker(), teal.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*5, tealDarker, tealDarker, size));
 	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*6, Color.black, Color.black, size));
 	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*7, Color.black, Color.black, size));
-	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*8, teal.darker(), teal.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*8, teal.darker(), teal.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*8, teal.darker(), teal.darker(), size));
-	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*8, teal.darker(), teal.darker(), size));
+	gui.addGraphicalElement(new Rectangle(x + size*3, y + size*8, tealDarker, tealDarker, size));
+	gui.addGraphicalElement(new Rectangle(x + size*4, y + size*8, tealDarker, tealDarker, size));
+	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*8, tealDarker, tealDarker, size));
+	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*8, tealDarker, tealDarker, size));
 
-	gui.addGraphicalElement(new Text(x + size*5, y + size*9, Color.darkGray, Integer.toString(getVolumeEau())));
+	gui.addGraphicalElement(new Text(x + size*5, y + size*9, Color.darkGray, Double.toString(getVolumeEau())));
     }
 }

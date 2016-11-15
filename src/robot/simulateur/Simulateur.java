@@ -1,5 +1,7 @@
 package robot.simulateur;
 
+import robot.simulateur.evenements.EvenementRobot;
+import robot.simulateur.evenements.Evenement;
 import robot.gui.BetterGUISimulator;
 import robot.io.*;
 import robot.entities.*;
@@ -17,35 +19,24 @@ public class Simulateur implements Simulable {
     /** Les données de simulation a manipuler */
     private DonneesSimulation manipulationData;
 
-    /** Les données de simulation a sauvegarder */
-    private DonneesSimulation saveData;
-
     /** La date de simulation */
     private long dateSimulation = 0;
-
-    /** L'indice d'evenement a executer */
-    private int[] evenementIndice;
-
-    /** La liste d'evenement 
-     * Chaque robot a son liste e'evenement
+    private long dateFin = 0;
+    
+    /**
+     * A chaque robot sa liste d'evenement
      */
-    private List<List<Evenement>> evenement = new ArrayList<List<Evenement>>();
+    private Map<Robot,List<Evenement>> evenements = new HashMap<Robot,List<Evenement>>();
 
+    /**
+     * 
+     * @param gui
+     * @param data 
+     */
     public Simulateur(BetterGUISimulator gui, DonneesSimulation data) {
 	this.gui = gui;
 	gui.setSimulable(this); //association a la gui
 	this.manipulationData = data;
-
-	//Tableaux d'indice d'execution pour chaque evenement, 0 par defaut
-	evenementIndice = new int[data.getRobots().length];
-
-	//Creating des listes evenement associe a chaque robot
-	for(int i=0; i < data.getRobots().length; i++){
-	    List<Evenement> list = new ArrayList<Evenement>();
-	    evenement.add(list);
-	}
-      
-	saveData = data.copy();
 	draw();
     }
 
@@ -67,56 +58,49 @@ public class Simulateur implements Simulable {
     @Override
     public void next(){
 	if(!simulationTerminee()){
-	    for(int i=0; i < getListeSize(); i++){
-		if(evenementIndice[i] < getEvenement(i).length){
-		    long dateEvent = getEvenement(i)[evenementIndice[i]].getDate();
-		    if(getDateSimulation() == dateEvent){
-			getEvenement(i)[evenementIndice[i]].execute(getDonneesSimulation());
-			evenementIndice[i]++;
-		    }
-		}
-	    }
-	    incrementeDate();
-	    draw();
-	}
+            for (Robot r : evenements.keySet()) {
+                for (Evenement e : evenements.get(r)) {
+                    if(e.getDate() == getDateSimulation()) {
+                        e.execute(getDonneesSimulation());
+                    }
+                }
+            }
+            incrementeDate();
+        }
+        draw();
     }
 
     @Override
     public void restart(){
-	this.manipulationData = saveData.copy();
-	this.dateSimulation = 0;
-	for(int i=0; i< evenementIndice.length; i++){
-	    evenementIndice[i] = 0;
-	}
+	while(dateSimulation > 0) {
+            dateSimulation--;
+            for (Robot r : evenements.keySet()) {
+                for (Evenement e : evenements.get(r)) {
+                    if(e.getDate() == getDateSimulation()) {
+                        e.undo(getDonneesSimulation());
+                    }
+                }
+            }
+        }
 	draw();
     }
 
-    public Evenement[] getEvenement(int i){
-	List<Evenement> row = evenement.get(i);
-	return row.toArray(new Evenement[row.size()]);
-    }
-
-    public Evenement[][] getListe(){
-	Evenement[][] liste = new Evenement[evenement.size()][];
-	for(int i=0; i < evenement.size(); i++){
-	    List<Evenement> row = evenement.get(i);
-	    liste[i] = row.toArray(new Evenement[row.size()]);
+    public void ajouteEvenement(EvenementRobot e){
+	List<Evenement> le = evenements.get(e.getRobot());
+	if(le == null) {
+	    le = new ArrayList<Evenement>();
+	    evenements.put(e.getRobot(), le);
 	}
-	return liste;
+	le.add(e);
+        dateFin = Math.max(e.getDate(),dateFin);
     }
-
-    public int getListeSize(){
-	return evenement.size();
-    }
-
-    public int getEvenementSize(int i){
-	List<Evenement> row = evenement.get(i);
-	return row.size();
-    }
-
-    public void ajouteEvenement(Evenement e, int i){
-	List<Evenement> row = evenement.get(i);
-	row.add(e);
+    
+    public Evenement getLastEvenement(Robot robot) {
+        List<Evenement> el = evenements.get(robot);
+        if(el == null) {
+            return null;
+        }
+        return el.get(el.size()-1);
     }
 
     private void incrementeDate(){
@@ -128,12 +112,7 @@ public class Simulateur implements Simulable {
     }
 
     private boolean simulationTerminee(){
-	for(int i=0; i<getListeSize(); i++){
-	    if(evenementIndice[i] < getEvenement(i).length){
-		return false;
-	    }
-	}
-	return true;
+        return dateSimulation == dateFin;
     }
 
     private void drawRobots(){
@@ -141,7 +120,7 @@ public class Simulateur implements Simulable {
     }
 
     private void drawCarte(){
-	gui.drawAll(manipulationData.getCarte());
+	gui.draw(manipulationData.getCarte());
     }
 
     private void drawIncendies(){
@@ -164,31 +143,30 @@ public class Simulateur implements Simulable {
 
     private void drawInfoRobots(){
 	int position = gui.getPanelWidth();
-	Robot[] bot = manipulationData.getRobots();
+	List<Robot> bots = manipulationData.getRobots();
 	gui.addGraphicalElement(new Text(position + 250, 10, Color.white, "Info Robots"));
-	for(int i=0; i< bot.length; i++){
-	    gui.addGraphicalElement(new Text(position + 250, (i*140)+30, Color.white, "Robot " + Integer.toString(i) + ": " + bot[i].getClass().getSimpleName()));
-	    gui.addGraphicalElement(new Text(position + 250, (i*140)+50, Color.white, "Pos : (" + Integer.toString(bot[i].getPosition().getPosition().getLigne()) + ","  + Integer.toString(bot[i].getPosition().getPosition().getColonne()) + ")" ));
-	    gui.addGraphicalElement(new Text(position + 250, (i*140)+70, Color.white, "Vitesse : " + Double.toString(bot[i].getVitesseDeplacementDefault()) + "km/h" ));
-	    gui.addGraphicalElement(new Text(position + 250, (i*140)+90, Color.white, "Deversement : " + Double.toString(bot[i].getVitesseDeversement()) + "l/s" ));
-	    if(bot[i].getClass().getSimpleName().equals("Patte")){
-		gui.addGraphicalElement(new Text(position + 250, (i*140)+110, Color.white, "Pas besoin de remplir" ));
-		gui.addGraphicalElement(new Text(position + 250, (i*140)+130, Color.white, "Reservoir : Infini" ));
-	    }else{
-		gui.addGraphicalElement(new Text(position + 250, (i*140)+110, Color.white, "Remplissage : " + Double.toString(bot[i].getVitesseRemplissage()) + "l/s" ));
-		gui.addGraphicalElement(new Text(position + 250, (i*140)+130, Color.white, "Reservoir : " + Integer.toString(bot[i].getVolumeEau()) + "/" + Integer.toString(bot[i].getVolumeMax()) +" L" ));
-	    }
+	Iterator<Robot> iter = bots.iterator();	
+	for(int i=0; iter.hasNext(); i++) {
+	    Robot bot = iter.next();
+	    gui.addGraphicalElement(new Text(position + 250, (i*140)+30, Color.white, "Robot " + i + ": " + bot));
+	    gui.addGraphicalElement(new Text(position + 250, (i*140)+50, Color.white, "Pos : " + bot.getCase().getPosition() ));
+	    gui.addGraphicalElement(new Text(position + 250, (i*140)+70, Color.white, "Vitesse : " + bot.getVitesseDeplacementDefault() + "km/h" ));
+	    gui.addGraphicalElement(new Text(position + 250, (i*140)+90, Color.white, "Deversement : " + bot.getVitesseDeversement() + "l/s" ));
+            gui.addGraphicalElement(new Text(position + 250, (i * 140) + 110, Color.white, "Remplissage : " + bot.getVitesseRemplissage() + "l/s"));
+            gui.addGraphicalElement(new Text(position + 250, (i * 140) + 130, Color.white, "Reservoir : " + bot.getVolumeEau() + "/" + bot.getVolumeMax() + " L"));
 	}	
     }
 
     private void drawInfoIncendies(){
 	int position = gui.getPanelWidth();
-	Incendie[] fire = manipulationData.getIncendies();
+	List<Incendie> fires = manipulationData.getIncendies();
 	gui.addGraphicalElement(new Text(position + 430, 10, Color.white, "Info Incendies"));
-	for(int i=0; i< fire.length; i++){
-	    gui.addGraphicalElement(new Text(position + 430, (i*70)+30, Color.white, "Incendie " + Integer.toString(i)));
-	    gui.addGraphicalElement(new Text(position + 430, (i*70)+50, Color.white, "Pos : (" + Integer.toString(fire[i].getPosition().getPosition().getLigne()) + ","  + Integer.toString(fire[i].getPosition().getPosition().getColonne()) + ")" ));
-	    gui.addGraphicalElement(new Text(position + 430, (i*70)+70, Color.white, "Intensité : " + Integer.toString(fire[i].getNbLitresEauPourExtinction()) + " L" ));
+	Iterator<Incendie> iter = fires.iterator();	
+	for(int i=0; iter.hasNext(); i++) {
+	    Incendie feu = iter.next();
+	    gui.addGraphicalElement(new Text(position + 430, (i*70)+30, Color.white, "Incendie " + i ));
+	    gui.addGraphicalElement(new Text(position + 430, (i*70)+50, Color.white, "Pos : " + feu.getCase().getPosition() ));
+	    gui.addGraphicalElement(new Text(position + 430, (i*70)+70, Color.white, "Intensité : " + feu.getNbLitresEauPourExtinction() + " L" ));
 	}	
     }
 }

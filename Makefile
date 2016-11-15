@@ -24,13 +24,13 @@
 ENCODING=-encoding UTF-8
 JAVADOC_ENCODING=$(ENCODING) -charset UTF-8 -docencoding UTF-8
 SOURCEPATH=-sourcepath src/
-GUI_CLASSPATH=-classpath bin/gui.jar
+GUI_CLASSPATH=-classpath bin:bin/gui.jar
 JAVAC_DESTINATION_FOLDER=-d bin
 
 JAVAC=javac $(ENCODING) $(JAVAC_DESTINATION_FOLDER) $(SOURCEPATH) $(GUI_CLASSPATH)
 JAVADOC=javadoc $(JAVADOC_ENCODING) -d doc-tmp/ $(SOURCEPATH)
 
-all: testInvader testLecture
+all: testInvader testLecture testDonnees testSimulation testScenario0 testScenario1
 
 testInvader:
 	$(JAVAC) src/robot/TestInvader.java
@@ -54,42 +54,42 @@ testScenario1:
 	$(JAVAC) $(GUI_CLASSPATH) src/robot/TestScenario1.java		
 
 javadoc:
-	$(JAVADOC) src/robot/*.java src/robot/entities/*.java src/robot/io/*.java src/robot/map/*.java
+	$(JAVADOC) src/robot/*.java src/robot/entities/*.java src/robot/io/*.java src/robot/map/*.java src/robot/graph/*.java src/robot/simulateur/*.java
 
 # Execution:
 # on peut taper directement la ligne de commande :
 #   > java -classpath bin:bin/gui.jar TestInvader
 # ou bien lancer l'execution en passant par ce Makefile:
 #   > make exeInvader
-exeInvader: 
-	java -classpath bin:bin/gui.jar TestInvader
+exeInvader:
+	java $(GUI_CLASSPATH) robot/TestInvader
 
-exeLecture: 
-	java -classpath bin TestLecteurDonnees cartes/carteSujet.map
+exeLecture:
+	java  $(GUI_CLASSPATH) robot/TestLecteurDonnees cartes/carteSujet.map
 
 exeDonnees:
-	java -classpath bin TestDonneesSimulation cartes/carteSujet.map
+	java  $(GUI_CLASSPATH) robot/TestDonneesSimulation cartes/carteSujet.map
 
 exeScenario0:
-	java -classpath bin:bin/gui.jar TestScenario0 cartes/carteSujet.map	
+	java  $(GUI_CLASSPATH) robot/TestScenario0 cartes/carteSujet.map	
 
 exeScenario1:
-	java -classpath bin:bin/gui.jar TestScenario1 cartes/carteSujet.map	
+	java  $(GUI_CLASSPATH) robot/TestScenario1 cartes/carteSujet.map	
 
 exeStrategie:
 	java -classpath bin:bin/gui.jar TestStrategie cartes/carteSujet.map
 
 exeSimulationSujet:
-	java -classpath bin:bin/gui.jar TestSimulation cartes/carteSujet.map	
+	java  $(GUI_CLASSPATH) robot/TestSimulation cartes/carteSujet.map	
 
 exeSimulationMadness:
-	java -classpath bin:bin/gui.jar TestSimulation cartes/spiralOfMadness-50x50.map
+	java  $(GUI_CLASSPATH) robot/TestSimulation cartes/spiralOfMadness-50x50.map
 
 exeSimulationDeath:
-	java -classpath bin:bin/gui.jar TestSimulation cartes/desertOfDeath-20x20.map
+	java  $(GUI_CLASSPATH) robot/TestSimulation cartes/desertOfDeath-20x20.map
 
 exeSimulationHell:
-	java -classpath bin:bin/gui.jar TestSimulation cartes/mushroomOfHell-20x20.map
+	java  $(GUI_CLASSPATH) robot/TestSimulation cartes/mushroomOfHell-20x20.map
 
 clean:
 	rm -rf bin/*.class
@@ -97,3 +97,4 @@ clean:
 	rm -rf src/robot/entities/*.class
 	rm -rf src/robot/map/*.class
 	rm -rf src/robot/io/*.class
+	rm -rf src/robot/graph/*.class

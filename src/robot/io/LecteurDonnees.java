@@ -265,7 +265,7 @@ public class LecteurDonnees {
             for (int lig = 0; lig < nbLignes; lig++) {
                 for (int col = 0; col < nbColonnes; col++) {
 		    Position p = new Position(lig,col);
-		    map.setCase(p,new Case(p,getNature()));
+		    map.setCase(new Case(p,getNature()));
                 }
 	    }
 	    return map;
@@ -293,6 +293,8 @@ public class LecteurDonnees {
 
     /**
      * Lit et sauvegarde les donnees des incendies.
+     * @param Carte map - la carte qu'on utilise
+     * @throws DataFormatException 
      */
     private static Incendie[] creeIncendies(Carte map) throws DataFormatException {
         ignorerCommentaires();
@@ -324,6 +326,8 @@ public class LecteurDonnees {
 
     /**
      * Lit et sauvegarde les donnees des robots
+     * @param Carte la carte qu'on utilise
+     * @throws DataFormatException 
      */
     private static Robot[] creeRobots(Carte map) throws DataFormatException {
         ignorerCommentaires();

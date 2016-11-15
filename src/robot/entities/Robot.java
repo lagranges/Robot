@@ -1,5 +1,8 @@
 package robot.entities;
 
+import robot.simulateur.evenements.Remplissage;
+import robot.simulateur.evenements.Deplacement;
+import robot.simulateur.evenements.Evenement;
 import java.awt.Color;
 import java.util.*;
 
@@ -24,12 +27,12 @@ public abstract class Robot extends Entity {
     /**
      * Le nombre de litres d'eau dont le robot est en train de contient 
      */
-    private int volumeEau;
+    private double volumeEau;
 	
     /**
      * Le nombre de litres d'eau dont le robot peut contenir 
      */
-    private int volumeMax;
+    private double volumeMax;
     
     /**
      * La vitesse par défault, mais peut etre lue dans la fichier de données
@@ -60,8 +63,8 @@ public abstract class Robot extends Entity {
      * @param lesvitesse
      * 
      */
-    public Robot(Case cas, Color couleur, int volumeEau, int volumeMax, double vitesseDeplacementDefault,int vitesseRemplissage, double vitesseDeversement){
-	super(cas,couleur);
+    public Robot(Case cas, int volumeEau, int volumeMax, double vitesseDeplacementDefault,int vitesseRemplissage, double vitesseDeversement){
+	super(cas);
 	this.volumeEau = volumeEau;
 	this.volumeMax = volumeMax;
 	this.vitesseDeplacementDefault = vitesseDeplacementDefault;
@@ -88,13 +91,13 @@ public abstract class Robot extends Entity {
      * Définit la case du robot
      */
     public void setPosition(Case cas){
-	this.cas = cas;
+	this.setCas(cas);
     }
 
     /**
      * Modifier la volume de l'eau dans le robot
      */
-    public void setVolumeEau(int volumeEau){
+    public void setVolumeEau(double volumeEau){
 	this.volumeEau=volumeEau;
     }
 
@@ -108,7 +111,7 @@ public abstract class Robot extends Entity {
     /**
      * Retourne : la volume maxcimale dont le robot peut contenir
      */
-    public int getVolumeMax(){
+    public double getVolumeMax(){
 	return this.volumeMax;
     }
 
@@ -148,7 +151,7 @@ public abstract class Robot extends Entity {
      *
      * @param le nombre de litre par second
      */
-    public void remplirEau(int vol){
+    public void remplirEau(double vol){
 	volumeEau += vol;
 	if(volumeEau > getVolumeMax()){
 	    volumeEau = getVolumeMax();
@@ -193,6 +196,7 @@ public abstract class Robot extends Entity {
     public double getVitesse(Case cas){
         return getVitesse(cas.getNatureType());
     }
+    
     public abstract boolean peutDeplacerSur(NatureTerrain natureTerrain);
 
     /**
@@ -205,68 +209,57 @@ public abstract class Robot extends Entity {
 
 
     /**
-     * Retourne le temps nécessaire pour se deplacer de sa possition
+     * Retourne le temps nécessaire pour se deplacer de sa position
      * à la case , n'est pas encore définir
      * @param cas : Case
      */
     public abstract int tempsDeplacement(Case cas);
 
     /**
-     * Trouver le chemin possible avec le temps qu'il en a besoin
-     * retourne INFINI s'il ne trouve pas
+
+     * Retourne si le robot peut remplir son réservoir à la position où il se 
+     * trouve. Cette condition peux varier en fonction du type de robot.
+     * 
+     * @param carte la carte sur lequelle le robot se trouve
+     * @return v
      */
-    public int calculPlusCourtChemin(DonneesSimulation data, Case destination, int numero){
-	Graphe g = new Graphe(data.getRobots()[numero],data.getCarte());
+    public abstract boolean peutRemplirEau(Carte carte);
+        
+    /**
+     * Trouver le chemin possible
+     * retourne NULL s'il ne trouve pas
+     */
+    public int calculPlusCourtChemin(DonneesSimulation data, Case destination){
+	Graphe g = new Graphe(this,data.getCarte());
 	Dijkstra dijkstra = new Dijkstra(g);
-	dijkstra.traiterGraphe(data.getRobots()[numero].getPosition());
-	return dijkstra.getTime(destination);
+	dijkstra.traiterGraphe(getCase());
+	return dijkstra.getChemin(destination);
     }
 
-    private Direction whichDirection(Case before, Case after){
-	int ligBefore = before.getPosition().getLigne();
-	int colBefore = before.getPosition().getColonne();
-	int ligAfter = after.getPosition().getLigne();
-	int colAfter = after.getPosition().getColonne();
-	if(ligAfter == ligBefore){
-	    if(colAfter > colBefore){
-		return Direction.EST;
-	    }else{
-		return Direction.OUEST;
-	    }
-	}else{
-	    if(ligAfter > ligBefore){
-		return Direction.SUD;
-	    }else{
-		return Direction.NORD;
-	    }
-	}
-    }
-
-    private long getCurrentDate(Evenement[] e){
-	if(e.length > 0){
-	    return e[e.length-1].getDate() + 1;
-	}
-	return 0;
-    }
 
     /**
      * Ajoute des evenement de deplacement dans la liste d'evenement par rapport de vitesse de simulateur
      */
     public void programEventDeplacement(Simulateur sim, DonneesSimulation data, Case destination, int numero){
-	Graphe g = new Graphe(data.getRobots()[numero],data.getCarte());
+	Graphe g = new Graphe(data.getRobots().get(numero),data.getCarte());
 	Dijkstra dijkstra = new Dijkstra(g);
-	dijkstra.traiterGraphe(data.getRobots()[numero].getPosition());
+	dijkstra.traiterGraphe(data.getRobots().get(numero).getCase());
 	List<Case> chemin = dijkstra.getChemin(destination);
         List<Integer> t = dijkstra.getListTime(destination);
-
-	long currentDate = getCurrentDate(sim.getEvenement(numero));
+       
+	long currentDate = 0;
+        Evenement lastE = sim.getLastEvenement(this);
+        if(lastE != null) {
+            currentDate= lastE.getDate();
+        }
 
 	try{
 
 	    Case[] listC = chemin.toArray(new Case[chemin.size()]);
 	    Integer[] listT = t.toArray(new Integer[t.size()]);
 	    for(int i=0; i < listC.length - 1; i++){
-		sim.ajouteEvenement(new Deplacement(currentDate + (long)listT[i+1], numero, whichDirection(listC[i],listC[i+1])),numero); 
+		sim.ajouteEvenement(new Deplacement(currentDate + (long)listT[i+1], this, Position.getDirection(listC[i].getPosition(),
+														listC[i+1].getPosition()))); 
 	    }
 	    setPosition(destination);
         } catch( Exception e){
@@ -275,47 +268,43 @@ public abstract class Robot extends Entity {
     }
     
     public void programEventRemplissage(Simulateur sim, int numero){
-	long currentDate = getCurrentDate(sim.getEvenement(numero));
+	long currentDate = 0;
+        Evenement lastE = sim.getLastEvenement(this);
+        if(lastE != null) {
+            currentDate= lastE.getDate();
+        }
 
 	int volCurrent = 0;
 	int i = 0;
     
 	while(volCurrent < getVolumeMax()){
-	    sim.ajouteEvenement(new Remplissage(currentDate + i, numero, getVitesseRemplissage()), numero);
+	    sim.ajouteEvenement(new Remplissage(currentDate + i, this, getVitesseRemplissage()));
 	    volCurrent += getVitesseRemplissage();
 	    i++;
 	}
 
     }
 
-   private int whichIncendie(Case pos, Incendie[] fire){
-	for(int i=0; i < fire.length; i++){
-	    if(fire[i].getPosition().getPosition().getLigne() == pos.getPosition().getLigne()){
-		if(fire[i].getPosition().getPosition().getColonne() == pos.getPosition().getColonne()){
-		    return i;
-		}
-	    }
-	}
-	return fire.length;
-    }
-
     public void programEventIntervention(Simulateur sim, DonneesSimulation data, int numero){
-	long currentDate = getCurrentDate(sim.getEvenement(numero));
+	long currentDate = 0;
+        Evenement lastE = sim.getLastEvenement(this);
+        if(lastE != null) {
+            currentDate= lastE.getDate();
+        }
 	
-	int n = whichIncendie(getPosition(), data.getIncendies());
-	
-	int volCurrent = getVolumeEau();
-	int intensite = data.getIncendies()[n].getNbLitresEauPourExtinction();
-	int i = 0;
+	Incendie inc = data.getIncendieAt(getCase());
+	if (inc != null) {
+            double volCurrent = getVolumeEau();
+            int intensite = inc.getNbLitresEauPourExtinction();
+            int i = 0;
 
-	while((volCurrent > 0) && (intensite > 0)){
-	    sim.ajouteEvenement(new Intervention(currentDate + i, numero, getVitesseDeversement()), numero);
-	    volCurrent -= getVitesseDeversement();
-	    intensite -= getVitesseDeversement();
-	    i++;
-	}
-	if(volCurrent > 0){
-	    deverserEau(getVolumeMax() - volCurrent);
-	}
+            while ((volCurrent > 0) && (intensite > 0)) {
+                sim.ajouteEvenement(new Intervention(currentDate + i, this, getVitesseDeversement()));
+                volCurrent -= getVitesseDeversement();
+                intensite -= getVitesseDeversement();
+                i++;
+            }
+        }
+
     }
 }

@@ -17,13 +17,11 @@ import gui.*;
 
 public class Patte extends Robot{  
 	  
-    public static final int volumeMaxPatte = Integer.MAX_VALUE;
-    public static final int vitesseRemplissagePatte = Integer.MAX_VALUE;
-    public static final double vitesseDeversementPatte = 10;
-    public static final double vitesseDeplacementPatte = 30;
-    public static final double vitesseDeplacementPatteRoche = 10;
-    public static final Color couleurPatte = Color.green;	
-
+    public static final int VOLUME_MAX = Integer.MAX_VALUE;
+    public static final int VITESSE_REMPLISSAGE = Integer.MAX_VALUE;
+    public static final double VITESSE_DEVERSEMENT = 10;
+    public static final double VITESSE_DEPLACEMENT = 30;
+    public static final double VITESSE_DEPLACEMENT_SUR_ROCHE = 10;
 	
     /**
      * Le contructeur d'une Patte avec les atribut déterminé au-dessus
@@ -33,7 +31,7 @@ public class Patte extends Robot{
      * @see Entity
      */
     public Patte(Case cas){
-	super(cas, couleurPatte, volumeMaxPatte, volumeMaxPatte, vitesseDeplacementPatte, vitesseRemplissagePatte, vitesseDeversementPatte);
+	super(cas, VOLUME_MAX, VOLUME_MAX, VITESSE_DEPLACEMENT, VITESSE_REMPLISSAGE, VITESSE_DEVERSEMENT);
     }
 
     @Override
@@ -45,22 +43,28 @@ public class Patte extends Robot{
     @Override
     public double getVitesse(NatureTerrain natureTerrain){
 	if(this.peutDeplacerSur(natureTerrain))	
-	    if(natureTerrain.equals(NatureTerrain.ROCHE))	return vitesseDeplacementPatteRoche;
-	    else return vitesseDeplacementPatte;
+	    if(natureTerrain.equals(NatureTerrain.ROCHE))	return VITESSE_DEPLACEMENT_SUR_ROCHE;
+	    else return VITESSE_DEPLACEMENT;
 	else return 0;	
     }	
-	
+    
+    @Override
+    public boolean peutRemplirEau(Carte carte) {
+        return false;
+    }
+    
     @Override
     public boolean peutDeplacerSur(NatureTerrain natureTerrain){
-	switch (natureTerrain)
-	    {
-	    case EAU: return false; 
-	    case FORET: return true;
-	    case ROCHE: return true;
-	    case TERRAIN_LIBRE: return true;
-	    case HABITAT: return true;
-	    default : return false;
-	    }
+	switch (natureTerrain) {
+	    case FORET:
+	    case ROCHE:
+	    case TERRAIN_LIBRE: 
+	    case HABITAT: 
+                return true;
+            case EAU:
+	    default : 
+                return false;
+	}
     }
 	
     @Override
@@ -70,8 +74,8 @@ public class Patte extends Robot{
     public void draw(BetterGUISimulator gui){
 	int ratio = gui.getTailleCase();
 	int pixel = gui.getTaillePixel();
-	int x = this.cas.getPosition().getColonne() * ratio;
-	int y = this.cas.getPosition().getLigne() * ratio;
+	int x = getCase().getPosition().getColonne() * ratio;
+	int y = getCase().getPosition().getLigne() * ratio;
 	int size = ratio/pixel;
 	Color redIndian = new Color(205,92,92);
 

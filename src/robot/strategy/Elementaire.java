@@ -6,34 +6,33 @@ import robot.map.*;
 import robot.entities.*;
 import robot.simulateur.*;
 
-public class Elementaire extends Chief{
+public class Elementaire extends Strategie{
 
     public Elementaire(Simulateur sim, DonneesSimulation data){
 	super(sim, data);
     }
 
-    @Override
-    public void sendRobot(Simulateur sim, int i, Case dest){
-	DonneesSimulation donnees = getDonneesSimulation();
-	donnees.getRobots()[i].setStatus(true);
-	donnees.getRobots()[i].programEventDeplacement(sim, donnees, dest, i);
-	donnees.getRobots()[i].programEventIntervention(sim, donnees, i);
+    public int chooseRandomRobot(){
+	Random rand = new Random();
+	return rand.nextInt(getRobots().length);
+    } 
+
+    /**
+     * retourne false si libre
+     */
+    public boolean tryPropose(int i){
+	dejaPropose(i);
+	return getDonneesSimulation().getRobots()[i].getStatus();
     }
 
     @Override
-    public void strategy(){
-	int i;
-	int incendie = chooseIncendie();
-	if(incendie < getIncendies().length){
-	    do{
-		i = chooseRobot();
-		if(i >= getRobots().length){break;}
-	    }while(propose(i));
-
-	    if(i< getRobots().length){
-		sendRobot(getSim(), i, getDonneesSimulation().getIncendies()[incendie].getPosition());
-		dejaTraite(i);
-	    }
-	}
+    public void sendRobot(Simulateur sim, int indiceRobot, int indiceIncendie){
+	DonneesSimulation data = getDonneesSimulation();
+	Robot bot = data.getRobots()[indiceRobot];
+	Incendie fire = data.getIncendies()[indiceIncendie];
+	sim.ajouteEvenement(new TempCourant(getTemp()), indiceRobot);
+	bot.setStatus(true);
+	bot.programEventDeplacement(sim, data, fire.getPosition(), indiceRobot);
+	bot.programEventIntervention(sim, data, indiceRobot);
     }
 }

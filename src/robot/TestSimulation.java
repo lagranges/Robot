@@ -26,7 +26,7 @@ public class TestSimulation{
 
 	    Simulateur sim = new Simulateur(gui, data);
 	    
-	    Chief chef = new Elementaire(sim, data);
+	    Chief chef = new Evolue(sim, data);
 
 	    while(!chef.allDejaTraiteIncendie() || !chef.allDejaProposeRobot()){
 		chef.strategy();

@@ -6,7 +6,7 @@ import robot.map.*;
 import robot.entities.*;
 import robot.simulateur.*;
 
-public abstract class Chief{
+public abstract class Strategie{
     private DonneesSimulation data;
 
     private Simulateur sim;
@@ -14,8 +14,10 @@ public abstract class Chief{
     private boolean[] incendie;
 
     private boolean[] robot;
+
+    private int temp = 0;
     
-    public Chief(Simulateur sim, DonneesSimulation data){
+    public Strategie(Simulateur sim, DonneesSimulation data){
 	this.data = data.copy();
 	this.sim = sim;
 	this.incendie = new boolean[data.getIncendies().length];
@@ -38,6 +40,11 @@ public abstract class Chief{
 	return this.robot;
     }
 
+    public int chooseRandomIncendie(){
+	Random rand = new Random();
+	return rand.nextInt(getIncendies().length);
+    }
+
     public boolean allDejaTraiteIncendie(){
 	for (boolean value : getIncendies()) {
 	    if (!value)
@@ -46,20 +53,11 @@ public abstract class Chief{
 	return true;
     }
 
-    public int chooseIncendie(){
-	Random rand = new Random();
-	int i;
-	if(!allDejaTraiteIncendie()){
-	    do{
-		i = rand.nextInt(getDonneesSimulation().getIncendies().length);
-	    }while(getIncendies()[i]);
-	    return i;
-	}else{
-	    return getIncendies().length;
-	}
+    public boolean isDejaTraiteIncendie(int i){
+	return getIncendies()[i];
     }
 
-    public void dejaTraite(int i){
+    public void dejaTraiteIncendie(int i){
 	getIncendies()[i] = true;
     }
 
@@ -75,34 +73,21 @@ public abstract class Chief{
 	getRobots()[i] = true;
     }
 
-    /**
-     * retourne false si libre
-     */
-    public boolean propose(int i){
-	dejaPropose(i);
-	return getDonneesSimulation().getRobots()[i].getStatus();
+    public int getTemp(){
+	return this.temp;
     }
 
-    public int chooseRobot(){
-	Random rand = new Random();
-	int i;
-	if(!allDejaProposeRobot()){
-	    do{
-		i = rand.nextInt(getRobots().length);
-	    }while(getRobots()[i]);
-	    return i;
-	}else{
-	    return getRobots().length;
-	}	
-    } 
+    public void incrementTemp(){
+	this.temp++;
+    }
 
-    public void initProposal(){
-	for(int i=0; i<getRobots().length; i++){
-	    getRobots()[i] = false;
+    //Wait t en s pour envoyer la commande suivant
+    public void wait(int t){
+	incrementTemp();
+	while(temp%t != 0){
+	    incrementTemp();
 	}
     }
 
-    public abstract void strategy();
-
-    public abstract void sendRobot(Simulateur sim, int i, Case dest);
+    public abstract void sendRobot(Simulateur sim, int indiceRobot, int indiceIncendie);
 }

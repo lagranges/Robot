@@ -262,15 +262,15 @@ public abstract class Robot extends Entity {
 	long currentDate = getCurrentDate(sim.getEvenement(numero));
 
 	try{
+
 	    Case[] listC = chemin.toArray(new Case[chemin.size()]);
 	    Integer[] listT = t.toArray(new Integer[t.size()]);
-
 	    for(int i=0; i < listC.length - 1; i++){
 		sim.ajouteEvenement(new Deplacement(currentDate + (long)listT[i+1], numero, whichDirection(listC[i],listC[i+1])),numero); 
 	    }
 	    setPosition(destination);
         } catch( Exception e){
-            System.out.println("Can't get to  from this actual robot position :" );
+            System.out.println("Can't get to  from this actual robot position :" + getPosition().toString() );
         }
     }
     
@@ -313,6 +313,9 @@ public abstract class Robot extends Entity {
 	    volCurrent -= getVitesseDeversement();
 	    intensite -= getVitesseDeversement();
 	    i++;
+	}
+	if(volCurrent > 0){
+	    deverserEau(getVolumeMax() - volCurrent);
 	}
     }
 }

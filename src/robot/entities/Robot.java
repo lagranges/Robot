@@ -24,12 +24,12 @@ public abstract class Robot extends Entity {
     /**
      * Le nombre de litres d'eau dont le robot est en train de contient 
      */
-    private int volumeEau;
+    private double volumeEau;
 	
     /**
      * Le nombre de litres d'eau dont le robot peut contenir 
      */
-    private int volumeMax;
+    private double volumeMax;
     
     /**
      * La vitesse par défault, mais peut etre lue dans la fichier de données
@@ -82,7 +82,7 @@ public abstract class Robot extends Entity {
     /**
      * Retourne : la volume de l'eau dans le Robot
      */
-    public int getVolumeEau(){
+    public double getVolumeEau(){
 	return this.volumeEau;
     }
 
@@ -141,7 +141,7 @@ public abstract class Robot extends Entity {
     /**
      * Modifier la volume de l'eau dans le robot
      */
-    public void setVolumeEau(int volumeEau){
+    public void setVolumeEau(double volumeEau){
 	this.volumeEau=volumeEau;
     }
 
@@ -155,7 +155,7 @@ public abstract class Robot extends Entity {
     /**
      * Retourne : la volume maxcimale dont le robot peut contenir
      */
-    public int getVolumeMax(){
+    public double getVolumeMax(){
 	return this.volumeMax;
     }
 
@@ -195,7 +195,7 @@ public abstract class Robot extends Entity {
      *
      * @param le nombre de litre par second
      */
-    public void remplirEau(int vol){
+    public void remplirEau(double vol){
 	volumeEau += vol;
 	if(volumeEau > getVolumeMax()){
 	    volumeEau = getVolumeMax();
@@ -327,7 +327,7 @@ public abstract class Robot extends Entity {
 	
 	Incendie inc = data.getIncendieAt(getCase());
 	if (inc != null) {
-            int volCurrent = getVolumeEau();
+            double volCurrent = getVolumeEau();
             int intensite = inc.getNbLitresEauPourExtinction();
             int i = 0;
 

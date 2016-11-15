@@ -14,4 +14,9 @@ public class StartRemplir extends EvenementRobot {
 	getRobot().setIndicateurRemplir(true);
     }
 
+    @Override
+    public void undo(DonneesSimulation data) {
+	getRobot().setIndicateurRemplir(false);
+    }
+    
 }

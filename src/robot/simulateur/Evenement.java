@@ -15,4 +15,6 @@ public abstract class Evenement{
     }
 
     public abstract void execute(DonneesSimulation data);
+    
+    public abstract void undo(DonneesSimulation data);
 }

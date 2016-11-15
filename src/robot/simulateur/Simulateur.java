@@ -71,8 +71,16 @@ public class Simulateur implements Simulable {
 
     @Override
     public void restart(){
-	this.manipulationData = saveData.copy();
-	this.dateSimulation = 0;
+	while(dateSimulation > 0) {
+            dateSimulation--;
+            for (Robot r : evenements.keySet()) {
+                for (Evenement e : evenements.get(r)) {
+                    if(e.getDate() == getDateSimulation()) {
+                        e.undo(getDonneesSimulation());
+                    }
+                }
+            }
+        }
 	draw();
     }
 

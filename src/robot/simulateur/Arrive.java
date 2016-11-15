@@ -14,4 +14,9 @@ public class Arrive extends EvenementRobot {
 	getRobot().setIndicateurDeplacement(false);
     }
 
+    @Override
+    public void undo(DonneesSimulation data) {
+	getRobot().setIndicateurDeplacement(true);
+    }
+
 }

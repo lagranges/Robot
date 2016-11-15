@@ -7,7 +7,7 @@ import robot.entities.Robot;
 
 public class Remplissage extends EvenementRobot {
     
-    private final int volEau;
+    private final double volEau;
 
     private enum Type{
 	Drone,
@@ -16,12 +16,12 @@ public class Remplissage extends EvenementRobot {
 	Roue,
     }
 
-    public Remplissage(long date, Robot robot, int volEau){
+    public Remplissage(long date, Robot robot, double volEau){
 	super(date, robot);
 	this.volEau = volEau;
     }
     
-    private int getVolEau(){
+    private double getVolEau(){
 	return this.volEau;
     }
 
@@ -35,9 +35,12 @@ public class Remplissage extends EvenementRobot {
 	return false;
     }
 
+    private double volumeEauSave = 0;
+    
     @Override
     public void execute(DonneesSimulation data){
 	Robot robot = getRobot();
+        volumeEauSave = robot.getVolumeEau();
 	Case pos = robot.getCase();
 	String type = robot.getClass().getSimpleName();
 	Type typeValue = Type.valueOf(type);
@@ -57,4 +60,10 @@ public class Remplissage extends EvenementRobot {
 	    break;
 	}
     }
+
+    @Override
+    public void undo(DonneesSimulation data) {
+        getRobot().setVolumeEau(volumeEauSave);
+    }
+    
 }

@@ -14,4 +14,11 @@ public class EndDeversement extends EvenementRobot {
 	getRobot().setIndicateurDeversement(false);
     }
 
+    @Override
+    public void undo(DonneesSimulation data) {
+    	getRobot().setIndicateurDeversement(true);
+    }
+
+    
+    
 }

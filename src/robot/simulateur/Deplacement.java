@@ -12,27 +12,32 @@ public class Deplacement extends EvenementRobot {
     private final Direction dir;
 
     /**
-     * le robot affecté par le déplacement
-     */
-    private final Robot robot;
-
-    /**
      * Crée un nouvelle évenement de type déplacement.
      */
     public Deplacement(long date, Robot robot, Direction dir){
 	super(date, robot);
 	this.dir = dir;
-	this.robot = robot;
     }
 
+    private Position positionSave = null;
+    
     @Override
     public void execute(DonneesSimulation data){
-	Position pos = new Position(robot.getCase().getPosition(), dir);
+        positionSave = getRobot().getCase().getPosition();
+	Position pos = new Position(getRobot().getCase().getPosition(), dir);
 	if(data.getCarte().isInMapBound(pos)) {
 	    //Si le robot peut se deplacer sur le nouvel terrain
-	    if(robot.peutDeplacerSur(data.getCarte().getCaseAt(pos))){
-		robot.setPosition(data.getCarte().getCaseAt(pos));
+	    if(getRobot().peutDeplacerSur(data.getCarte().getCaseAt(pos))){
+		getRobot().setPosition(data.getCarte().getCaseAt(pos));
 	    }
 	}
     }
+
+    @Override
+    public void undo(DonneesSimulation data) {
+        if(positionSave != null) {
+            getRobot().setPosition(data.getCarte().getCaseAt(positionSave));
+        }
+    }
+    
 }

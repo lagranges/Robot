@@ -98,6 +98,6 @@ public class Chenille extends Robot{
 	gui.addGraphicalElement(new Rectangle(x + size*6, y + size*7, Color.black, Color.black, size));
 	gui.addGraphicalElement(new Rectangle(x + size*7, y + size*7, Color.black, Color.black, size));
 
-	gui.addGraphicalElement(new Text(x + size*5, y + size*9, Color.darkGray, Integer.toString(getVolumeEau())));
+	gui.addGraphicalElement(new Text(x + size*5, y + size*9, Color.darkGray, Double.toString(getVolumeEau())));
     }
 }

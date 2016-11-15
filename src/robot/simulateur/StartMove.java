@@ -14,4 +14,9 @@ public class StartMove extends EvenementRobot {
 	getRobot().setIndicateurDeplacement(true);
     }
 
+    @Override
+    public void undo(DonneesSimulation data) {
+        getRobot().setIndicateurDeplacement(false);
+    }
+
 }

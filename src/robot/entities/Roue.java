@@ -92,6 +92,6 @@ public class Roue extends Robot{
 	gui.addGraphicalElement(new Rectangle(x + size*5, y + size*8, tealDarker, tealDarker, size));
 	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*8, tealDarker, tealDarker, size));
 
-	gui.addGraphicalElement(new Text(x + size*5, y + size*9, Color.darkGray, Integer.toString(getVolumeEau())));
+	gui.addGraphicalElement(new Text(x + size*5, y + size*9, Color.darkGray, Double.toString(getVolumeEau())));
     }
 }

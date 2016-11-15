@@ -80,6 +80,6 @@ public class Drone extends Robot{
 	gui.addGraphicalElement(new Rectangle(x + size*2, y + size*8, darkerMagenta, darkerMagenta, size));
 	gui.addGraphicalElement(new Rectangle(x + size*1, y + size*8, darkerMagenta, darkerMagenta, size));
 
-	gui.addGraphicalElement(new Text(x + size*5, y + size*9, Color.darkGray, Integer.toString(getVolumeEau())));
+	gui.addGraphicalElement(new Text(x + size*5, y + size*9, Color.darkGray, Double.toString(getVolumeEau())));
     }
 }

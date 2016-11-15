@@ -1,5 +1,8 @@
 package robot.entities;
 
+import robot.simulateur.evenements.Remplissage;
+import robot.simulateur.evenements.Deplacement;
+import robot.simulateur.evenements.Evenement;
 import java.awt.Color;
 import java.util.*;
 

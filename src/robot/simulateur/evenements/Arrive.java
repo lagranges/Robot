@@ -1,4 +1,4 @@
-package robot.simulateur;
+package robot.simulateur.evenements;
 
 import robot.entities.Robot;
 import robot.io.*;

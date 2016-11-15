@@ -1,5 +1,6 @@
 package robot;
 
+import robot.simulateur.evenements.Deplacement;
 import robot.io.*;
 import robot.simulateur.*;
 

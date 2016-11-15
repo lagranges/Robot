@@ -1,5 +1,6 @@
 package robot.simulateur;
 
+import robot.simulateur.evenements.EvenementRobot;
 import robot.io.*;
 import robot.entities.*;
 

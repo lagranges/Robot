@@ -41,30 +41,35 @@ public class Patte extends Robot{
 	
     // return 0 à Terrain sur la quelle le robot ne peut pas se déplacer
     @Override
-    public double getVitesse(NatureTerrain natureTerrain){
-	if(this.peutDeplacerSur(natureTerrain))	
-	    if(natureTerrain.equals(NatureTerrain.ROCHE))	return VITESSE_DEPLACEMENT_SUR_ROCHE;
-	    else return VITESSE_DEPLACEMENT;
-	else return 0;	
-    }	
-    
+    public double getVitesse(NatureTerrain natureTerrain) {
+        if (this.peutDeplacerSur(natureTerrain)) {
+            if (natureTerrain.equals(NatureTerrain.ROCHE)) {
+                return VITESSE_DEPLACEMENT_SUR_ROCHE;
+            } else {
+                return VITESSE_DEPLACEMENT;
+            }
+        } else {
+            return 0;
+        }
+    }
+
     @Override
     public boolean peutRemplirEau(Carte carte) {
         return false;
     }
     
     @Override
-    public boolean peutDeplacerSur(NatureTerrain natureTerrain){
-	switch (natureTerrain) {
-	    case FORET:
-	    case ROCHE:
-	    case TERRAIN_LIBRE: 
-	    case HABITAT: 
+    public boolean peutDeplacerSur(NatureTerrain natureTerrain) {
+        switch (natureTerrain) {
+            case FORET:
+            case ROCHE:
+            case TERRAIN_LIBRE:
+            case HABITAT:
                 return true;
             case EAU:
-	    default : 
+            default:
                 return false;
-	}
+        }
     }
 	
     @Override

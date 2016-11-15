@@ -2,7 +2,6 @@ package robot.entities;
 
 import java.awt.Color;
 import robot.map.*;
-import java.lang.*;
 import gui.*;
 import robot.gui.BetterGUISimulator;
 
@@ -51,16 +50,17 @@ public class Roue extends Robot{
     }
     
     @Override
-    public boolean peutDeplacerSur(NatureTerrain natureTerrain){
-	switch (natureTerrain)
-	    {
-	    case EAU: return false; 
-	    case FORET: return false;
-	    case ROCHE: return false;
-	    case TERRAIN_LIBRE: return true;
-	    case HABITAT: return true;
-	    default:return false;
-	    }
+    public boolean peutDeplacerSur(NatureTerrain natureTerrain) {
+        switch (natureTerrain) {
+            case TERRAIN_LIBRE:
+            case HABITAT:
+                return true;
+            case EAU:
+            case FORET:
+            case ROCHE:
+            default:
+                return false;
+        }
     }
     
     @Override

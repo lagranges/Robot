@@ -55,17 +55,18 @@ public class Chenille extends Robot{
     
     @Override
     public boolean peutDeplacerSur(NatureTerrain natureTerrain){
-	switch (natureTerrain)
-	    {
-	    case EAU: return false; 
-	    case FORET: return true;
-	    case ROCHE: return false;
-	    case TERRAIN_LIBRE: return true;
-	    case HABITAT: return true;
-	    default : return false;
-	    }
+        switch (natureTerrain) {
+            case FORET:
+            case TERRAIN_LIBRE:
+            case HABITAT:
+                return true;
+            case ROCHE:
+            case EAU:
+            default:
+                return false;
+        }
     }
-	
+
     @Override
     public int tempsDeplacement(Case c1){return 0;}	
 

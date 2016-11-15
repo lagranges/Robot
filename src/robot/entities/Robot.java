@@ -50,19 +50,9 @@ public abstract class Robot extends Entity {
     private double vitesseDeversement;
 	
     /**
-     * L'indicateur boolean si le robot est en train de se deplacer
+     * L'indicateur boolean si le robot est occupe
      */
-    private boolean enTrainDeSeDeplacer = false;
-
-    /**
-     * L'indicateur boolean si le robot est en train de deversement
-     */
-    private boolean enTrainDeDeversement = false;
-
-    /**
-     * L'indicateur boolean si le robot est en train de remplir
-     */
-    private boolean enTrainDeRemplir = false;
+    private boolean occupe = false;
 
     /**
      * Contructeur d'un nouveau Robot 
@@ -82,56 +72,19 @@ public abstract class Robot extends Entity {
 	this.vitesseDeversement = vitesseDeversement;
     }
 
+    public boolean getStatus(){
+	return this.occupe;
+    }
+
+    public void setStatus(boolean bool){
+	this.occupe = bool;
+    }
+
     /**
      * Retourne : la volume de l'eau dans le Robot
      */
-    public double getVolumeEau(){
+    public int getVolumeEau(){
 	return this.volumeEau;
-    }
-
-    /** 
-     * Retourne : L'indicatuer en train de seplacer
-     */
-    public boolean getIndicateurDeplacement(){
-	return this.enTrainDeSeDeplacer;
-    }
-
-
-    /** 
-     * Définit : L'indicateur en train de seplacer
-     */
-    public void setIndicateurDeplacement(boolean bool){
-	this.enTrainDeSeDeplacer = bool;
-    }
-
-    /** 
-     * Retourne : L'indicateur en train de deversement
-     */
-    public boolean getIndicateurDeversement(){
-	return this.enTrainDeDeversement;
-    }
-
-
-    /** 
-     * Définit : L'indicateur en train de deversement
-     */
-    public void setIndicateurDeversement(boolean bool){
-	this.enTrainDeDeversement = bool;
-    }
-
-    /** 
-     * Retourne : L'indicatuer en train de remplir
-     */
-    public boolean getIndicateurRemplir(){
-	return this.enTrainDeRemplir;
-    }
-
-
-    /** 
-     * Définit : L'indicateur en train de remplir
-     */
-    public void setIndicateurRemplir(boolean bool){
-	this.enTrainDeRemplir = bool;
     }
 
     /**
@@ -263,6 +216,7 @@ public abstract class Robot extends Entity {
     public abstract int tempsDeplacement(Case cas);
 
     /**
+
      * Retourne si le robot peut remplir son réservoir à la position où il se 
      * trouve. Cette condition peux varier en fonction du type de robot.
      * 
@@ -275,7 +229,7 @@ public abstract class Robot extends Entity {
      * Trouver le chemin possible
      * retourne NULL s'il ne trouve pas
      */
-    public List<Case> calculPlusCourtChemin(DonneesSimulation data, Case destination){
+    public int calculPlusCourtChemin(DonneesSimulation data, Case destination){
 	Graphe g = new Graphe(this,data.getCarte());
 	Dijkstra dijkstra = new Dijkstra(g);
 	dijkstra.traiterGraphe(getCase());
@@ -300,16 +254,16 @@ public abstract class Robot extends Entity {
         }
 
 	try{
+
 	    Case[] listC = chemin.toArray(new Case[chemin.size()]);
 	    Integer[] listT = t.toArray(new Integer[t.size()]);
-
 	    for(int i=0; i < listC.length - 1; i++){
 		sim.ajouteEvenement(new Deplacement(currentDate + (long)listT[i+1], this, Position.getDirection(listC[i].getPosition(),
 														listC[i+1].getPosition()))); 
 	    }
 	    setPosition(destination);
         } catch( Exception e){
-            System.out.println("Can't get to  from this actual robot position :" );
+            System.out.println("Can't get to  from this actual robot position :" + getPosition().toString() );
         }
     }
     
@@ -351,5 +305,6 @@ public abstract class Robot extends Entity {
                 i++;
             }
         }
+
     }
 }

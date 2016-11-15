@@ -106,6 +106,10 @@ public class Carte implements Drawable {
 	}
 	return getCaseAt(source.getPosition().deplace(dir));
     }
+
+    public Case[][] getMap(){
+	return map;
+    }
     
     @Override
     public void draw(BetterGUISimulator gui){

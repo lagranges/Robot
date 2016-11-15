@@ -3,6 +3,7 @@ package robot;
 import robot.io.*;
 import robot.simulateur.*;
 import robot.*;
+import robot.strategy.*;
 
 import java.io.FileNotFoundException;
 import java.util.zip.DataFormatException;

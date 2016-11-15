@@ -44,6 +44,9 @@ testDonnees:
 testSimulation:
 	$(JAVAC) $(GUI_CLASSPATH) src/robot/TestSimulation.java	
 
+testStrategie:
+	$(JAVAC) $(GUI_CLASSPATH) src/robot/TestStrategie.java	
+
 testScenario0:
 	$(JAVAC) $(GUI_CLASSPATH) src/robot/TestScenario0.java
 
@@ -72,6 +75,9 @@ exeScenario0:
 
 exeScenario1:
 	java  $(GUI_CLASSPATH) robot/TestScenario1 cartes/carteSujet.map	
+
+exeStrategie:
+	java -classpath bin:bin/gui.jar TestStrategie cartes/carteSujet.map
 
 exeSimulationSujet:
 	java  $(GUI_CLASSPATH) robot/TestSimulation cartes/carteSujet.map	
